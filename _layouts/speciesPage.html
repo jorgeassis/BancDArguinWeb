@@ -161,18 +161,15 @@ var id = urlParams.get('id');
 
                 <script>
 
-                  function waitForImageToLoad(imageElement){
-                    return new Promise(resolve=>{imageElement.onload = resolve})
-                  }
-
                   var dim = document.getElementById("taxon_photo").clientHeight;
-                  var img = document.getElementById("taxon_photo");
 
+                  const img = new Image();
                   img.src = taxon_photo;
-                  waitForImageToLoad(img).then(()=>{
-                    // Image have loaded.
-                    alert('Loaded lol');
+
+                  img.decode().then(() => {
+                  alert("Lol!")
                   });
+
 
                   document.getElementById("map").style.height = dim + "px";
                   window.addEventListener('resize', function(event) {
