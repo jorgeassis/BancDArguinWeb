@@ -161,7 +161,7 @@ return self.indexOf(value) === index;
             function resolveDomain(string) {
 
              if ( string.includes("data/defaultPhotos/") ) {
-               alert(string);
+
                return "http://www.biodiversitydatascience.com/BancDArguinWeb/" + string ;
 
             } else {
@@ -177,6 +177,7 @@ return self.indexOf(value) === index;
 
               document.write("<td>");
               if (photoSp != "NA" && photoSp != "") {
+                alert(photoSp);
                 document.write("<a href='speciesPage.html?id=" + dataobj.id + "'>");
                 document.write("<div style='margin-left: 8px; -moz-border-radius: 100px; -webkit-border-radius: 100px; border-radius: 100px; width: 50px; height: 50px; background-repeat: no-repeat; background-size: cover; background-image: url(" + photoSp + ")'></div>");
                 document.write("</a>");
