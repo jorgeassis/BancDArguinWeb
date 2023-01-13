@@ -102,11 +102,8 @@ return self.indexOf(value) === index;
               <h3 class="counter mb-0"><script>document.write(orderListArray.filter(distinct).length + "");</script></h3>
             </div>
           </div>
-              <!--/.card-body -->
             </div>
         </div>
-            <!--/.card -->
-
 
 
         <div class="container py-14 pt-md-0 pb-md-5">
@@ -175,7 +172,7 @@ return self.indexOf(value) === index;
 
               document.write("<tr>");
 
-              photoSp = resolveNA(dataobj.photo);
+              photoSp = resolveDomain(dataobj.photo);
 
               document.write("<td>");
               if (photoSp != "NA" && photoSp != "") {
@@ -222,22 +219,9 @@ return self.indexOf(value) === index;
           </tfoot>
         </table>
 
-              <!--/.card-body -->
             </div>
         </div>
-            <!--/.card -->
 
-        <div class="container py-14 pt-md-1 pb-md-0">
-          <div class="row text-center">
-            <div class="col-lg-9 col-xxl-7 mx-auto">
-
-              <script>
-                if ( countRecords.length > 0) { document.write("<a href='#' class='btn btn-navy'>Download records</a>"); }
-              </script>
-
-            </div>
-          </div>
-        </div>
 
       </div>
 
