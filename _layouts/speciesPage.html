@@ -159,6 +159,23 @@ var id = urlParams.get('id');
 
                 <script>
 
+                  function asyncImageLoader(url){
+                      return new Promise( (resolve, reject) => {
+                          var image = new Image()
+                          image.src = url
+                          image.onload = () => resolve(image)
+                          image.onerror = () => reject(new Error('could not load image'))
+                      })
+                  }
+
+                  // then use it like this
+
+                  var image = asyncImageLoader(taxon_photo)
+
+                  image.then( res => {
+                      alert(res);
+                  })
+
                   function checkImage2(url) {
                     var request = new XMLHttpRequest();
                     request.open("GET", url, true);
