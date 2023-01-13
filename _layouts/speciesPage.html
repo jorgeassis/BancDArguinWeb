@@ -159,10 +159,29 @@ var id = urlParams.get('id');
 
                 <script>
 
+                  function checkImage2(url) {
+                    var request = new XMLHttpRequest();
+                    request.open("GET", url, true);
+                    request.send();
+                    request.onload = function() {
+                      status = request.status;
+                      if (request.status == 200) //if(statusText == OK)
+                      {
+                        var dim = this.clientHeight;
+                        alert("1:" + dim);
+                        document.getElementById("map").style.height = dim + "px";
+                      } else {
+                        alert("image doesn't exist");
+                      }
+                    }
+                  }
+                  checkImage2(taxon_photo);
+
                   function checkImage(url) {
                     var image = new Image();
                     image.onload = function() {
                       var dim = this.clientHeight;
+                      alert("2:" + dim);
                       document.getElementById("map").style.height = dim + "px";
                     }
                     image.onerror = function() {
@@ -173,8 +192,8 @@ var id = urlParams.get('id');
                   checkImage(taxon_photo);
 
                   window.addEventListener('resize', function(event) {
-                    var dim = document.getElementById("taxon_photo").clientHeight;
-                    document.getElementById("map").style.height = dim + "px";
+                    var dimDirect = document.getElementById("taxon_photo").clientHeight;
+                    document.getElementById("map").style.height = dimDirect + "px";
                     }, true);
                 </script>
 
