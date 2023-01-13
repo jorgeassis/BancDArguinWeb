@@ -23,7 +23,7 @@ return self.indexOf(value) === index;
 
 <!-- Load species data -->
 
-<script type="text/javascript" src="data/speciesListWebDB.json"></script>
+<script type="text/javascript" src="http://www.biodiversitydatascience.com/BancDArguinWeb/data/speciesListWebDB.json"></script>
 
 <script>
   var dataSpeciesFromJson = JSON.parse(speciesListDB);
@@ -78,7 +78,7 @@ return self.indexOf(value) === index;
 
 <!-- Load occurrence data -->
 
-<script type="text/javascript" src="data/dataWeb.json"></script>
+<script type="text/javascript" src="http://www.biodiversitydatascience.com/BancDArguinWeb/data/dataWeb.json"></script>
 <script>
   var dataFromJson = JSON.parse(data);
 </script>
@@ -281,7 +281,7 @@ if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("d
 
                            document.write("<a style='float: right; width: 60px; padding-left: 30px' class='btn btn-navy btn-icon btn-icon-start rounded' ");
                            if ( countRecords.length > 0) {
-                              document.write("href='./downloadRecords.html?yearFrom=" + yearFrom + "&yearTo=" + yearTo + "&taxon=" + taxon + "&taxonLevel=" + taxonLevel + "'" );
+                              document.write("href='http://www.biodiversitydatascience.com/BancDArguinWeb/downloadRecords.html?yearFrom=" + yearFrom + "&yearTo=" + yearTo + "&taxon=" + taxon + "&taxonLevel=" + taxonLevel + "'" );
                            }
                            document.write("><i class='uil uil-cloud-download'></i></a>");
 
