@@ -114,9 +114,25 @@ var id = urlParams.get('id');
         <div class="container py-14 pt-md-5 pb-md-5">
           <div class="row text-left">
 
-            <script>if( taxon_photo != "NA" ) {
+            <script>
+
+              function resolveDomain(string) {
+
+               if ( string.includes("data/defaultPhotos/") ) {
+
+                 return "http://www.biodiversitydatascience.com/BancDArguinWeb/" + string ;
+
+              } else {
+                  return string; }
+              };
+
+              taxon_photo = resolveDomain(taxon_photo.replace(/\s/g, ''));
+
+              if( taxon_photo != "NA" ) {
               document.write("<div class='col-md-5'><div id='taxon_photo' class='card shadow-lg'><figure class='rounded'><img src='" + taxon_photo + "' /></figure></div></div>")
-            }; </script>
+            };
+
+          </script>
 
           <script> if( taxon_photo != "NA" ) { document.write("<div class='col-md-7'>") }; </script>
           <script> if( taxon_photo == "NA" ) { document.write("<div class='col-md-12'>") }; </script>
@@ -237,8 +253,6 @@ var id = urlParams.get('id');
                               marker.addTo(map).on('click', onClick);
 
                           }
-
-                          $("#loading-records").css("display", "none");
 
                 </script>
 
