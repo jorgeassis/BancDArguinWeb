@@ -168,7 +168,7 @@ var id = urlParams.get('id');
                   var dim = document.getElementById("taxon_photo").clientHeight;
                   var img = document.getElementById("taxon_photo");
 
-                  myImage.src = taxon_photo;
+                  img.src = taxon_photo;
                   waitForImageToLoad(myImage).then(()=>{
                     // Image have loaded.
                     alert('Loaded lol');
