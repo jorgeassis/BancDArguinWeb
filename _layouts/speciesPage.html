@@ -139,8 +139,6 @@ var id = urlParams.get('id');
 
             <div class="card shadow-lg" style="padding: 0px">
 
-                <div class="spinner-border" id="loading-records" style="position: absolute; z-index: 1000; top: 475px; left: 0; right: 0; margin: auto;"></div>
-
                 <style>
                   @media (min-width: 576px) {
                     .mapSpeciesPage { height: 384px; margin-top: 30px }
@@ -161,7 +159,21 @@ var id = urlParams.get('id');
 
                 <div id='map' class='custom-popup rounded mapSpeciesPage' style="z-index: 500;"></div>
 
-                <script>var dim = document.getElementById("taxon_photo").clientHeight;
+                <script>
+
+                  function waitForImageToLoad(imageElement){
+                    return new Promise(resolve=>{imageElement.onload = resolve})
+                  }
+
+                  var dim = document.getElementById("taxon_photo").clientHeight;
+                  var img = document.getElementById("taxon_photo");
+
+                  myImage.src = taxon_photo;
+                  waitForImageToLoad(myImage).then(()=>{
+                    // Image have loaded.
+                    alert('Loaded lol');
+                  });
+
                   document.getElementById("map").style.height = dim + "px";
                   window.addEventListener('resize', function(event) {
                     var dim = document.getElementById("taxon_photo").clientHeight;
@@ -200,9 +212,7 @@ var id = urlParams.get('id');
                          function onClick(e) {
 
                           var inner_counter = 0;
-                          var fullrecord = '/recordInformation.html?id=' + e.target.myCustomID + '/';
-
-                          $("#loading-records").css("display", "block");
+                          var fullrecord = 'http://www.biodiversitydatascience.com/BancDArguinWeb/recordInformation.html?id=' + e.target.myCustomID + '/';
 
                           $.ajax({
                              url:fullrecord,
