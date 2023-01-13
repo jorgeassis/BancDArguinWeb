@@ -158,7 +158,6 @@ var id = urlParams.get('id');
                 </style>
 
                 <div class="spinner-border" id="loading-records" style="position: absolute; z-index: 1000; top: 475px; left: 0; right: 0; margin: auto;"></div>
-
                 <div id='map' class='custom-popup rounded mapSpeciesPage' style="z-index: 500;"></div>
 
                 <script>
@@ -167,6 +166,7 @@ var id = urlParams.get('id');
                   img.src = taxon_photo;
                   img.decode().then(() => {
                   var dim = img.clientHeight;
+                  alert(dim);
                   document.getElementById("map").style.height = dim + "px";
                   });
 
