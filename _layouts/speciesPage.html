@@ -162,7 +162,7 @@ var id = urlParams.get('id');
                   const img = new Image();
                   img.onload = function() {
                     var dim = document.getElementById("taxon_photo").clientHeight;
-                    document.getElementById("map").style.height = dimDirect + "px";
+                    document.getElementById("map").style.height = dim + "px";
                   }
                   img.src = taxon_photo;
 

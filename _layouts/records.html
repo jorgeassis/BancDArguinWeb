@@ -13,9 +13,7 @@ var yearFrom = urlParams.get('yearFrom');
 var yearTo = urlParams.get('yearTo');
 var taxon = urlParams.get('taxon');
 var taxonLevel = urlParams.get('taxonLevel');
-</script>
 
-<script>
 const distinct = (value, index, self) => {
 return self.indexOf(value) === index;
 }
@@ -122,14 +120,12 @@ countDatasets = [];
 countYears = [];
 
 for(var i = 0; i < dataFromJsonSubsetIndex.length; i++) {
-    // var dataobj = dataFromJson[i];
-    var dataobj = dataFromJson[dataFromJsonSubsetIndex[i]];
 
+    var dataobj = dataFromJson[dataFromJsonSubsetIndex[i]];
     countSpecies.push(dataobj.taxonId);
     countRecords.push(dataobj.recId);
     countDatasets.push(dataobj.datasetId);
-
-    if (dataobj.year != "NA" ) { countYears.push(dataobj.year); }
+    if (dataobj.year != "NA" || dataobj.year != null || dataobj.year != "null" ) { countYears.push(dataobj.year); }
 
 }
 
@@ -164,7 +160,7 @@ if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("d
           </div>
         </div>
 
-                <form action="occurrences.html" method="get">
+                <form action="http://www.biodiversitydatascience.com/BancDArguinWeb/records/" method="get">
 
         <div class="container py-14 pt-md-0 pb-md-0">
 
@@ -281,7 +277,7 @@ if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("d
 
                            document.write("<a style='float: right; width: 60px; padding-left: 30px' class='btn btn-navy btn-icon btn-icon-start rounded' ");
                            if ( countRecords.length > 0) {
-                              document.write("href='http://www.biodiversitydatascience.com/BancDArguinWeb/downloadRecords.html?yearFrom=" + yearFrom + "&yearTo=" + yearTo + "&taxon=" + taxon + "&taxonLevel=" + taxonLevel + "'" );
+                              document.write("href='http://www.biodiversitydatascience.com/BancDArguinWeb/downloadRecords?yearFrom=" + yearFrom + "&yearTo=" + yearTo + "&taxon=" + taxon + "&taxonLevel=" + taxonLevel + "'" );
                            }
                            document.write("><i class='uil uil-cloud-download'></i></a>");
 
@@ -388,7 +384,7 @@ if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("d
                      function onClick(e) {
 
                       var inner_counter = 0;
-                      var fullrecord = '/recordInformation.html?id=' + e.target.myCustomID + '/';
+                      var fullrecord = 'http://www.biodiversitydatascience.com/BancDArguinWeb/data/recordInformation?id=' + e.target.myCustomID + '/';
 
                       $("#loading-records").css("display", "block");
 
