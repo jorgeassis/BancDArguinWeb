@@ -364,12 +364,12 @@ var id = urlParams.get('id');
                               var dataobj = recordsPhotos[i];
 
                               (async () => {
-                                      const img = new Image();
-                                      img.src = dataobj;
-                                      await img.decode();
+                                      const imgVol = new Image();
+                                      imgVol.src = dataobj;
+                                      await imgVol.decode();
 
-                                      var width = img.width;
-                                      var isLoaded = img.complete && img.naturalHeight !== 0;
+                                      var width = imgVol.width;
+                                      var isLoaded = imgVol.complete && imgVol.naturalHeight !== 0;
 
                                       if( isLoaded ) { var urlImg = dataobj + "medium.jpg"; };
                                       if( ! isLoaded ) { var urlImg = dataobj + "medium.jpeg" };
