@@ -97,7 +97,7 @@ var id = urlParams.get('id');
 
         <script>if( photo != "NA" ) {
 
-          document.write("<img id='imageId" + 1 + "' style='display: none;' src='" + photo + "medium.jpg' />");
+          document.write("<img id='imageId" + 1 + "' style='display: none;' src='" + photo + "' />");
 
           var img = document.getElementById('imageId' + 1);
           var width = img.width;
@@ -112,6 +112,8 @@ var id = urlParams.get('id');
           document.write("<div id='taxon_photo' class='card shadow-lg'><figure class='rounded'><img src='" + urlImg + "' /></figure></div>");
           document.write("</a>");
           document.write("</div>");
+
+
 
         }; </script>
 
@@ -140,12 +142,20 @@ var id = urlParams.get('id');
 
             <div id='map' class='custom-popup rounded mapSpeciesPage' style="z-index: 500;"></div>
 
-            <script>var dim = document.getElementById("taxon_photo").clientHeight;
-              document.getElementById("map").style.height = dim + "px";
-              window.addEventListener('resize', function(event) {
+            <script>
+
+              const img = new Image();
+              img.onload = function() {
                 var dim = document.getElementById("taxon_photo").clientHeight;
                 document.getElementById("map").style.height = dim + "px";
+              }
+              img.src = taxon_photo;
+
+              window.addEventListener('resize', function(event) {
+                var dimDirect = document.getElementById("taxon_photo").clientHeight;
+                document.getElementById("map").style.height = dimDirect + "px";
                 }, true);
+
             </script>
 
             <script>
