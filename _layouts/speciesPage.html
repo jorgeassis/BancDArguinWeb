@@ -119,13 +119,10 @@ var id = urlParams.get('id');
               function resolveDomain(string) {
 
                if ( string.includes("data/defaultPhotos/") ) {
-
                  return "http://www.biodiversitydatascience.com/BancDArguinWeb/" + string ;
-
               } else {
                   return string; }
               };
-
               taxon_photo = resolveDomain(taxon_photo.replace(/\s/g, ''));
 
               if( taxon_photo != "NA" ) {
@@ -162,13 +159,18 @@ var id = urlParams.get('id');
 
                 <script>
 
-                  const img = new Image();
-                  img.src = taxon_photo;
-                  img.decode().then(() => {
-                  var dim = img.clientHeight;
-                  alert(dim);
-                  document.getElementById("map").style.height = dim + "px";
-                  });
+                  function checkImage(url) {
+                    var image = new Image();
+                    image.onload = function() {
+                      var dim = this.clientHeight;
+                      document.getElementById("map").style.height = dim + "px";
+                    }
+                    image.onerror = function() {
+                      alert("image doesn't exist");
+                    }
+                    image.src = url;
+                  }
+                  checkImage(taxon_photo);
 
                   window.addEventListener('resize', function(event) {
                     var dim = document.getElementById("taxon_photo").clientHeight;
