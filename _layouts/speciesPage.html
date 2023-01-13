@@ -173,7 +173,7 @@ var id = urlParams.get('id');
                   var image = asyncImageLoader(taxon_photo)
 
                   image.then( res => {
-                      alert(res);
+                      alert(res.clientHeight);
                   })
 
                   function checkImage2(url) {
