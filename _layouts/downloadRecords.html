@@ -1,0 +1,229 @@
+---
+layout: clean
+---
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+</body>
+</html>
+
+
+<script>
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+var yearFrom = urlParams.get('yearFrom');
+var yearTo = urlParams.get('yearTo');
+var taxon = urlParams.get('taxon');
+var taxonLevel = urlParams.get('taxonLevel');
+</script>
+
+<script>
+const distinct = (value, index, self) => {
+return self.indexOf(value) === index;
+}
+</script>
+
+<!-- Load species data -->
+
+<script type="text/javascript" src="http://www.biodiversitydatascience.com/BancDArguinWeb/data/data/speciesListWebDB.json"></script>
+
+<script>
+var dataSpeciesFromJson = JSON.parse(speciesListDB);
+
+// subset species data
+
+if ( taxon == "NA" || taxon == "" || taxon == "null" ) { taxon = null; };
+if ( taxonLevel == "NA" || taxonLevel == "" || taxonLevel == "null" || taxonLevel == null  ) { taxonLevel = "species"; };
+if ( taxon != null && taxonLevel == null) { taxonLevel = "species"; };
+
+taxonId = [];
+for(var i = 0; i < dataSpeciesFromJson.length; i++) {
+    var dataobj = dataSpeciesFromJson[i];
+    if (taxon == null) { taxonId.push(dataobj.id); };
+    if (taxonLevel == "phylum" && taxon == dataobj.taxPhylum) { taxonId.push(dataobj.id); }
+    if (taxonLevel == "class" && taxon == dataobj.taxClass) { taxonId.push(dataobj.id); }
+    if (taxonLevel == "order" && taxon == dataobj.taxOrder) { taxonId.push(dataobj.id); }
+    if (taxonLevel == "family" && taxon == dataobj.taxFamily) { taxonId.push(dataobj.id); }
+    if (taxonLevel == "genus" && taxon == dataobj.taxGenus) { taxonId.push(dataobj.id); }
+    if (taxonLevel == "species" && taxon == dataobj.name) { taxonId.push(dataobj.id); }
+}
+
+taxonId = taxonId.filter(distinct);
+
+</script>
+
+<!-- Load occurrence data -->
+
+<script type="text/javascript" src="http://www.biodiversitydatascience.com/BancDArguinWeb/data/data/dataWeb.json"></script>
+<script>
+var dataFromJson = JSON.parse(data);
+</script>
+
+<script type="text/javascript" src="http://www.biodiversitydatascience.com/BancDArguinWeb/data/data/datasetListWeb.json"></script>
+<script>
+var dataDataSetFromJson = JSON.parse(datasetList);
+</script>
+
+<script>
+
+// subset occurrence data
+
+yearsListArray = [];
+for(var i = 0; i < dataFromJson.length; i++) {
+var dataobj = dataFromJson[i];
+  if (dataobj.year != "NA" && dataobj.year != null ) {
+    yearsListArray.push(dataobj.year);
+  }
+}
+yearsListArrayMin = Math.min(...yearsListArray);
+if( yearFrom == "NA" || yearFrom == null || yearFrom == "" || yearFrom == "null" ) { var yearFrom = yearsListArrayMin; }
+if( yearTo == "NA" || yearTo == null || yearTo == "" || yearTo == "null" ) { var yearTo = new Date().getFullYear(); }
+
+dataFromJsonSubsetIndex = [];
+
+for(var i = 0; i < dataFromJson.length; i++) {
+
+  var dataobj = dataFromJson[i];
+
+  if ( taxonId.includes(dataobj.taxonId) && dataobj.year >= yearFrom && dataobj.year <= yearTo ) {
+        dataFromJsonSubsetIndex.push(i);
+  }
+
+  if ( taxonId.includes(dataobj.taxonId) && ( dataobj.year == "NA" || dataobj.year == null || dataobj.year == "null"  ) ) {
+        dataFromJsonSubsetIndex.push(i);
+  }
+
+}
+
+dataFromJsonSubsetIndex = dataFromJsonSubsetIndex.filter(distinct);
+var dataFromJsonMapped = dataFromJsonSubsetIndex.map(i => dataFromJson[i]);
+
+</script>
+
+<script>
+
+function convertToCSV(objArray) {
+    var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+    var str = '';
+
+    for (var i = 0; i < array.length; i++) {
+        var line = '';
+        for (var index in array[i]) {
+            if (line != '') line += ','
+
+            line += array[i][index];
+        }
+
+        str += line + '\r\n';
+    }
+
+    return str;
+}
+
+function exportCSVFile(headers, items, fileTitle) {
+    if (headers) {
+        items.unshift(headers);
+    }
+
+    // Convert Object to JSON
+    var jsonObject = JSON.stringify(items);
+
+    var csv = this.convertToCSV(jsonObject);
+
+    var exportedFilenmae = fileTitle + '.csv' || 'export.csv';
+
+    var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    if (navigator.msSaveBlob) { // IE 10+
+        navigator.msSaveBlob(blob, exportedFilenmae);
+    } else {
+        var link = document.createElement("a");
+        if (link.download !== undefined) { // feature detection
+            // Browsers that support HTML5 download attribute
+            var url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", exportedFilenmae);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    }
+}
+
+function addInformation(string) {
+
+ if (string != "0") {
+  return "https://www.inaturalist.org/observations/" + string;
+
+} else {
+    return ""; }
+}
+
+function resolveNA(string) {
+
+ if (string == "NA") {
+   return "";
+
+} else {
+    return string; }
+}
+
+var headers = {
+    scientificName: 'scientificName',
+    decimalLongitude: "decimalLongitude",
+    decimalLatitude: "decimalLatitude",
+    year: "year",
+    month: "month",
+    day: "day",
+    associatedMedia: "associatedMedia",
+    datasetName: "datasetName",
+    references: "references"
+};
+
+var itemsFormatted = [];
+
+for(var i = 0; i < dataFromJsonMapped.length; i++) {
+
+    var item = dataFromJsonMapped[i];
+
+    itemsFormatted.push({
+        scientificName: dataSpeciesFromJson[item.taxonId].name, // remove commas to avoid errors,
+        decimalLongitude: item.Lon,
+        decimalLatitude: item.Lat,
+        year: resolveNA(item.year),
+        month: resolveNA(item.month),
+        day: resolveNA(item.day),
+        associatedMedia: resolveNA(item.photo),
+        datasetName: resolveNA(dataDataSetFromJson[item.datasetId].datasetName),
+        references: addInformation(dataDataSetFromJson[item.datasetId].datasetId)
+    });
+
+};
+
+
+// format the data
+// itemsNotFormatted.forEach((item) => {
+//     itemsFormatted.push({
+//         scientificName: dataSpeciesFromJson[item.taxonId].name, // remove commas to avoid errors,
+//           decimalLongitude: item.Lon,
+//         decimalLatitude: item.Lat,
+  //       year: resolveNA(item.year),
+    //     month: resolveNA(item.month),
+      //   day: resolveNA(item.day),
+  //       associatedMedia: resolveNA(item.photo),
+  //       datasetName: resolveNA(dataDataSetFromJson[item.datasetId].datasetName),
+    //     references: addInformation(dataDataSetFromJson[item.datasetId].datasetId)
+//     });
+// });
+
+var fileTitle = 'biodiversity-data';
+exportCSVFile(headers, itemsFormatted, fileTitle);
+
+</script>

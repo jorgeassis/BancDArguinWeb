@@ -1,0 +1,256 @@
+---
+layout: default
+---
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<script>
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+var id = urlParams.get('id');
+</script>
+
+<script type="text/javascript" src="http://www.biodiversitydatascience.com/BancDArguinWeb/data/dataWeb.json"></script>
+<script>
+  var dataFromJson = JSON.parse(data);
+</script>
+
+<script type="text/javascript" src="http://www.biodiversitydatascience.com/BancDArguinWeb/data/speciesListWebDB.json"></script>
+<script>
+  var dataSpeciesFromJson = JSON.parse(speciesListDB);
+</script>
+
+<script type="text/javascript" src="http://www.biodiversitydatascience.com/BancDArguinWeb/data/datasetListWeb.json"></script>
+<script>
+  var dataSetFromJson = JSON.parse(datasetList);
+</script>
+
+<script>
+
+  taxon = dataFromJson[id].taxonId;
+  taxon_name = dataSpeciesFromJson[taxon].name;
+  taxon_authority = dataSpeciesFromJson[taxon].authority;
+  taxon_status = dataSpeciesFromJson[taxon].status;
+  taxon_kingdom = dataSpeciesFromJson[taxon].taxKingdom;
+  taxon_phylum = dataSpeciesFromJson[taxon].taxPhylum;
+  taxon_class = dataSpeciesFromJson[taxon].taxClass;
+  taxon_order = dataSpeciesFromJson[taxon].taxOrder;
+  taxon_family = dataSpeciesFromJson[taxon].taxFamily;
+  taxon_genus = dataSpeciesFromJson[taxon].taxGenus;
+  taxon_acceptedName = dataSpeciesFromJson[taxon].acceptedName;
+
+  datasetId = dataFromJson[id].datasetId;
+  datasetName = dataSetFromJson[datasetId].datasetName;
+  datasetId = dataSetFromJson[datasetId].datasetId;
+
+  if( datasetName != "MarAfrica" && datasetName != "iNaturalist" ) { datasetSource = "GBIF"; };
+  if( datasetName == "MarAfrica" || datasetName == "iNaturalist" ) { datasetSource = datasetName; };
+
+  lon = dataFromJson[id].Lon;
+  lat = dataFromJson[id].Lat;
+
+  year = dataFromJson[id].year;
+  month = dataFromJson[id].month;
+  day = dataFromJson[id].day;
+  photo = dataFromJson[id].photo;
+
+</script>
+
+
+<section class="content-wrapper">
+
+  <div class="wrapper bg-soft-primary">
+
+    <div class="container py-14 pt-md-12 pb-md-5">
+      <div class="row text-center">
+        <div class="col-lg-10 col-xxl-8 mx-auto">
+
+
+          <h3 class="display-6">Biodiversity data informing conservation and managment strategies of the <mark>Banc D'Arguin National Park</mark></h3>
+          <h2 class="fs-16 text-uppercase text-muted py-2 mb-0">Species list</h2>
+
+        </div>
+      </div>
+    </div>
+
+
+    <div class="container py-14 pt-md-1 pb-md-0">
+      <div class="row text-center">
+        <div class="col-lg-9 col-xxl-7 mx-auto">
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<section class="content-wrapper">
+
+  <div class="wrapper bg-soft-primary">
+
+    <div class="container py-14 pt-md-5 pb-md-5">
+      <div class="row text-left">
+
+        <script>if( photo != "NA" ) {
+
+          document.write("<img id='imageId" + 1 + "' style='display: none;' src='" + photo + "medium.jpg' />");
+
+          var img = document.getElementById('imageId' + 1);
+          var width = img.width;
+          var isLoaded = img.complete && img.naturalHeight !== 0;
+
+          if( isLoaded ) { var urlImg = photo + "medium.jpg"; };
+          if( ! isLoaded ) { var urlImg = photo + "medium.jpeg" };
+          urlImgLarge = urlImg.replace("medium", "large");
+
+          document.write("<div class='col-md-5'>");
+          document.write("<a data-glightbox data-gallery='g1' href='" + urlImgLarge + "'>");
+          document.write("<div id='taxon_photo' class='card shadow-lg'><figure class='rounded'><img src='" + urlImg + "' /></figure></div>");
+          document.write("</a>");
+          document.write("</div>");
+
+        }; </script>
+
+      <script> if( photo != "NA" ) { document.write("<div class='col-md-7'>") }; </script>
+      <script> if( photo == "NA" ) { document.write("<div class='col-md-12'>") }; </script>
+
+        <div class="card shadow-lg" style="padding: 0px">
+
+            <style>
+              @media (min-width: 576px) {
+                .mapSpeciesPage { height: 384px; margin-top: 30px }
+              }
+              @media (min-width: 768px) {
+                .mapSpeciesPage { height: 202px; margin-top: 0px }
+              }
+              @media (min-width: 992px) {
+                .mapSpeciesPage { height: 278px }
+              }
+              @media (min-width: 1200px) {
+                .mapSpeciesPage { height: 335px; margin-top: 0px }
+              }
+              @media (min-width: 1400px) {
+                .mapSpeciesPage { height: 390px; margin-top: 0px }
+              }
+            </style>
+
+            <div id='map' class='custom-popup rounded mapSpeciesPage' style="z-index: 500;"></div>
+
+            <script>var dim = document.getElementById("taxon_photo").clientHeight;
+              document.getElementById("map").style.height = dim + "px";
+              window.addEventListener('resize', function(event) {
+                var dim = document.getElementById("taxon_photo").clientHeight;
+                document.getElementById("map").style.height = dim + "px";
+                }, true);
+            </script>
+
+            <script>
+
+                var map = L.map('map', {
+                  minZoom: 2,
+                  fullscreenControl: {
+                      pseudoFullscreen: false
+                  }
+                }).setView([20.15, -16], 7);
+
+                map.scrollWheelZoom.disable();
+
+                var originalInitTile = L.GridLayer.prototype._initTile
+                L.GridLayer.include({
+                    _initTile: function (tile) {
+                        originalInitTile.call(this, tile);
+
+                        var tileSize = this.getTileSize();
+
+                        tile.style.width = tileSize.x + 3 + 'px';
+                        tile.style.height = tileSize.y + 3 + 'px';
+                    }
+                });
+
+                L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+                  attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+
+                     }).addTo(map);
+
+                      // map
+
+                      var marker =   L.circleMarker([lat, lon], { weight: 1.5, radius: 4.25, color: "#BA911E", fillColor:  '#fab759', fillOpacity: 0.7 });
+                      marker.addTo(map);
+
+            </script>
+
+        </div>
+      </div>
+
+          <!--/.card-body -->
+        </div>
+    </div>
+        <!--/.card -->
+
+        <div class="container py-2 pt-md-1 pb-md-0">
+          <div class="row text-left">
+
+          <div class="col-md-12" style="padding-left: 30px">
+            <h5><script>document.write(taxon_name + " " + taxon_authority);</script></h5>
+          </div>
+
+        </div>
+        </div>
+
+        <div class="container py-14 pt-md-0 pb-md-5">
+          <div class="row text-left">
+
+          <div class="col-md-12">
+            <div class="card shadow-lg">
+
+              <div style=" padding: 15px">
+                <strong>Taxonomy</strong>
+                <br>
+                <script>
+                  document.write("<div>" + taxon_kingdom + " // " + taxon_class + " // " + taxon_order + " // " + taxon_family + " // " + taxon_genus + " // " + taxon_name + "</div>" );
+                  document.write("<div style='margin-top: 3px'>Species name status: " + taxon_status + "</div>");
+
+                  if( taxon_status != "accepted" ) {
+                    document.write("<div style='margin-top: 3px'>Accepted name: " + taxon_acceptedName + "</div>");
+                   };
+                </script>
+
+                <br>
+                <strong>Date of record</strong>
+                <br>
+
+                <script>
+                document.write("Year: " + year);
+                document.write(" // Month: " + month);
+                document.write(" // Day: " + day);
+                </script>
+
+                <br>
+                <br>
+                <strong>Additional information</strong>
+                <br>
+                <script>
+                  document.write("Source of record: " + datasetName);
+
+                  if( datasetSource == "iNaturalist" ) { document.write("<div style='margin-top: 10px'><a target='_blank' href='https://www.inaturalist.org/observations/" + datasetId + "'><span class='badge bg-yellow rounded-pill'>Explore source</span></a></div>"); };
+                  if( datasetSource == "GBIF" ) { document.write("<div style='margin-top: 10px'><a target='_blank' href='https://www.gbif.org/occurrence/" + datasetId + "'><span class='badge bg-yellow rounded-pill'>Explore source</span></a></div>"); };
+
+                </script>
+
+              <div style='margin-top: 10px'>  </div>
+
+              </div>
+
+            </div>
+          </div>
+
+            </div>
+        </div>
+
+  </div>  <!--/. is Ok, because of java -->
+
+</section>
