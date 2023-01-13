@@ -365,7 +365,7 @@ var id = urlParams.get('id');
 
                               (async () => {
                                       const imgVol = new Image();
-                                      imgVol.src = dataobj;
+                                      imgVol.src = dataobj + "medium.jpg" ;
                                       await imgVol.decode();
 
                                       var width = imgVol.width;
