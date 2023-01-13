@@ -371,39 +371,24 @@ var id = urlParams.get('id');
                                   status = request.status;
                                   if (request.status == 200) //if(statusText == OK)
                                   {
-                                   alert("image exists");
+                                   return "true";
                                   } else {
-                                   alert("image doesn't exist");
+                                   return "false";
                                   }
                                 }
                               };
 
-                              checkImage(dataobj + "medium.jpg");
-                              checkImage(dataobj + "medium.jpeg");
+                              if( checkImage(dataobj + "medium.jpg") == "true") { var urlImg = dataobj + "medium.jpg"; } else { var urlImg = dataobj + "medium.jpeg"; };
 
-                              alert(dataobj + "medium.jpeg");
-                              
-                              (async () => {
-                                      const imgVol = new Image();
-                                      imgVol.src = dataobj + "medium.jpg" ;
-                                      await imgVol.decode();
+                              urlImgLarge = urlImg.replace("medium", "large");
 
-                                      var width = imgVol.width;
-                                      var isLoaded = imgVol.complete && imgVol.naturalHeight !== 0;
+                              document.write("<div class='col-md-3'>");
 
-                                      if( isLoaded ) { var urlImg = dataobj + "medium.jpg"; };
-                                      if( ! isLoaded ) { var urlImg = dataobj + "medium.jpeg" };
-                                      urlImgLarge = urlImg.replace("medium", "large");
+                              document.write("<a href='http://www.biodiversitydatascience.com/BancDArguinWeb/recordPage?id=" + recordsPhotosId[i] + "'>");
+                              document.write("<div class='imageSpeciesPage' style='-moz-border-radius: 7px; -webkit-border-radius: 7px; border-radius: 7px; background-repeat: no-repeat; background-size: cover; background-image: url(" + urlImg + ")'></div>");
+                              document.write("</a>");
 
-                                      document.write("<div class='col-md-3'>");
-
-                                      document.write("<a href='http://www.biodiversitydatascience.com/BancDArguinWeb/recordPage?id=" + recordsPhotosId[i] + "'>");
-                                      document.write("<div class='imageSpeciesPage' style='-moz-border-radius: 7px; -webkit-border-radius: 7px; border-radius: 7px; background-repeat: no-repeat; background-size: cover; background-image: url(" + urlImg + ")'></div>");
-                                      document.write("</a>");
-
-                                      document.write("</div>");
-
-                              })();
+                              document.write("</div>");
 
                               //document.write("<img id='imageId" + i + "' style='display: none;' src='" + dataobj + "medium.jpg' />");
                               // var img = document.getElementById('imageId' + i);
