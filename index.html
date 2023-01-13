@@ -3,340 +3,274 @@ layout: default
 credits: ""
 ---
 
-
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <!-- Top message -->
 
-<section class="container text-center">
-        <div>
-            <div class="col-md-8">
 
-                <h2 class="color--dark">
-                    Marine Forests, important habitats worldwide
-                </h2>
-                <p class="lead top-spacer-10">
-                    Macroalgae, plants and animals like corals and sponges create complex habitats that provide resources, shelter and nursery grounds for many marine organisms.
-                </p>
+<!-- Load summary data - homepage -->
 
-            </div>
-        </div>
-</section>
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<!-- Top Images -->
-
-<section class="container text-center">
-        <div class="row top-spacer-40">
-            <div class="col-md-4">
-                <div class="feature text-center">
-
-                  <div class="card box-shadow-wide">
-                    <div class="thumb" style="background: url(assets/img/main_groups_1.jpg) 50% 50% no-repeat;">
-                    </div>
-                  <!--   <div style="top: -20px; right: 250px; position: absolute; z-index: 99999;">&copy; D. Klug</div> - -->
-                  </div>
-
-                  <h4>Macroalgae forests</h4>
-                    <p>
-                    Large brown algae such as kelp or fucoids, but also by red and green algae (&copy; D. Klug).
-                    </p>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="feature text-center">
-
-                  <div class="card box-shadow-wide">
-                    <div class="thumb" style="background: url(assets/img/main_groups_2.jpg) 50% 50% no-repeat;">
-                    </div>
-                  </div>
-                    <h4>Seagrass meadows</h4>
-                    <p>
-                    Plants that evolved to live in the sea. With roots, leafs, flowers and fruits (&copy; M. Sanfelix).
-                    </p>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="feature text-center">
-                  <div class="card box-shadow-wide">
-                    <div class="thumb" style="background: url(assets/img/main_groups_4.jpg) 50% 50% no-repeat;">
-                    </div>
-                  </div>
-                  <h4>Animal gardens</h4>
-                    <p>
-                    <span>Invertebrates that live attached to rock, such as coral reefs and gorgonians (&copy; NOAA).</span>
-                    </p>
-                </div>
-            </div>
-        </div>
-</section>
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<!-- Help the world monitoring -->
-
-<section class="container text-center">
-      <div class="row justify-content-center top-spacer-50">
-          <div class="col-md-8" >
-              <h2 class="color--dark">Help the world monitoring Marine Forests</h2>
-              <span class="lead">
-                Citizens are reporting the occurrence of seaweed, seagrass, corals, and other forest-forming species to reach worldwide maps with distribution records.
-              </span>
-          </div>
-      </div>
-</section>
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<!-- Main Map -->
-
-<section class="unpad">
-
-      <style>
-          .leaflet-popup-content-wrapper {
-              padding: 1px;
-              text-align: left;
-              border-radius: 8px;
-          }
-          .leaflet-popup-content {
-                 margin: 0;
-                 padding: 2px;
-
-             }
-      </style>
-
-      <div id='map' class='custom-popup hide-on-mobile' style="height: 350px;"></div>
-
-                                  <script>
-
-                                  var url = 'https://api.inaturalist.org/v1/observations?project_id=marine-forests&order=desc&order_by=created_at';
-                                	const main4 = async () => {
-                                  const data4 = await fetchData(url)
-                                  var mainresults = data4.results;
-
-                                  var markers = [];
-
-                                      for (let i = 0; i < 30; i++) {
-
-                                        if( mainresults[i].observation_photos == "" ) { continue; }
-                                        if( mainresults[i].user == "" ) { continue; }
-                                        if( mainresults[i].geojson == null ) { continue; }
-
-                                        var recordurl = 'https://www.inaturalist.org/observations/' + mainresults[i].id;
-                                        var scientificname = mainresults[i].taxon.name;
-                                        var lat = mainresults[i].geojson.coordinates[1];
-                                        var lng = mainresults[i].geojson.coordinates[0];
-
-                                        if( mainresults[i].observed_on_details == null ) { var date = ""; }
-                                        if( mainresults[i].observed_on_details != null ) { var date = mainresults[i].observed_on_details.date; }
-
-                                        var name = mainresults[i].user.name;
-                                        var login = mainresults[i].user.login;
-                                        var imageuser = mainresults[i].user.icon;
-                                        var urluser = 'https://www.inaturalist.org/people/' + mainresults[i].user.login;
-                                        var image = mainresults[i].observation_photos[0].photo.url;
-
-                                        if( scientificname == null ) { var scientificname = "Marine Forests"; }
-
-                                        if( name == null && login != null ) { var name = login; }
-                                        if( name == null || login == null ) { var name = "Citizen scientist"; }
-                                        if( name == "" ) { var name = "Citizen scientist"; }
-
-                                        if( imageuser == null ) { var imageuser = "assets/img/user-icon.jpg"; }
-                                        if( mainresults[i].observed_on_details == null ) { var date = "Marine Forests"; }
-
-                                          markers.push({
-                                              scientificname: scientificname.substring(0, 18),
-                                              location: "Occurrence record",
-                                              lat: lat,
-                                              lng: lng,
-                                              date: date,
-                                              name: name.substring(0, 17),
-                                              imageuser: imageuser,
-                                              url: recordurl,
-                                              image: image,
-                                              urluser: urluser
-                                          });
-
-                                        };
-
-                                          var map = L.map( 'map', {
-                                            center: [28.5707070913, -16.3335102797],
-                                            minZoom: 2,
-                                            zoom: 2,
-                                            zoomControl:false
-                                          })
-
-                                          L.tileLayer( 'https://tile.gbif.org/3857/omt/{z}/{x}/{y}@2x.png?style=gbif-light', {
-                                            attribution: '&copy; <a href="https://www.openmaptiles.org/copyright">OpenMapTiles</a>',
-                                            subdomains: ['a', 'b', 'c']
-                                          }).addTo( map )
-
-                                          var LeafIcon = L.Icon.extend({ options: { iconSize: [15, 15],} });
-                                          var greenIcon = new LeafIcon({iconUrl: 'assets/img/map_icon.png'});
-
-                                          var i = 0;
-                                          var marker = L.marker( [markers[i].lat, markers[i].lng], {icon: greenIcon} ).addTo( map );
-                                          marker.bindPopup( '<div style="width:300px; height: 110px"> <div style="width:120px; float: left"> <div class="thumbnail"> <a href="' + markers[i].url + '" target="_blank"><img src="' + markers[i].image + '" alt="View record" /></a> </div> </div> <div style="width:177px; margin-left: 3px; float: left"> <div style="margin-bottom: 1px; margin-top: 5px; width: 100%"> <span style="color: #e9525c; font-size: 1.15em;"><strong><i>' + markers[i].scientificname + '</i></strong></span> </div><div style="; margin-bottom: 1px; width: 100%"> <span style="font-size: 1em">' + markers[i].location + '</span> </div> <div style="font-size: 0.95em; margin-bottom: 7px; width: 100%"> <span style="color: #666666">' + markers[i].date + '</span> </div> <div style="width: 100%; margin-top: 10px"> <div class="thumbnail2" style="margin-right: 7px"><a href="' + markers[i].urluser + '" target="_blank"><img src="' + markers[i].imageuser + '" alt="View profile" /></a></div><div style="padding-top: 24px;"><a href="' + markers[i].url + '" style="color: #666666; text-decoration: none">' + markers[i].name + '</a></div></div></div></div>' );
-                                          marker.fire('click');
-                                          setTimeout(function () { map.removeLayer(marker); }, 5000);
-
-                                          function myLoop () {
-
-                                             setTimeout(function () {
-
-                                               i++;
-                                               if (i >= markers.length) {  i = 0; }
-
-                                                var marker = L.marker( [markers[i].lat, markers[i].lng], {icon: greenIcon} ).addTo( map );
-
-                                                marker.bindPopup( '<div style="width:300px; height: 110px"> <div style="width:120px; float: left"> <div class="thumbnail"> <a href="' + markers[i].url + '"><img src="' + markers[i].image + '" alt="View record" /></a> </div> </div> <div style="width:177px; margin-left: 3px; float: left"> <div style="margin-bottom: 1px; margin-top: 5px; width: 100%"> <span style="color: #e9525c; font-size: 1.15em;"><strong><i>' + markers[i].scientificname + '</i></strong></span> </div><div style=" margin-bottom: 1px; width: 100%"> <span style="font-size: 1em">' + markers[i].location + '</span> </div> <div style="font-size: 0.95em; margin-bottom: 7px; width: 100%"> <span style="color: #666666">' + markers[i].date + '</span> </div> <div style="width: 100%; margin-top: 1px"> <div class="thumbnail2" style="margin-right: 7px"><a href="' + markers[i].urluser + '"><img src="' + markers[i].imageuser + '" alt="View profile" /></a></div><div style="padding-top: 24px;"><a href="' + markers[i].url + '" style="color: #666666; text-decoration: none">' + markers[i].name + '</a></div></div></div></div>' );
-
-                                                setTimeout(function () { marker.fire('click'); }, 750);
-                                                setTimeout(function () { map.removeLayer(marker); }, 4000);
-
-                                                myLoop();
-                                             }, 4000)
-                                          }
-                                          var i = -1;
-                                          myLoop();
-
-                                          map.scrollWheelZoom.disable();
-                                          map.dragging.disable();
-
-                                        //  -----------------------------------------------------
-                                        //  Hide loading loadingPanel
-                                            document.getElementById('loadingPanel').style.visibility="hidden";
-                                        //  -----------------------------------------------------
-
-                                      };
-
-                                  main4();
-
-
-                              </script>
-
-</section>
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<!-- Resume statistics -->
-
-<section class="container text-center hide-on-mobile" style="padding: 0px">
-        <div class="row justify-content-center top-spacer-20">
-            <div class="col-md-8">
-              <h4><span class="color--redish" id="total_results_records"></span><span class="color--dark"> records of </span><span class="color--redish" id="total_results_species"></span> <span class="color--dark">species </span><span class="color--dark">reported by <span class="color--redish" id="total_users"></span><span class="color--dark"> citizen scientists.</span></h4>
-
-              <span class="lead block">
-
-                You can also add records using iNaturalist. Just provide a photo, the date and location, no need to identify the species. The information will be available for everyone in the world!
-
-              </span>
-
-              <a class="btn btn--primary type--uppercase" href="https://www.inaturalist.org/projects/marine-forests?tab=observations" target="_blank">
-                    <span class="btn__text">
-                        Explore all records
-                    </span>
-              </a>
-
-              <a class="btn btn--primary type--uppercase" href="https://www.inaturalist.org/projects/marine-forests" target="_blank">
-                    <span class="btn__text">
-                        Add your records</a>
-                    </span>
-              </a>
-
-            </div>
-        </div>
-
-    </section>
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<!-- Random Pictures -->
-
-<section class="container text-center top-spacer-75">
-
-  <div class="row justify-content-center">
-      <div class="col-md-10" > <!-- 8 col-lg-8 -->
-      <div><h3 class="color--dark">Recent records from citizens</h3></div>
-    </div>
-  </div>
-
-  <div class="row" style="padding-left: 25px; padding-right: 25px" id="random_pics">
-
-  </div>
-
-</section>
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-<section class="container text-center top-spacer-40">
-
-  <div class="row justify-content-center">
-      <div class="col-md-10" ></div>
-  </div>
-
-</section>
-
-{% include bottom-message-1.html %}
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<script type="text/javascript" src="data/summaryData.json"></script>
 
 <script>
+  var summaryDataFromJson = JSON.parse(summaryData);
+  // alert(summaryDataFromJson[0].localDataMetaRecords);
+  // alert(summaryDataFromJson[0].datasets);
+  // alert(summaryDataFromJson[0].speciesAccepted);
+  // alert(summaryDataFromJson[0].phylum);
+  // alert(summaryDataFromJson[0].order);
+  // alert(summaryDataFromJson[0].family);
+  // alert(summaryDataFromJson[0].genus);
 
-	var url = 'https://api.inaturalist.org/v1/observations/identifiers?project_id=marine-forests';
-	const mainUsers = async () => {
-	const dataUsers = await fetchData(url)
-	var total_users = dataUsers.total_results.toLocaleString();
-	document.getElementById("total_users").innerHTML = total_users; };
-	mainUsers();
 
-	var url = 'https://api.inaturalist.org/v1/observations/species_counts?project_id=marine-forests';
-	const main = async () => {
-	const data = await fetchData(url)
-	var total_results = data.total_results.toLocaleString();
-	document.getElementById("total_results_species").innerHTML = total_results; };
-	main();
-
-	var url = 'https://api.inaturalist.org/v1/observations?project_id=marine-forests&order=desc&order_by=created_at';
-	const main2 = async () => {
-	const data2 = await fetchData(url)
-	var total_results = data2.total_results.toLocaleString();
-	document.getElementById("total_results_records").innerHTML = total_results; };
-	main2();
-
-	var url = 'https://api.inaturalist.org/v1/observations?project_id=marine-forests&order=desc&order_by=created_at';
-	const main3 = async () => {
-	const data3 = await fetchData(url)
-	var mainresults = data3.results;
-
-//  alert(mainresults[0].observed_on_details.date);
-//  alert(mainresults[0].taxon.name);
-//  alert(mainresults[0].uri);
-//  alert(mainresults[0].geojson.coordinates[0]);
-//  alert(mainresults[0].geojson.coordinates[1]);
-//  alert(mainresults[0].user.name);
-//  alert(mainresults[0].user.icon);
-
-	var gal = document.getElementById('random_pics');
-	var counter = 0;
-
-			for (let i = 0; i < 30; i++) {
-
-					if( mainresults[i].observation_photos.length != 0 ){
-						gal.innerHTML += "<div class='col-md-4'><div class='feature text-center'><a href='https://www.inaturalist.org/observations/" + mainresults[i].id + "' target='_blank'><div class='card box-shadow-wide'><div class='thumb' style='background: url(" + mainresults[i].observation_photos[0].photo.url.replace("square", "large") + ") 50% 50% no-repeat;'></div></div></a> <h4>" + mainresults[i].taxon.name + "</h4> </div></div>";
-						counter = counter + 1;
-					};
-					if (counter == 9) { break; }
-
-			};
-
-	};
-	main3();
 
 </script>
+
+
+  <section class="content-wrapper">
+
+      <div class="wrapper bg-soft-primary">
+        <div class="container py-14 pt-md-12 pb-md-14">
+
+          <div class="row text-center">
+            <div class="col-lg-10 col-xxl-8 mx-auto">
+
+              <h3 class="display-6">Biodiversity data informing conservation and managment strategies of the <mark>Banc D'Arguin National Park</mark></h3>
+              <h2 class="fs-16 text-uppercase text-muted py-2 mb-0">Darwin core open source database</h2>
+
+              <div class="d-flex justify-content-center pt-md-4" data-cues="slideInDown" data-group="page-title-buttons" data-delay="300">
+                <span><a class="btn btn-aqua rounded mx-1">Explore species</a></span>
+                <span><a class="btn btn-orange rounded mx-1">Explore records</a></span>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+
+    <section class="content-wrapper">
+
+        <div class="wrapper bg-light">
+          <div class="container py-7">
+
+            <div class="swiper-container grid-view nav-color mb-14" data-autoplay="true" data-margin="30" data-dots="true" data-nav="false" data-items-md="2" data-items-xs="1">
+              <div class="swiper overflow-visible">
+
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide">
+                    <figure class="rounded"><img src="./assets/img/home/1.jpeg" alt="" /></figure>
+                  </div>
+                  <div class="swiper-slide">
+                    <figure class="rounded"><img src="./assets/img/home/2.jpg" alt="" /></figure>
+                  </div>
+                  <div class="swiper-slide">
+                    <figure class="rounded"><img src="./assets/img/home/3.jpeg" alt="" /></figure>
+                  </div>
+                  <div class="swiper-slide">
+                    <figure class="rounded"><img src="./assets/img/home/5.jpg" alt="" /></figure>
+                  </div>
+                  <div class="swiper-slide">
+                    <figure class="rounded"><img src="./assets/img/home/6.jpeg" alt="" /></figure>
+                  </div>
+                  <div class="swiper-slide">
+                    <figure class="rounded"><img src="./assets/img/home/7.jpg" alt="" /></figure>
+                  </div>
+                  <div class="swiper-slide">
+                    <figure class="rounded"><img src="./assets/img/home/4.jpg" alt="" /></figure>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="row pb-md-5">
+              <div class="col-lg-9 col-xl-8 col-xxl-7 mx-auto text-center">
+                <h2 class="fs-16 text-uppercase text-muted py-0 mb-0">Database updated on <script>document.write(summaryDataFromJson[0].lastUpdate);</script></h2>
+              </div>
+              <!-- /column -->
+            </div>
+
+          <div class="row pt-md-1 align-items-center counter-wrapper gy-6 text-center">
+
+            <div class="col-md-3">
+              <div class="card shadow-lg">
+                <div class="card-body">
+                  <div class="d-flex d-lg-block d-xl-flex flex-row">
+
+                    <div>
+                      <h3 class="counter mb-1"><script>document.write(summaryDataFromJson[0].records);</script></h3>
+                      <p class="mb-0">Records</p>
+                    </div>
+                  </div>
+                </div>
+                <!--/.card-body -->
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="card shadow-lg">
+                <div class="card-body">
+                  <div class="d-flex d-lg-block d-xl-flex flex-row">
+
+                    <div>
+                      <h3 class="counter mb-1"><script>document.write(summaryDataFromJson[0].species);</script></h3>
+                      <p class="mb-0">Species</p>
+                    </div>
+                  </div>
+                </div>
+                <!--/.card-body -->
+              </div>
+            </div>
+
+                <div class="col-md-3">
+                  <div class="card shadow-lg">
+                    <div class="card-body">
+                      <div class="d-flex d-lg-block d-xl-flex flex-row">
+
+                        <div>
+                          <h3 class="counter mb-1"><script>document.write(summaryDataFromJson[0].iNatuDataMetaVolunteers);</script></h3>
+                          <p class="mb-0">Volunteers</p>
+                        </div>
+                      </div>
+                    </div>
+                    <!--/.card-body -->
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="card shadow-lg">
+                    <div class="card-body">
+                      <div class="d-flex d-lg-block d-xl-flex flex-row">
+
+                        <div>
+                          <h3 class="counter mb-1"><script>document.write(summaryDataFromJson[0].photos);</script></h3>
+                          <p class="mb-0">Photos</p>
+                        </div>
+                      </div>
+                    </div>
+                    <!--/.card-body -->
+                  </div>
+                </div>
+
+                <!--/column -->
+              </div>
+
+
+              <div class="row pt-md-12 pb-md-16 gx-lg-8 gx-xl-12 gy-10 align-items-center">
+                <div class="col-lg-7 order-lg-2">
+
+                  <div class="pt-md-1" id="peopleIcon"></div>
+
+                  <!--/ <figure><img class="w-auto" src="./assets/img/illustrations/i2.png" srcset="./assets/img/illustrations/i2@2x.png 2x" alt="" /></figure> -->
+
+                </div>
+                <!--/column -->
+                <div class="col-lg-5">
+                  <h3 class="display-5 mb-3 mt-lg-10">Citizen science in the Banc D'Arguin</h3>
+
+                  <span style="display: block;"><p class="lead">So far, <span class="text-orange"><script>document.write(summaryDataFromJson[0].iNatuDataMetaVolunteers);</script></span> citizens reported <span class="text-orange"><script>document.write(summaryDataFromJson[0].iNatuDataMetaRecords);</script></span> occurrence records of biodiversity in the Banc D'Arguin National Park.</p></span>
+                  <span style="display: block;"><p class="lead">This information is openly available for everyone in the world!</p></span>
+
+                  <span style="display: block; margin-top: 30px; margin-left: -5px"><a href="https://www.inaturalist.org/projects/biodiversity-of-the-banc-d-arguin-national-park" target="_blank" class="btn btn-orange btn-sm rounded mx-1">Add your records</a></span>
+
+                </div>
+                <!--/column -->
+              </div>
+
+
+              <div class="card bg-soft-primary rounded-4">
+                <div class="card-body p-md-8 p-xl-11">
+                  <div class="row gx-lg-8 gx-xl-12 gy-10">
+                    <div class="col-lg-7">
+                      <h3 class="display-5 mb-3">Darwin Core standard</h3>
+                      <p class="lead">The biodiversity database of the Banc D'Arguin National Park is structured under Darwin Core standards. This offers a stable, straightforward and flexible framework for sharing biodiversity data from multiple sources.</p>
+                      <a href="https://en.wikipedia.org/wiki/Darwin_Core" target="_blank" class="btn btn-outline-aqua btn-sm rounded">More information</a>
+                      <a style="margin-left: 10px" href="https://en.wikipedia.org/wiki/Darwin_Core" target="_blank" class="btn btn-outline-aqua btn-sm rounded">Download database</a>
+                    </div>
+                    <!--/column -->
+                    <div class="col-lg-5">
+
+                      <div class="mt-lg-10">
+                        <span style="display: block; padding-top: 3px" class="lead mb-1">
+                        <i class="uil uil-angle-right-b"></i> <strong>Stable standard reference</strong><br>
+                        <i class="uil uil-angle-right-b"></i> <strong>Flexible for sharing information</strong><br>
+                        <i class="uil uil-angle-right-b"></i> <strong>Extensive glossary of terms</strong><br>
+                        <i class="uil uil-angle-right-b"></i> <strong>Primarily unit based on taxa</strong>
+                      </span>
+                      </div>
+                    </div>
+                    <!--/column -->
+                  </div>
+                  <!--/.row -->
+                </div>
+                <!--/.card-body -->
+              </div>
+
+
+        </div>
+      </div>
+
+  </section>
+
+
+  <script>
+
+    //  - - - - - - - - -
+
+
+    const fetchData = async url => {
+      try {
+        const jsonData = await fetch(url)
+        const data = await jsonData.json()
+        return data
+      } catch (err) {
+        alert('Could not load data:')
+        return null
+      }
+    };
+
+    //  - - - - - - - - -
+
+    var url = 'https://api.inaturalist.org/v1/observations/observers?project_id=biodiversity-of-the-banc-d-arguin-national-park';
+    const mainFunct = async () => {
+    const data = await fetchData(url)
+    var mainresults = data.results;
+
+    var nUsers = 0;
+
+    var peopleIcon = document.getElementById('peopleIcon');
+
+    for (let i = 0; i < 499; i++) {
+
+      if( mainresults[i].user == "" ) { continue; }
+      if( mainresults[i].user == null ) { continue; }
+        if( mainresults[i].user.icon_url == "" ) { continue; }
+        if( mainresults[i].user.icon_url == null ) { continue; }
+
+        var nUsers = nUsers + 1;
+        if( nUsers == 12 ) {  break; }
+
+        var name = mainresults[i].user.name;
+        var login = mainresults[i].user.login;
+        var imageuser = mainresults[i].user.icon_url;
+        var urluser = 'https://www.inaturalist.org/people/' + login;
+
+        peopleIcon.innerHTML += "<div style='float: left; margin-bottom: 10px; margin-right: 10px;' class='card-body'><a target='_blank' href='" + urluser + "'><div style='width:120px; height:120px; background-image: url( " + imageuser + "); background-size:cover; background-position:center; border-radius:50%;'></div></a></div>";
+
+
+          };
+
+      //  -----------------------------------------------------
+      //  Hide loading loadingPanel
+          document.getElementById('loadingPanel').style.visibility="hidden";
+      //  -----------------------------------------------------
+
+    };
+
+    mainFunct();
+
+  </script>
