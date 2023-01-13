@@ -235,10 +235,14 @@ credits: ""
 
     for (let i = 0; i < 499; i++) {
 
-      if( mainresults[i].user == "" ) { continue; }
+      if( mainresults[i].user == undefined ) { continue; }
       if( mainresults[i].user == null ) { continue; }
+      if( mainresults[i].user == "" ) { continue; }
+
+      if( mainresults[i].user.icon_url == undefined ) { continue; }
+      if( mainresults[i].user.icon_url == null ) { continue; }
+
         if( mainresults[i].user.icon_url == "" ) { continue; }
-        if( mainresults[i].user.icon_url == null ) { continue; }
 
         var nUsers = nUsers + 1;
         if( nUsers == 12 ) {  break; }
