@@ -373,7 +373,7 @@ var id = urlParams.get('id');
                                   if (request.status == 200) //if(statusText == OK)
                                   {
 
-                                    var urlImg = dataobj + "medium.jpg";
+                                    var urlImg = url + "medium.jpg";
                                     urlImgLarge = urlImg.replace("medium", "large");
                                     document.write("<div class='col-md-3'>");
                                     document.write("<a href='http://www.biodiversitydatascience.com/BancDArguinWeb/recordPage?id=" + recordsPhotosId[i] + "'>");
@@ -383,7 +383,7 @@ var id = urlParams.get('id');
 
                                   } else {
 
-                                    var urlImg = dataobj + "medium.jpeg";
+                                    var urlImg = url + "medium.jpeg";
                                     urlImgLarge = urlImg.replace("medium", "large");
                                     document.write("<div class='col-md-3'>");
                                     document.write("<a href='http://www.biodiversitydatascience.com/BancDArguinWeb/recordPage?id=" + recordsPhotosId[i] + "'>");
@@ -394,6 +394,8 @@ var id = urlParams.get('id');
                                   }
                                 }
                               };
+
+                              checkImage(dataobj);
 
                           }
 
