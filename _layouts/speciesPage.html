@@ -373,12 +373,13 @@ var id = urlParams.get('id');
                                   {
                                    alert("image exists");
                                   } else {
-                                    alert("image doesn't exist");
+                                   alert("image doesn't exist");
                                   }
                                 }
                               };
 
                               checkImage(dataobj + "medium.jpg");
+                              checkImage(dataobj + "medium.jpeg");
 
                               (async () => {
                                       const imgVol = new Image();
