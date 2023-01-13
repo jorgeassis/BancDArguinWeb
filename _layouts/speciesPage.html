@@ -169,7 +169,7 @@ var id = urlParams.get('id');
                   var img = document.getElementById("taxon_photo");
 
                   img.src = taxon_photo;
-                  waitForImageToLoad(myImage).then(()=>{
+                  waitForImageToLoad(img).then(()=>{
                     // Image have loaded.
                     alert('Loaded lol');
                   });
