@@ -99,17 +99,11 @@ var id = urlParams.get('id');
 
           document.write("<img id='imageId" + 1 + "' style='display: none;' src='" + photo + "' />");
 
-          var img = document.getElementById('imageId' + 1);
-          var width = img.width;
-          var isLoaded = img.complete && img.naturalHeight !== 0;
-
-          if( isLoaded ) { var urlImg = photo + "medium.jpg"; };
-          if( ! isLoaded ) { var urlImg = photo + "medium.jpeg" };
-          urlImgLarge = urlImg.replace("medium", "large");
+          urlImgLarge = photo.replace("medium", "large");
 
           document.write("<div class='col-md-5'>");
           document.write("<a data-glightbox data-gallery='g1' href='" + urlImgLarge + "'>");
-          document.write("<div id='taxon_photo' class='card shadow-lg'><figure class='rounded'><img src='" + urlImg + "' /></figure></div>");
+          document.write("<div id='taxon_photo' class='card shadow-lg'><figure class='rounded'><img src='" + photo + "' /></figure></div>");
           document.write("</a>");
           document.write("</div>");
 
