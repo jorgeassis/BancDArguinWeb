@@ -173,7 +173,7 @@ return self.indexOf(value) === index;
 
               document.write("<tr>");
 
-              photoSp = resolveDomain(dataobj.photo);
+              photoSp = resolveDomain(dataobj.photo.replace(/\s/g, ''));
 
               document.write("<td>");
               if (photoSp != "NA" && photoSp != "") {
