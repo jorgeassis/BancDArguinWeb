@@ -5,6 +5,139 @@ layout: default
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
+
+<script>
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+var yearFrom = urlParams.get('yearFrom');
+var yearTo = urlParams.get('yearTo');
+var taxon = urlParams.get('taxon');
+var taxonLevel = urlParams.get('taxonLevel');
+</script>
+
+<script>
+const distinct = (value, index, self) => {
+return self.indexOf(value) === index;
+}
+</script>
+
+<!-- Load species data -->
+
+<script type="text/javascript" src="data/speciesListWebDB.json"></script>
+
+<script>
+  var dataSpeciesFromJson = JSON.parse(speciesListDB);
+  speciesListArray = [];
+  genusListArray = [];
+  familyListArray = [];
+  orderListArray = [];
+  classListArray = [];
+  phylumListArray = [];
+  kingdomListArray = [];
+
+  // arrays for autocomplete
+
+  for(var i = 0; i < dataSpeciesFromJson.length; i++) {
+    var dataobj = dataSpeciesFromJson[i];
+    speciesListArray.push(dataobj.name);
+    genusListArray.push(dataobj.taxGenus);
+    familyListArray.push(dataobj.taxFamily);
+    orderListArray.push(dataobj.taxOrder);
+    classListArray.push(dataobj.taxClass);
+    phylumListArray.push(dataobj.taxPhylum);
+    kingdomListArray.push(dataobj.taxKingdom);
+  }
+
+  speciesListArray = speciesListArray.filter(distinct);
+  genusListArray = genusListArray.filter(distinct);
+  familyListArray = familyListArray.filter(distinct);
+  orderListArray = orderListArray.filter(distinct);
+  classListArray = classListArray.filter(distinct);
+  phylumListArray = phylumListArray.filter(distinct);
+  kingdomListArray = kingdomListArray.filter(distinct);
+
+  // subset species data
+
+  if ( taxon == "NA" || taxon == "" || taxon == "null" ) { taxon = null; };
+  if ( taxonLevel == "NA" || taxonLevel == "" || taxonLevel == "null" || taxonLevel == null  ) { taxonLevel = "species"; };
+  if ( taxon != null && taxonLevel == null) { taxonLevel = "species"; };
+
+  taxonId = [];
+  for(var i = 0; i < dataSpeciesFromJson.length; i++) {
+      var dataobj = dataSpeciesFromJson[i];
+      if (taxon == null) { taxonId.push(dataobj.id); };
+      if (taxonLevel == "phylum" && taxon == dataobj.taxPhylum) { taxonId.push(dataobj.id); }
+      if (taxonLevel == "class" && taxon == dataobj.taxClass) { taxonId.push(dataobj.id); }
+      if (taxonLevel == "order" && taxon == dataobj.taxOrder) { taxonId.push(dataobj.id); }
+      if (taxonLevel == "family" && taxon == dataobj.taxFamily) { taxonId.push(dataobj.id); }
+      if (taxonLevel == "genus" && taxon == dataobj.taxGenus) { taxonId.push(dataobj.id); }
+      if (taxonLevel == "species" && taxon == dataobj.name) { taxonId.push(dataobj.id); }
+  }
+
+</script>
+
+<!-- Load occurrence data -->
+
+<script type="text/javascript" src="data/dataWeb.json"></script>
+<script>
+  var dataFromJson = JSON.parse(data);
+</script>
+
+<script>
+
+// subset occurrence data
+
+yearsListArray = [];
+for(var i = 0; i < dataFromJson.length; i++) {
+  var dataobj = dataFromJson[i];
+    if (dataobj.year != "NA" && dataobj.year != null ) {
+      yearsListArray.push(dataobj.year);
+    }
+}
+yearsListArrayMin = Math.min(...yearsListArray);
+
+if( yearFrom == "NA" || yearFrom == null || yearFrom == "" || yearFrom == "null" ) { var yearFrom = yearsListArrayMin; }
+if( yearTo == "NA" || yearTo == null || yearTo == "" || yearTo == "null" ) { var yearTo = new Date().getFullYear(); }
+
+dataFromJsonSubsetIndex = [];
+
+for(var i = 0; i < dataFromJson.length; i++) {
+
+    var dataobj = dataFromJson[i];
+
+    if ( taxonId.includes(dataobj.taxonId) && dataobj.year >= yearFrom && dataobj.year <= yearTo ) {
+          dataFromJsonSubsetIndex.push(i);
+    }
+
+    if ( taxonId.includes(dataobj.taxonId) && ( dataobj.year == "NA" || dataobj.year == null || dataobj.year == "null"  ) ) {
+          dataFromJsonSubsetIndex.push(i);
+    }
+}
+
+// count records based on index
+
+countSpecies = [];
+countRecords = [];
+countDatasets = [];
+countYears = [];
+
+for(var i = 0; i < dataFromJsonSubsetIndex.length; i++) {
+    // var dataobj = dataFromJson[i];
+    var dataobj = dataFromJson[dataFromJsonSubsetIndex[i]];
+
+    countSpecies.push(dataobj.taxonId);
+    countRecords.push(dataobj.recId);
+    countDatasets.push(dataobj.datasetId);
+
+    if (dataobj.year != "NA" ) { countYears.push(dataobj.year); }
+
+}
+
+if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("display", "block"); }
+
+</script>
+
+
   <section class="content-wrapper">
 
       <div class="wrapper bg-soft-primary">
@@ -15,409 +148,368 @@ layout: default
 
 
               <h3 class="display-6">Biodiversity data informing conservation and managment strategies of the <mark>Banc D'Arguin National Park</mark></h3>
-              <h2 class="fs-16 text-uppercase text-muted py-2 mb-0">Species list</h2>
+              <h2 class="fs-16 text-uppercase text-muted py-2 mb-0">Records of occurrence</h2>
 
             </div>
           </div>
         </div>
 
+        <div style="display: none" id="no-results-message" class="container py-14 pt-md-5 pb-md-5">
+          <div class="col-lg-12 col-xxl-12 mx-auto">
 
-        <div class="container py-14 pt-md-1 pb-md-0">
-          <div class="row text-center">
-            <div class="col-lg-9 col-xxl-7 mx-auto">
-
+            <div class="alert alert-warning alert-icon alert-dismissible fade show" role="alert">
+              <i class="uil uil-exclamation-triangle"></i> The biodiversity database contains <a href="#" class="alert-link hover">no results</a> matching your search criteria.
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
           </div>
         </div>
 
-      </div>
+                <form action="occurrences.html" method="get">
 
-  </section>
-
-
+        <div class="container py-14 pt-md-0 pb-md-0">
 
 
+                 <div class="row text-center pt-md-4 ">
 
 
-<script>
-const queryString = window.location.search;
-const urlParams = new URLSearchParams(queryString);
-var id = urlParams.get('id');
-</script>
+            <div class="col-lg-3 col-xxl-3 mx-left">
 
-<script type="text/javascript" src="http://www.biodiversitydatascience.com/BancDArguinWeb/data/dataWeb.json"></script>
-<script>
-  var dataFromJson = JSON.parse(data);
-</script>
+                        <div class="form-select-wrapper mb-4">
+                          <select id="taxonLevelDropDown" name="taxonLevel" class="form-select" aria-label="Default select example">
 
-<script type="text/javascript" src="http://www.biodiversitydatascience.com/BancDArguinWeb/data/speciesListWebDB.json"></script>
-<script>
-  var dataSpeciesFromJson = JSON.parse(speciesListDB);
-</script>
+                          <script>
+                          document.write('<option value="species" ');
+                          if (taxonLevel == "NA") { document.write(" selected"); };
+                          document.write('>Taxonomic level</option>');
+                          </script>
+                          <script>
+                          document.write('<option value="species" ');
+                          if (taxonLevel == "species") { document.write(" selected"); };
+                          document.write('>Species</option>');
+                          </script>
+                          <script>
+                          document.write('<option value="genus" ');
+                          if (taxonLevel == "genus") { document.write(" selected"); };
+                          document.write('>Genus</option>');
+                          </script>
+                          <script>
+                          document.write('<option value="family" ');
+                          if (taxonLevel == "family") { document.write(" selected"); };
+                          document.write('>Family</option>');
+                          </script>
+                          <script>
+                          document.write('<option value="order" ');
+                          if (taxonLevel == "order") { document.write(" selected"); };
+                          document.write('>Order</option>');
+                          </script>
+                          <script>
+                          document.write('<option value="class" ');
+                          if (taxonLevel == "class") { document.write(" selected"); };
+                          document.write('>Class</option>');
+                          </script>
+                          <script>
+                          document.write('<option value="kingdom" ');
+                          if (taxonLevel == "kingdom") { document.write(" selected"); };
+                          document.write('>Kingdom</option>');
+                          </script>
+                          </select>
+                        </div>
 
-<script>
+            </div>
 
-  taxon = dataSpeciesFromJson[id].name;
+            <div class="col-lg-3 col-xxl-4 mx-left">
 
-  taxon_authority = dataSpeciesFromJson[id].authority;
-  taxon_status = dataSpeciesFromJson[id].status;
-  taxon_kingdom = dataSpeciesFromJson[id].taxKingdom;
-  taxon_phylum = dataSpeciesFromJson[id].taxPhylum;
-  taxon_class = dataSpeciesFromJson[id].taxClass;
-  taxon_order = dataSpeciesFromJson[id].taxOrder;
-  taxon_family = dataSpeciesFromJson[id].taxFamily;
-  taxon_genus = dataSpeciesFromJson[id].taxGenus;
-  taxon_acceptedName = dataSpeciesFromJson[id].acceptedName;
-  taxon_photo = dataSpeciesFromJson[id].photo;
-  taxon_nRecords = dataSpeciesFromJson[id].records;
+                        <div class="form-floating">
+                          <input id="textInputExample" name="taxon" type="text" class="form-control" placeholder="Search for taxon">
+                          <label for="textInputExample">
+                          <script>
+                          if (taxon != "NA" && taxon != null && taxon != "null" ) { document.write(taxon); };
+                          if (taxon == "NA" || taxon == null || taxon == "null" ) { document.write("Search for taxon"); };
+                          </script>
+                          </label>
 
-  recordsId = [];
-  recordsLon = [];
-  recordsLat = [];
-  recordsYear = [];
-  recordsPhotos = [];
-  recordsPhotosId = [];
+                        </div>
 
-  for(var i = 0; i < dataFromJson.length; i++) {
-      var dataobj = dataFromJson[i];
-      if (id == dataobj.taxonId) {
-        recordsId.push(dataobj.recId);
-        recordsLon.push(dataobj.Lon);
-        recordsLat.push(dataobj.Lat);
+            </div>
 
-        if (dataobj.year != "" && dataobj.year != "NA") {
-          recordsYear.push(dataobj.year);
-        }
+            <div class="col-lg-3 col-xxl-3 mx-left">
 
-        if (dataobj.photo != "" && dataobj.photo != "NA") {
-          recordsPhotos.push(dataobj.photo);
-          recordsPhotosId.push(dataobj.recId);
-        }
+                  <script>
+                  $(function() {
 
-      }
-  }
+                    if( yearsListArrayMin == "NA" ) { var yearFromSelect = yearFrom; }
 
-  const distinct = (value, index, self) => {
-  return self.indexOf(value) === index;
-  }
+                    var yearFromSelect = yearsListArrayMin;
+                    var yearToSelect = new Date().getFullYear();
 
-</script>
+                    if( yearFrom != "NA" ) { var yearFromSelectStop = yearFrom; }
+                    if( yearTo != "NA" ) { var yearToSelectStop = yearTo; }
+
+                    for (var i = yearFromSelect; i < yearToSelect ; i++) {
+                      if( i == yearFromSelectStop) {
+                         $('#yearFrom').append('<option selected value="' + i + '">' + i + '</option>');
+                      }
+                      if( i != yearFromSelectStop) {
+                         $('#yearFrom').append('<option value="' + i + '">' + i + '</option>');
+                      }
+                    }
+                    for (var i = yearToSelect; i > yearFromSelect; i--) {
+                      if( i == yearToSelectStop) {
+                         $('#yearTo').append('<option selected value="' + i + '">' + i + '</option>');
+                      }
+                      if( i != yearToSelectStop) {
+                         $('#yearTo').append('<option value="' + i + '">' + i + '</option>');
+                      }
+                    }
+                  });
+                  </script>
+
+                  <div style="width: 98px; float: left" ><select class="form-select" id="yearFrom" name="yearFrom"></select></div>
+                  <div style="width: 11px; float: left; padding-top: 10px" > - </div>
+                  <div style="width: 98px; float: left" ><select style="float: left" class="form-select" id="yearTo" name="yearTo"></select></div>
+
+            </div>
+
+            <div class="col-lg-2 col-xxl-2 mx-right">
+
+                           <button style="float: right" type="submit" class="btn btn-sky">Search</button>
+
+            </div>
+            <div class="col-lg-1 col-xxl-2 mx-right">
+
+                           <script>
+
+                           document.write("<a style='float: right; width: 60px; padding-left: 30px' class='btn btn-navy btn-icon btn-icon-start rounded' ");
+                           if ( countRecords.length > 0) {
+                              document.write("href='./downloadRecords.html?yearFrom=" + yearFrom + "&yearTo=" + yearTo + "&taxon=" + taxon + "&taxonLevel=" + taxonLevel + "'" );
+                           }
+                           document.write("><i class='uil uil-cloud-download'></i></a>");
+
+                           </script>
 
 
+            </div>
+
+                          <script>
+
+                          var dropdown = document.getElementById("taxonLevelDropDown");
+                          autocompleteListArray = speciesListArray;
+
+                          taxonLevelDropDown.addEventListener("change", function(){
+                          taxonLevel = dropdown.value;
+
+                            if( taxonLevel == "species") { autocompleteListArray = speciesListArray }
+                            if( taxonLevel == "genus") { autocompleteListArray = genusListArray }
+                            if( taxonLevel == "family") { autocompleteListArray = familyListArray }
+                            if( taxonLevel == "order") { autocompleteListArray = orderListArray }
+                            if( taxonLevel == "class") { autocompleteListArray = classListArray }
+                            if( taxonLevel == "phylum") { autocompleteListArray = phylumListArray }
+                            if( taxonLevel == "kingdom") { autocompleteListArray = kingdomListArray }
+
+                                $(function() {
+                                $("#textInputExample").autocomplete({
+                                source: autocompleteListArray,
+                                select: function (event, ui) { //item selected
+                                    AutoCompleteSelectHandler(event, ui)
+                                },
+                                minLength: 2,
+                                });
+                                });
+
+                          });
+
+                          $(function() {
+                          $("#textInputExample").autocomplete({
+                          source: autocompleteListArray,
+                          select: function (event, ui) { //item selected
+                              AutoCompleteSelectHandler(event, ui)
+                          },
+                          minLength: 2,
+                          });
+                          });
+
+                          function AutoCompleteSelectHandler(event, ui)
+                          {
+                          var selectedObj = ui.item;
+                          }
+
+                          </script>
+
+          </div>
+
+        </div>
+
+          </form>
 
 
+        <div class="container py-14 pt-md-2 pb-md-5">
 
-  <section class="content-wrapper">
+            <div class="spinner-border" id="loading-records" style="position: absolute; z-index: 1000; top: 475px; left: 0; right: 0; margin: auto;"></div>
 
-      <div class="wrapper bg-soft-primary">
+            <div id='map' class='custom-popup rounded' style="height: 350px; z-index: 500"></div>
 
-        <div class="container py-14 pt-md-5 pb-md-5">
-          <div class="row text-left">
 
             <script>
 
-              function resolveDomain(string) {
-
-               if ( string.includes("data/defaultPhotos/") ) {
-                 return "http://www.biodiversitydatascience.com/BancDArguinWeb/" + string ;
-              } else {
-                  return string; }
-              };
-              taxon_photo = resolveDomain(taxon_photo.replace(/\s/g, ''));
-
-              if( taxon_photo != "NA" ) {
-              document.write("<div class='col-md-5'><div id='taxon_photo' class='card shadow-lg'><figure class='rounded'><img src='" + taxon_photo + "' /></figure></div></div>")
-            };
-
-          </script>
-
-          <script> if( taxon_photo != "NA" ) { document.write("<div class='col-md-7'>") }; </script>
-          <script> if( taxon_photo == "NA" ) { document.write("<div class='col-md-12'>") }; </script>
-
-            <div class="card shadow-lg" style="padding: 0px">
-
-                <style>
-                  @media (min-width: 576px) {
-                    .mapSpeciesPage { height: 384px; margin-top: 30px }
+                var map = L.map('map', {
+                  minZoom: 2,
+                  fullscreenControl: {
+                      pseudoFullscreen: false
                   }
-                  @media (min-width: 768px) {
-                    .mapSpeciesPage { height: 202px; margin-top: 0px }
-                  }
-                  @media (min-width: 992px) {
-                    .mapSpeciesPage { height: 278px }
-                  }
-                  @media (min-width: 1200px) {
-                    .mapSpeciesPage { height: 335px; margin-top: 0px }
-                  }
-                  @media (min-width: 1400px) {
-                    .mapSpeciesPage { height: 390px; margin-top: 0px }
-                  }
-                </style>
+                }).setView([20.15, -16], 7);
 
-                <div class="spinner-border" id="loading-records" style="position: absolute; z-index: 1000; top: 475px; left: 0; right: 0; margin: auto;"></div>
-                <div id='map' class='custom-popup rounded mapSpeciesPage' style="z-index: 500;"></div>
+                map.scrollWheelZoom.disable();
 
-                <script>
+                var originalInitTile = L.GridLayer.prototype._initTile
+                L.GridLayer.include({
+                		_initTile: function (tile) {
+                				originalInitTile.call(this, tile);
 
-                  function asyncImageLoader(url){
-                      return new Promise( (resolve, reject) => {
-                          var image = new Image()
-                          image.src = url
-                          image.onload = () => resolve(image)
-                          image.onerror = () => reject(new Error('could not load image'))
-                      })
-                  }
+                				var tileSize = this.getTileSize();
 
-                  // then use it like this
+                				tile.style.width = tileSize.x + 3 + 'px';
+                				tile.style.height = tileSize.y + 3 + 'px';
+                		}
+                });
 
-                  var image = asyncImageLoader(taxon_photo)
+                L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+                  attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
 
-                  image.then( res => {
-                      alert(res.clientHeight);
-                  })
+                     }).addTo(map);
 
-                  function checkImage2(url) {
-                    var request = new XMLHttpRequest();
-                    request.open("GET", url, true);
-                    request.send();
-                    request.onload = function() {
-                      status = request.status;
-                      if (request.status == 200) //if(statusText == OK)
-                      {
-                        var dim = this.clientHeight;
-                        alert("1:" + dim);
-                        document.getElementById("map").style.height = dim + "px";
-                      } else {
-                        alert("image doesn't exist");
-                      }
-                    }
-                  }
-                  checkImage2(taxon_photo);
+                           //      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png?{foo}', {foo: 'bar', attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
 
-                  function checkImage(url) {
-                    var image = new Image();
-                    image.onload = function() {
-                      var dim = this.clientHeight;
-                      alert("2:" + dim);
-                      document.getElementById("map").style.height = dim + "px";
-                    }
-                    image.onerror = function() {
-                      alert("image doesn't exist");
-                    }
-                    image.src = url;
-                  }
-                  checkImage(taxon_photo);
-
-                  window.addEventListener('resize', function(event) {
-                    var dimDirect = document.getElementById("taxon_photo").clientHeight;
-                    document.getElementById("map").style.height = dimDirect + "px";
-                    }, true);
-                </script>
-
-                <script>
-
-                    var map = L.map('map', {
-                      minZoom: 2,
-                      fullscreenControl: {
-                          pseudoFullscreen: false
-                      }
-                    }).setView([20.15, -16], 7);
-
-                    map.scrollWheelZoom.disable();
-
-                    var originalInitTile = L.GridLayer.prototype._initTile
-                    L.GridLayer.include({
-                    		_initTile: function (tile) {
-                    				originalInitTile.call(this, tile);
-
-                    				var tileSize = this.getTileSize();
-
-                    				tile.style.width = tileSize.x + 3 + 'px';
-                    				tile.style.height = tileSize.y + 3 + 'px';
-                    		}
-                    });
-
-                    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
-                      attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
-
-                         }).addTo(map);
-
-                         function onClick(e) {
-
-                          var inner_counter = 0;
-                          var fullrecord = 'http://www.biodiversitydatascience.com/BancDArguinWeb/recordInformation.html?id=' + e.target.myCustomID + '/';
-
-                          $("#loading-records").css("display", "block");
-
-                          $.ajax({
-                             url:fullrecord,
-                             type:'GET',
-                             success: function(data){
-                                 html = $('<div>').html(data);
-                                 res_ajax_scientificName = html.find("div#ajax_taxon").html();
-                                 res_ajax_scientificName = res_ajax_scientificName.substring(0,22);
-
-                                 res_ajax_datasetName = html.find("div#ajax_datasetId").html();
-                                 res_ajax_datasetName = res_ajax_datasetName.substring(0,38);
-
-                                 res_ajax_year = html.find("div#ajax_year").html();
-                                 res_ajax_month = html.find("div#ajax_month").html();
-                                 res_ajax_day = html.find("div#ajax_day").html();
-
-                                 res_ajax_link = html.find("div#ajax_link").html();
-
-                                 var innerHTML = "";
-                                 innerHTML += '<div><h6>' + res_ajax_scientificName;
-                                 innerHTML += '</div></h6>';
-                                 innerHTML += '<div>' + res_ajax_year + res_ajax_month + res_ajax_day ;
-                                 innerHTML += '</div>';
-                                 innerHTML += '<div>' + res_ajax_datasetName;
-                                 innerHTML += '</div>';
-                                 innerHTML += '<div><a href="';
-                                 innerHTML += '/recordPage?' + e.target.myCustomID;
-                                 innerHTML += '">Ver registo ></a>'
-                                 innerHTML += '</div>';
-
-                                 e.target.bindPopup(innerHTML)
-                                 e.target.openPopup();
-                                 $("#loading-records").css("display", "none");
-
-                             }
-                          });
-                         };
-
-                          // map
-
-                          for(var i = 0; i < recordsLon.length; i++) {
-
-                            var dataobjLon = recordsLon[i];
-                            var dataobjLat = recordsLat[i];
-                            var dataobjRecId = recordsId[i];
-                              var marker =   L.circleMarker([dataobjLat, dataobjLon], { weight: 1.5, radius: 4.25, color: "#BA911E", fillColor:  '#fab759', fillOpacity: 0.7 });
-                              marker.myCustomID = dataobjRecId.toString();
-                              marker.addTo(map).on('click', onClick);
-
-                          };
-
-                          $("#loading-records").css("display", "none");
+                 //     L.tileLayer( 'https://tile.gbif.org/3857/omt/{z}/{x}/{y}@2x.png?style=gbif-light', {
+                 //        attribution: '&copy; <a href="https://www.openmaptiles.org/copyright">OpenMapTiles</a>',
+               //     subdomains: ['a', 'b', 'c']
+               //          }).addTo( map )
 
 
-                </script>
+                     function onClick(e) {
 
-            </div>
-          </div>
+                      var inner_counter = 0;
+                      var fullrecord = '/recordInformation.html?id=' + e.target.myCustomID + '/';
 
-              <!--/.card-body -->
-            </div>
-        </div>
-            <!--/.card -->
+                      $("#loading-records").css("display", "block");
 
-            <div class="container py-2 pt-md-1 pb-md-0">
-              <div class="row text-left">
+                      $.ajax({
+                         url:fullrecord,
+                         type:'GET',
+                         success: function(data){
+                             html = $('<div>').html(data);
+                             res_ajax_scientificName = html.find("div#ajax_taxon").html();
+                             res_ajax_scientificName = res_ajax_scientificName.substring(0,22);
 
-              <div class="col-md-12" style="padding-left: 30px">
-                <h5><script>document.write(taxon + " " + taxon_authority);</script></h5>
-              </div>
+                             res_ajax_datasetName = html.find("div#ajax_datasetId").html();
+                             res_ajax_datasetName = res_ajax_datasetName.substring(0,38);
 
-            </div>
-          </div>
+                             res_ajax_year = html.find("div#ajax_year").html();
+                             res_ajax_month = html.find("div#ajax_month").html();
+                             res_ajax_day = html.find("div#ajax_day").html();
 
-            <div class="container py-14 pt-md-0 pb-md-5">
-              <div class="row text-left">
+                             res_ajax_link = html.find("div#ajax_link").html();
 
-              <div class="col-md-12">
-                <div class="card shadow-lg">
+                             var innerHTML = "";
+                             innerHTML += '<div><h6>' + res_ajax_scientificName;
+                             innerHTML += '</div></h6>';
+                             innerHTML += '<div>' + res_ajax_year + res_ajax_month + res_ajax_day ;
+                             innerHTML += '</div>';
+                             innerHTML += '<div>' + res_ajax_datasetName;
+                             innerHTML += '</div>';
+                             innerHTML += '<div><a href="';
+                             innerHTML += '/recordPage?' + e.target.myCustomID;
+                             innerHTML += '">Ver registo ></a>'
+                             innerHTML += '</div>';
 
-                  <div style=" padding: 15px">
-                    <strong>Taxonomy</strong>
-                    <br>
-                    <script>
-                      document.write("<div>" + taxon_kingdom + " \\ " + taxon_class + " \\ " + taxon_order + " \\ " + taxon_family + " \\ " + taxon_genus + " \\ " + taxon + "</div>" );
-                      document.write("<div style='margin-top: 3px'>Species name status: " + taxon_status + "</div>");
-
-                      if( taxon_status != "accepted" ) {
-                        document.write("<div style='margin-top: 3px'>Accepted name: " + taxon_acceptedName + "</div>");
-                       };
-                    </script>
-
-                    <br>
-                    <strong>Database resume</strong>
-                    <br>
-                    <script>
-                      document.write("Number of records: " + taxon_nRecords);
-
-                      numberYears = recordsYear.filter(distinct).length;
-                      var minYears= Math.min(...recordsYear);
-                      var maxYears= Math.max(...recordsYear);
-                      if( minYears != maxYears) { document.write("<br>Period: " + minYears + " - " + maxYears);};
-
-                      numberPhotos = recordsPhotos.filter(distinct).length;
-                      document.write("<br>Associated media: " + numberPhotos + " [photo");
-                      if(numberPhotos != 1) { document.write("s]"); }
-                      if(numberPhotos == 1) { document.write("]"); }
-                    </script>
-
-                  </div>
-
-
-
-                </div>
-              </div>
-
-                  <!--/.card-body -->
-                </div>
-            </div>
-
-            <style>
-              @media (min-width: 576px) {
-                .imageSpeciesPage { height: 350px; margin-bottom: 40px }
-              }
-              @media (min-width: 768px) {
-                .imageSpeciesPage { height: 150px; margin-bottom: 20px }
-              }
-              @media (min-width: 992px) {
-                .imageSpeciesPage { height: 200px;margin-bottom: 30px  }
-              }
-              @media (min-width: 1200px) {
-                .imageSpeciesPage { height: 235px; margin-bottom: 30px }
-              }
-              @media (min-width: 1400px) {
-                .imageSpeciesPage { height: 290px; margin-bottom: 30px }
-              }
-            </style>
-
-              <div class="container py-14 pt-md-5 pb-md-5">
-                <div class="row text-left">
-
-                        <script>
-
-                        if( recordsPhotos.filter(distinct).length >= 1 ) {
-
-                          document.write("<div class='col-md-12' style='padding-left: 30px; margin-bottom: 5px'>");
-                          document.write("<h5>Photos from Citizen Scientists</h5>");
-                          document.write("</div>");
-
-                          for(var i = 0; i < recordsPhotos.length; i++) {
-
-                              var dataobj = recordsPhotos[i];
-                              urlImgLarge = dataobj.replace("medium", "large");
-
-                              document.write("<div class='col-md-3'>");
-                              document.write("<a href='http://www.biodiversitydatascience.com/BancDArguinWeb/recordPage?id=" + recordsPhotosId[i] + "'>");
-                              document.write("<div class='imageSpeciesPage' style='-moz-border-radius: 7px; -webkit-border-radius: 7px; border-radius: 7px; background-repeat: no-repeat; background-size: cover; background-image: url(" + dataobj + ")'></div>");
-                              document.write("</a>");
-                              document.write("</div>");
-
-                          }
+                             e.target.bindPopup(innerHTML)
+                             e.target.openPopup();
+                             $("#loading-records").css("display", "none");
 
                          }
+                      });
+                     };
 
-                      </script>
+                      // map
 
-                  </div>
-              </div>
+                      for(var i = 0; i < dataFromJsonSubsetIndex.length; i++) {
+
+                          var dataobj = dataFromJson[dataFromJsonSubsetIndex[i]];
+                          var marker =   L.circleMarker([dataobj.Lat, dataobj.Lon], { weight: 1.5, radius: 4.25, color: "#BA911E", fillColor:  '#fab759', fillOpacity: 0.7 });
+                          marker.myCustomID = dataobj.recId.toString();
+                          marker.addTo(map).on('click', onClick);
+
+                      }
+
+                      var latlngs = [
+                        [ 19.39622 , -16.06520],
+                        [ 19.34202 , -16.08443,],
+                        [ 19.34181, -16.50764],
+                        [ 19.34264, -16.50792],
+                        [ 19.34202, -16.75154],
+                        [ 20.83447, -16.75042],
+                        [ 20.83195, -16.16218],
+                        [ 20.40434, -16.01923],
+                        [ 20.26397, -16.03343],
+                        [ 20.17034, -16.07188],
+                        [ 20.04311, -16.09857],
+                        [ 20.03197, -16.05622],
+                        [ 20.02664, -15.96342],
+                        [ 19.67385, -16.07043],
+                        [ 19.55041, -16.06068],
+                        [ 19.39622, -16.06520 ]
+                        ];
+                      var polyline = L.polyline(latlngs, {color: "#5eb9f0", weight: 1.5, fillOpacity: 0.75}).addTo(map);
+
+                      $("#loading-records").css("display", "none");
+
+            </script>
+
+        </div>
 
 
-      </div>  <!--/. is Ok, because of java -->
+        <div class="container py-14 pt-md-0 pb-md-5">
+          <div class="row text-left">
+
+          <div class="col-md-3">
+            <div class="card shadow-lg" style="padding: 10px; padding-left: 20px">
+
+              <h2 class="fs-12 text-uppercase text-muted mb-1">Occurrences</h2>
+              <h3 class="counter mb-0"><script>document.write(countRecords.length + " records");</script></h3>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="card shadow-lg" style="padding: 10px; padding-left: 20px">
+
+              <h2 class="fs-12 text-uppercase text-muted mb-1">Species</h2>
+              <h3 class="counter mb-0"><script>document.write(countSpecies.filter(distinct).length);</script></h3>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="card shadow-lg" style="padding: 10px; padding-left: 20px">
+
+              <h2 class="fs-12 text-uppercase text-muted mb-1">Sources</h2>
+              <h3 class="counter mb-0"><script>document.write(countDatasets.filter(distinct).length + " datasets");</script></h3>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="card shadow-lg" style="padding: 10px; padding-left: 20px">
+
+              <h2 class="fs-12 text-uppercase text-muted mb-1">Period</h2>
+              <h3 class="counter mb-0"><script>
+                numerYears = countYears.filter(distinct).length;
+                if ( numerYears == 0) { document.write("None reported"); }
+                if ( numerYears != 0) { document.write(countYears.filter(distinct).length + " years"); }
+              </script></h3>
+            </div>
+          </div>
+              <!--/.card-body -->
+        </div>
+        </div>
+        <!--/.card -->
+
+      </div>
 
   </section>
