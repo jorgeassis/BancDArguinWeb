@@ -107,8 +107,6 @@ var id = urlParams.get('id');
           document.write("</a>");
           document.write("</div>");
 
-
-
         }; </script>
 
       <script> if( photo != "NA" ) { document.write("<div class='col-md-7'>") }; </script>
@@ -143,7 +141,7 @@ var id = urlParams.get('id');
                 var dim = document.getElementById("taxon_photo").clientHeight;
                 document.getElementById("map").style.height = dim + "px";
               }
-              img.src = taxon_photo;
+              img.src = photo;
 
               window.addEventListener('resize', function(event) {
                 var dimDirect = document.getElementById("taxon_photo").clientHeight;
