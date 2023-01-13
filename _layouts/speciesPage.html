@@ -157,6 +157,8 @@ var id = urlParams.get('id');
                   }
                 </style>
 
+                <div class="spinner-border" id="loading-records" style="position: absolute; z-index: 1000; top: 475px; left: 0; right: 0; margin: auto;"></div>
+
                 <div id='map' class='custom-popup rounded mapSpeciesPage' style="z-index: 500;"></div>
 
                 <script>
@@ -208,6 +210,8 @@ var id = urlParams.get('id');
                           var inner_counter = 0;
                           var fullrecord = 'http://www.biodiversitydatascience.com/BancDArguinWeb/recordInformation.html?id=' + e.target.myCustomID + '/';
 
+                          $("#loading-records").css("display", "block");
+
                           $.ajax({
                              url:fullrecord,
                              type:'GET',
@@ -256,7 +260,10 @@ var id = urlParams.get('id');
                               marker.myCustomID = dataobjRecId.toString();
                               marker.addTo(map).on('click', onClick);
 
-                          }
+                          };
+
+                          $("#loading-records").css("display", "none");
+
 
                 </script>
 
