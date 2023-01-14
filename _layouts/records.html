@@ -395,9 +395,9 @@ if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("d
                             spName = e.target.myCustomName;
                              var innerHTML = "";
                              innerHTML += '<div style="width: 200px;">';
-                               innerHTML += '<div><h6>' + spName.charAt(0) + ". " + spName.split(' ')[1] ;
+                             innerHTML += '<div><h6>' + spName.charAt(0) + ". " + spName.split(' ')[1] ;
 
-                            innerHTML += '</h6></div>';
+                             innerHTML += '</h6></div>';
 
                             if( e.target.myCustomPhoto != "NA" && e.target.myCustomPhoto != null && e.target.myCustomPhoto != "") {
 
@@ -411,6 +411,7 @@ if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("d
                                innerHTML += e.target.myCustomYear + "//" + e.target.myCustomMonth + "//" + e.target.myCustomDay;
                                innerHTML += '<div>';
                              }
+                             
                              innerHTML += '<div style="margin-top: 5px;"><a href="';
                              innerHTML += 'http://www.biodiversitydatascience.com/BancDArguinWeb/recordPage?id=' + e.target.myCustomID;
                              innerHTML += '">More information [+]</a>';

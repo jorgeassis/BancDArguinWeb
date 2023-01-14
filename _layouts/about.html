@@ -211,36 +211,34 @@ var id = urlParams.get('id');
                              url:fullrecord,
                              type:'GET',
                              success: function(data){
-                               spName = e.target.myCustomName;
-                                var innerHTML = "";
-                                innerHTML += '<div style="width: 200px;">';
-                                innerHTML += '<div><h6>' + spName.charAt(0) + ". " + spName.split(' ')[1] ;
+                                 html = $('<div>').html(data);
+                                 res_ajax_scientificName = html.find("div#ajax_taxon").html();
+                                 res_ajax_scientificName = res_ajax_scientificName.substring(0,22);
 
-                                innerHTML += '</h6></div>';
+                                 res_ajax_datasetName = html.find("div#ajax_datasetId").html();
+                                 res_ajax_datasetName = res_ajax_datasetName.substring(0,38);
 
-                               if( e.target.myCustomPhoto != "NA" && e.target.myCustomPhoto != null && e.target.myCustomPhoto != "") {
+                                 res_ajax_year = html.find("div#ajax_year").html();
+                                 res_ajax_month = html.find("div#ajax_month").html();
+                                 res_ajax_day = html.find("div#ajax_day").html();
 
-                                urlImgMin = e.target.myCustomPhoto.replace("medium", "square");
-                                innerHTML += '<div style="width: 160px; height: 110px; -moz-border-radius: 7px; -webkit-border-radius: 7px; border-radius: 7px; background-repeat: no-repeat; background-size: cover; background-image: url(' + urlImgMin + ')"></div>';
+                                 res_ajax_link = html.find("div#ajax_link").html();
 
-                              }
+                                 var innerHTML = "";
+                                 innerHTML += '<div><h6>' + res_ajax_scientificName;
+                                 innerHTML += '</div></h6>';
+                                 innerHTML += '<div>' + res_ajax_year + res_ajax_month + res_ajax_day ;
+                                 innerHTML += '</div>';
+                                 innerHTML += '<div>' + res_ajax_datasetName;
+                                 innerHTML += '</div>';
+                                 innerHTML += '<div><a href="';
+                                 innerHTML += '/recordPage?' + e.target.myCustomID;
+                                 innerHTML += '">Ver registo ></a>'
+                                 innerHTML += '</div>';
 
-                                if( e.target.myCustomYear != "NA" && e.target.myCustomYear != null && e.target.myCustomYear != "") {
-                                  innerHTML += '<div style="margin-top: 8px;">Date of record: ';
-                                  innerHTML += e.target.myCustomYear + "//" + e.target.myCustomMonth + "//" + e.target.myCustomDay;
-                                  innerHTML += '<div>';
-                                }
-
-                                innerHTML += '<div style="margin-top: 5px;"><a href="';
-                                innerHTML += 'http://www.biodiversitydatascience.com/BancDArguinWeb/recordPage?id=' + e.target.myCustomID;
-                                innerHTML += '">More information [+]</a>';
-                                innerHTML += '</div>';
-
-                                innerHTML += '</div>';
-
-                                e.target.bindPopup(innerHTML)
-                                e.target.openPopup();
-                                $("#loading-records").css("display", "none");
+                                 e.target.bindPopup(innerHTML)
+                                 e.target.openPopup();
+                                 $("#loading-records").css("display", "none");
 
                              }
                           });
@@ -255,35 +253,9 @@ var id = urlParams.get('id');
                             var dataobjRecId = recordsId[i];
                               var marker =   L.circleMarker([dataobjLat, dataobjLon], { weight: 1.5, radius: 4.25, color: "#BA911E", fillColor:  '#fab759', fillOpacity: 0.7 });
                               marker.myCustomID = dataobjRecId.toString();
-                              marker.myCustomName = dataSpeciesFromJson[dataobj.taxonId].name.toString();
-                              marker.myCustomPhoto = dataobj.photo.toString();
-                              marker.myCustomYear = dataobj.year.toString();
-                              marker.myCustomMonth = dataobj.month.toString();
-                              marker.myCustomDay = dataobj.day.toString();
-
                               marker.addTo(map).on('click', onClick);
 
                           };
-
-                          var latlngs = [
-                            [ 19.39622 , -16.06520],
-                            [ 19.34202 , -16.08443,],
-                            [ 19.34181, -16.50764],
-                            [ 19.34264, -16.50792],
-                            [ 19.34202, -16.75154],
-                            [ 20.83447, -16.75042],
-                            [ 20.83195, -16.16218],
-                            [ 20.40434, -16.01923],
-                            [ 20.26397, -16.03343],
-                            [ 20.17034, -16.07188],
-                            [ 20.04311, -16.09857],
-                            [ 20.03197, -16.05622],
-                            [ 20.02664, -15.96342],
-                            [ 19.67385, -16.07043],
-                            [ 19.55041, -16.06068],
-                            [ 19.39622, -16.06520 ]
-                            ];
-                          var polyline = L.polyline(latlngs, {color: "#5eb9f0", weight: 1.5, fillOpacity: 0.75}).addTo(map);
 
                           $("#loading-records").css("display", "none");
 
