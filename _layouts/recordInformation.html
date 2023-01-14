@@ -42,13 +42,20 @@ var id = urlParams.get('id');
   day = dataFromJson[id].day;
   photo = dataFromJson[id].photo;
 
+  document.getElementById("ajax_taxon").innerHTML = taxon;
+  document.getElementById("ajax_datasetId").innerHTML = datasetId;
+  document.getElementById("ajax_year").innerHTML = year;
+  document.getElementById("ajax_month").innerHTML = month;
+  document.getElementById("ajax_day").innerHTML = day;
+  document.getElementById("ajax_photo").innerHTML = photo;
+
 </script>
 
 <div>
-  <div id="ajax_taxon"><script>document.write(taxon);</script></div>
-  <div id="ajax_datasetId"><script>document.write(datasetId);</script></div>
-  <div id="ajax_year"><script>document.write(year);</script></div>
-  <div id="ajax_month"><script>document.write(month);</script></div>
-  <div id="ajax_day"><script>document.write(day);</script></div>
-  <div id="ajax_photo"><script>document.write(photo);</script></div>
+  <div id="ajax_taxon"></div>
+  <div id="ajax_datasetId"></div>
+  <div id="ajax_year"></div>
+  <div id="ajax_month"></div>
+  <div id="ajax_day"></div>
+  <div id="ajax_photo"></div>
 </div>
