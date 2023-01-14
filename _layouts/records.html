@@ -392,9 +392,10 @@ if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("d
                          type:'GET',
                          success: function(data){
 
+                            spName = e.target.myCustomName;
                              var innerHTML = "";
                              innerHTML += '<div style="width: 200px;">';
-                               innerHTML += '<div><h6>' + e.target.myCustomName;
+                               innerHTML += '<div><h6>' + spName.charAt(0) + ". " + spName.split(' ')[1] ;
 
                             innerHTML += '</h6></div>';
 
