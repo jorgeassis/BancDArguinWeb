@@ -337,7 +337,7 @@ if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("d
           </form>
 
 
-        <div class="container py-14 pt-md-2 pb-md-5">
+        <div class="container py-14 pt-md-2 pb-md-6">
 
             <div class="spinner-border" id="loading-records" style="position: absolute; z-index: 1000; top: 475px; left: 0; right: 0; margin: auto;"></div>
 
@@ -406,11 +406,11 @@ if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("d
                            }
 
                              if( e.target.myCustomYear != "NA" && e.target.myCustomYear != null && e.target.myCustomYear != "") {
-                               innerHTML += '<div style="margin-top: 7px;">Date of record: ';
-                               innerHTML += e.target.myCustomYear + " - " + e.target.myCustomMonth + " - " + e.target.myCustomDay;
+                               innerHTML += '<div style="margin-top: 8px;">Date of record: ';
+                               innerHTML += e.target.myCustomYear + "//" + e.target.myCustomMonth + "//" + e.target.myCustomDay;
                                innerHTML += '<div>';
                              }
-                             innerHTML += '<div><a href="';
+                             innerHTML += '<div style="margin-top: 5px;"><a href="';
                              innerHTML += 'http://www.biodiversitydatascience.com/BancDArguinWeb/recordPage?id=' + e.target.myCustomID;
                              innerHTML += '">More information [+]</a>';
                              innerHTML += '</div>';
