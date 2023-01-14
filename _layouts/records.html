@@ -393,15 +393,15 @@ if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("d
                          success: function(data){
 
                              var innerHTML = "";
-                             innerHTML += '<div style="width: 200px; height: 100px">';
+                             innerHTML += '<div style="width: 200px;">';
                                innerHTML += '<div><h6>' + e.target.myCustomName;
 
                             innerHTML += '</h6></div>';
 
                             if( e.target.myCustomPhoto != "NA" && e.target.myCustomPhoto != null && e.target.myCustomPhoto != "") {
 
-                             urlImgMin = e.target.myCustomPhoto.replace("medium", "large");
-                             innerHTML += '<div style="-moz-border-radius: 7px; -webkit-border-radius: 7px; border-radius: 7px; background-repeat: no-repeat; background-size: cover; background-image: url(' + urlImgMin + ')"></div>';
+                             urlImgMin = e.target.myCustomPhoto.replace("medium", "square");
+                             innerHTML += '<div style="width: 100px; height: 100px; -moz-border-radius: 7px; -webkit-border-radius: 7px; border-radius: 7px; background-repeat: no-repeat; background-size: cover; background-image: url(' + urlImgMin + ')"></div>';
 
                            }
 
@@ -410,7 +410,6 @@ if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("d
                                innerHTML += e.target.myCustomYear + " - " + e.target.myCustomMonth + " - " + e.target.myCustomDay;
                                innerHTML += '<div>';
                              }
-
                              innerHTML += '<div><a href="';
                              innerHTML += 'http://www.biodiversitydatascience.com/BancDArguinWeb/recordPage?id=' + e.target.myCustomID;
                              innerHTML += '">More information ></a>';
