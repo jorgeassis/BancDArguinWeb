@@ -396,8 +396,24 @@ if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("d
                              innerHTML += '<div style="width: 200px; height: 150px"><h6>' + e.target.myCustomName;
                              innerHTML += '</div></h6>';
 
+                             innerHTML += '<div>';
+                             innerHTML += e.target.myCustomPhoto;
+                             innerHTML += '</div>';
+
+                            innerHTML += '<div>';
+                            innerHTML += e.target.myCustomYear;
+                            innerHTML += '</div>';
+
+                           innerHTML += '<div>';
+                           innerHTML += e.target.myCustomMonth;
+                           innerHTML += '</div>';
+
+                            innerHTML += '<div>';
+                            innerHTML += e.target.myCustomDay;
+                            innerHTML += '</div>';
+
                              innerHTML += '<div><a href="';
-                             innerHTML += '/recordPage?' + e.target.myCustomID;
+                             innerHTML += 'http://www.biodiversitydatascience.com/BancDArguinWeb/recordPage?' + e.target.myCustomID;
                              innerHTML += '">More information ></a>'
                              innerHTML += '</div>';
 
@@ -417,6 +433,11 @@ if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("d
                           var marker =   L.circleMarker([dataobj.Lat, dataobj.Lon], { weight: 1.5, radius: 4.25, color: "#BA911E", fillColor:  '#fab759', fillOpacity: 0.7 });
                           marker.myCustomID = dataobj.recId.toString();
                           marker.myCustomName = dataSpeciesFromJson[dataobj.taxonId].name.toString();
+                          marker.myCustomPhoto = dataobj.photo.toString();
+                          marker.myCustomYear = dataobj.year.toString();
+                          marker.myCustomMonth = dataobj.month.toString();
+                          marker.myCustomDay = dataobj.day.toString();
+
                           marker.addTo(map).on('click', onClick);
 
                       }
