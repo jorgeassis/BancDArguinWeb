@@ -393,15 +393,20 @@ if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("d
                          success: function(data){
 
                              var innerHTML = "";
-                             innerHTML += '<div style="width: 200px; height: 150px"><h6>' + e.target.myCustomName;
-                             innerHTML += '</div></h6>';
+                             innerHTML += '<div style="width: 200px; height: 100px">';
+                               innerHTML += '<div><h6>' + e.target.myCustomName;
+
+                            innerHTML += '</h6></div>';
 
                              innerHTML += '<div>';
                              innerHTML += e.target.myCustomPhoto;
                              innerHTML += '</div>';
 
-                            innerHTML += '<div>';
-                            innerHTML += e.target.myCustomYear;
+                             if( e.target.myCustomYear != "NA" && e.target.myCustomYear != null e.target.myCustomYear && != "") {
+                               innerHTML += '<div>';
+                               innerHTML += e.target.myCustomYear + " - " + e.target.myCustomMonth + " - " + e.target.myCustomDay;
+                               innerHTML += '<div>';
+                             }
                             innerHTML += '</div>';
 
                            innerHTML += '<div>';
@@ -413,8 +418,10 @@ if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("d
                             innerHTML += '</div>';
 
                              innerHTML += '<div><a href="';
-                             innerHTML += 'http://www.biodiversitydatascience.com/BancDArguinWeb/recordPage?' + e.target.myCustomID;
-                             innerHTML += '">More information ></a>'
+                             innerHTML += 'http://www.biodiversitydatascience.com/BancDArguinWeb/recordPage?id=' + e.target.myCustomID;
+                             innerHTML += '">More information ></a>';
+                             innerHTML += '</div>';
+
                              innerHTML += '</div>';
 
                              e.target.bindPopup(innerHTML)
