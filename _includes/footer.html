@@ -1,15 +1,11 @@
 
-<script>
-
-
-  if (home == true) { document.write("de") }
-
-
-</script>
 
   <section class="content-wrapper">
 
-      <div class="wrapper bg-soft-primary">
+    <script> if (home == true) { document.write("<div class='wrapper bg-soft-primary'>") } </script>
+      <script> if (home == null) { document.write("<div class='wrapper bg-light'>") } </script>
+
+
         <div class="container py-2">
         </div>
         <!--/.row -->
@@ -19,7 +15,10 @@
 
 
   <!-- /.content-wrapper bg-light -->
-  <footer class="bg-soft-primary">
+
+  <script> if (home == true) { document.write("<footer class=bg-soft-primary'>") } </script>
+    <script> if (home == null) { document.write("<footer class=bg-light'>") } </script>
+
     <div class="container py-2 py-md-10">
       <div class="row gy-6 gy-lg-0">
         <div class="col-md-4 col-lg-12">
