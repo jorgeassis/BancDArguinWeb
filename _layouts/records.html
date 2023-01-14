@@ -405,7 +405,7 @@ alert(res_ajax_datasetName);
                              res_ajax_link = html.find("div#ajax_link").html();
 
                              var innerHTML = "";
-                             innerHTML += '<div><h6>' + res_ajax_scientificName;
+                             innerHTML += '<div style="width: 200px; height: 150px"><h6>' + res_ajax_scientificName;
                              innerHTML += '</div></h6>';
                              innerHTML += '<div>' + res_ajax_year + res_ajax_month + res_ajax_day ;
                              innerHTML += '</div>';
@@ -413,7 +413,7 @@ alert(res_ajax_datasetName);
                              innerHTML += '</div>';
                              innerHTML += '<div><a href="';
                              innerHTML += '/recordPage?' + e.target.myCustomID;
-                             innerHTML += '">Ver registo ></a>'
+                             innerHTML += '">More information ></a>'
                              innerHTML += '</div>';
 
                              e.target.bindPopup(innerHTML)
