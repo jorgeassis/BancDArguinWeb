@@ -416,7 +416,7 @@ if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("d
                           var dataobj = dataFromJson[dataFromJsonSubsetIndex[i]];
                           var marker =   L.circleMarker([dataobj.Lat, dataobj.Lon], { weight: 1.5, radius: 4.25, color: "#BA911E", fillColor:  '#fab759', fillOpacity: 0.7 });
                           marker.myCustomID = dataobj.recId.toString();
-                          marker.myCustomName = dataobj.name.toString();
+                          marker.myCustomName = dataSpeciesFromJson[dataobj.taxonId].name.toString();
                           marker.addTo(map).on('click', onClick);
 
                       }
