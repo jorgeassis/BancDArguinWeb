@@ -276,7 +276,7 @@ if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("d
 
                            document.write("<a style='float: right; width: 60px; padding-left: 30px' class='btn btn-navy btn-icon btn-icon-start rounded' ");
                            if ( countRecords.length > 0) {
-                              document.write("href='http://www.biodiversitydatascience.com/BancDArguinWeb/downloadRecords?yearFrom=" + yearFrom + "&yearTo=" + yearTo + "&taxon=" + taxon + "&taxonLevel=" + taxonLevel + "'" );
+                              document.write("target='_blank' href='http://www.biodiversitydatascience.com/BancDArguinWeb/downloadRecords?yearFrom=" + yearFrom + "&yearTo=" + yearTo + "&taxon=" + taxon + "&taxonLevel=" + taxonLevel + "'" );
                            }
                            document.write("><i class='uil uil-cloud-download'></i></a>");
 
@@ -391,26 +391,11 @@ if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("d
                          url:fullrecord,
                          type:'GET',
                          success: function(data){
-                             html = $('<div>').html(data);
-                             res_ajax_scientificName = html.find("div#ajax_taxon").html();
-                             res_ajax_scientificName = res_ajax_scientificName.substring(0,22);
-
-                             res_ajax_datasetName = html.find("div#ajax_datasetId").html();
-                             res_ajax_datasetName = res_ajax_datasetName.substring(0,38);
-alert(res_ajax_scientificName);
-                             res_ajax_year = html.find("div#ajax_year").html();
-                             res_ajax_month = html.find("div#ajax_month").html();
-                             res_ajax_day = html.find("div#ajax_day").html();
-
-                             res_ajax_link = html.find("div#ajax_link").html();
 
                              var innerHTML = "";
-                             innerHTML += '<div style="width: 200px; height: 150px"><h6>' + res_ajax_scientificName;
+                             innerHTML += '<div style="width: 200px; height: 150px"><h6>' + e.target.myCustomName;
                              innerHTML += '</div></h6>';
-                             innerHTML += '<div>' + res_ajax_year + res_ajax_month + res_ajax_day ;
-                             innerHTML += '</div>';
-                             innerHTML += '<div>' + res_ajax_datasetName;
-                             innerHTML += '</div>';
+
                              innerHTML += '<div><a href="';
                              innerHTML += '/recordPage?' + e.target.myCustomID;
                              innerHTML += '">More information ></a>'
@@ -431,6 +416,7 @@ alert(res_ajax_scientificName);
                           var dataobj = dataFromJson[dataFromJsonSubsetIndex[i]];
                           var marker =   L.circleMarker([dataobj.Lat, dataobj.Lon], { weight: 1.5, radius: 4.25, color: "#BA911E", fillColor:  '#fab759', fillOpacity: 0.7 });
                           marker.myCustomID = dataobj.recId.toString();
+                          marker.myCustomName = dataobj.name.toString();
                           marker.addTo(map).on('click', onClick);
 
                       }
