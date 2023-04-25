@@ -1,0 +1,269 @@
+---
+layout: default
+credits: ""
+---
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- Top message -->
+
+
+<!-- Load summary data - homepage -->
+
+<script type="text/javascript" src="http://www.biodiversitydatascience.com/BancDArguinWeb/data/summaryData.json"></script>
+
+<script>
+  var summaryDataFromJson = JSON.parse(summaryData);
+</script>
+
+  <section class="content-wrapper">
+
+      <div class="wrapper bg-soft-primary">
+        <div class="container py-14 pt-md-12 pb-md-14">
+
+          <div class="row text-center">
+            <div class="col-lg-10 col-xxl-8 mx-auto">
+
+              <h3 class="display-6">Biodiversity data informing conservation and managment strategies of the <mark>Banc D'Arguin National Park</mark></h3>
+              <h2 class="fs-16 text-uppercase text-muted py-2 mb-0">Darwin core open source database</h2>
+
+              <div class="d-flex justify-content-center pt-md-4" data-cues="slideInDown" data-group="page-title-buttons" data-delay="300">
+                <span><a href="http://www.biodiversitydatascience.com/BancDArguinWeb/species" class="btn btn-aqua rounded mx-1">Explore species</a></span>
+                <span><a href="http://www.biodiversitydatascience.com/BancDArguinWeb/records" class="btn btn-leaf rounded mx-1">Explore records</a></span>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+
+    <section class="content-wrapper">
+
+        <div class="wrapper bg-light">
+          <div class="container py-5">
+
+            <div class="swiper-container grid-view nav-color mb-14" data-autoplay="true" data-margin="30" data-dots="true" data-nav="false" data-items-md="2" data-items-xs="1">
+              <div class="swiper overflow-visible">
+
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide">
+                    <figure class="rounded"><img src="http://www.biodiversitydatascience.com/BancDArguinWeb/assets/img/home/1.jpeg" alt="" /></figure>
+                  </div>
+                  <div class="swiper-slide">
+                    <figure class="rounded"><img src="http://www.biodiversitydatascience.com/BancDArguinWeb/assets/img/home/2.jpg" alt="" /></figure>
+                  </div>
+                  <div class="swiper-slide">
+                    <figure class="rounded"><img src="http://www.biodiversitydatascience.com/BancDArguinWeb/assets/img/home/3.jpeg" alt="" /></figure>
+                  </div>
+                  <div class="swiper-slide">
+                    <figure class="rounded"><img src="http://www.biodiversitydatascience.com/BancDArguinWeb/assets/img/home/5.jpg" alt="" /></figure>
+                  </div>
+                  <div class="swiper-slide">
+                    <figure class="rounded"><img src="http://www.biodiversitydatascience.com/BancDArguinWeb/assets/img/home/6.jpeg" alt="" /></figure>
+                  </div>
+                  <div class="swiper-slide">
+                    <figure class="rounded"><img src="http://www.biodiversitydatascience.com/BancDArguinWeb/assets/img/home/7.jpg" alt="" /></figure>
+                  </div>
+                  <div class="swiper-slide">
+                    <figure class="rounded"><img src="http://www.biodiversitydatascience.com/BancDArguinWeb/assets/img/home/4.jpg" alt="" /></figure>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="row pb-md-5">
+              <div class="col-lg-9 col-xl-8 col-xxl-7 mx-auto text-center">
+                <h2 class="fs-16 text-uppercase text-muted py-0 mb-0">Database updated on <script>document.write(summaryDataFromJson[0].lastUpdate);</script></h2>
+              </div>
+              <!-- /column -->
+            </div>
+
+          <div class="row pt-md-1 align-items-center counter-wrapper gy-6 text-center">
+
+            <div class="col-md-3">
+              <div class="card shadow-lg">
+                <div class="card-body">
+                  <div class="d-flex d-lg-block d-xl-flex flex-row">
+
+                    <div>
+                      <h3 class="counter mb-1"><script>document.write(summaryDataFromJson[0].records);</script></h3>
+                      <p class="mb-0">Records</p>
+                    </div>
+                  </div>
+                </div>
+                <!--/.card-body -->
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="card shadow-lg">
+                <div class="card-body">
+                  <div class="d-flex d-lg-block d-xl-flex flex-row">
+
+                    <div>
+                      <h3 class="counter mb-1"><script>document.write(summaryDataFromJson[0].species);</script></h3>
+                      <p class="mb-0">Species</p>
+                    </div>
+                  </div>
+                </div>
+                <!--/.card-body -->
+              </div>
+            </div>
+
+                <div class="col-md-3">
+                  <div class="card shadow-lg">
+                    <div class="card-body">
+                      <div class="d-flex d-lg-block d-xl-flex flex-row">
+
+                        <div>
+                          <h3 class="counter mb-1"><script>document.write(summaryDataFromJson[0].iNatuDataMetaVolunteers);</script></h3>
+                          <p class="mb-0">Volunteers</p>
+                        </div>
+                      </div>
+                    </div>
+                    <!--/.card-body -->
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="card shadow-lg">
+                    <div class="card-body">
+                      <div class="d-flex d-lg-block d-xl-flex flex-row">
+
+                        <div>
+                          <h3 class="counter mb-1"><script>document.write(summaryDataFromJson[0].photos);</script></h3>
+                          <p class="mb-0">Photos</p>
+                        </div>
+                      </div>
+                    </div>
+                    <!--/.card-body -->
+                  </div>
+                </div>
+
+                <!--/column -->
+              </div>
+
+
+              <div class="row pt-md-12 pb-md-16 gx-lg-8 gx-xl-12 gy-10 align-items-center">
+                <div class="col-lg-7 order-lg-2">
+
+                  <div class="pt-md-1" id="peopleIcon"></div>
+
+                  <!--/ <figure><img class="w-auto" src="http://www.biodiversitydatascience.com/BancDArguinWeb/assets/img/illustrations/i2.png" srcset="http://www.biodiversitydatascience.com/BancDArguinWeb/assets/img/illustrations/i2@2x.png 2x" alt="" /></figure> -->
+
+                </div>
+                <!--/column -->
+                <div class="col-lg-5">
+                  <h3 class="display-5 mb-3 mt-lg-10">Citizen science in the Banc D'Arguin</h3>
+
+                  <span style="display: block;"><p class="lead">So far, <span class="text-aqua"><script>document.write(summaryDataFromJson[0].iNatuDataMetaVolunteers);</script></span> citizens reported <span class="text-aqua"><script>document.write(summaryDataFromJson[0].iNatuDataMetaRecords);</script></span> occurrence records of biodiversity in the Banc D'Arguin National Park.</p></span>
+                  <span style="display: block;"><p class="lead">This information is openly available for everyone in the world!</p></span>
+
+                  <span style="display: block; margin-top: 30px; margin-left: -5px"><a href="https://www.inaturalist.org/projects/biodiversity-of-the-banc-d-arguin-national-park" target="_blank" class="btn btn-aqua btn-sm rounded mx-1">Add your records</a></span>
+
+                </div>
+                <!--/column -->
+              </div>
+
+
+              <div class="card bg-soft-primary rounded-4">
+                <div class="card-body p-md-8 p-xl-11">
+                  <div class="row gx-lg-8 gx-xl-12 gy-10">
+                    <div class="col-lg-7">
+                      <h3 class="display-5 mb-3">Darwin Core standard</h3>
+                      <p class="lead">The biodiversity database of the Banc D'Arguin National Park is structured under Darwin Core standards. This offers a stable, straightforward and flexible framework for sharing biodiversity data from multiple sources.</p>
+                      <a href="https://en.wikipedia.org/wiki/Darwin_Core" target="_blank" class="btn btn-outline-leaf btn-sm rounded">More information</a>
+                      <a style="margin-left: 10px" href="http://www.biodiversitydatascience.com/BancDArguinWeb/downloadRecords" target="_blank" class="btn btn-outline-leaf btn-sm rounded">Download database</a>
+                    </div>
+                    <!--/column -->
+                    <div class="col-lg-5">
+
+                      <div class="mt-lg-10">
+                        <span style="display: block; padding-top: 3px" class="lead mb-1">
+                        <i class="uil uil-angle-right-b"></i> <strong>Stable standard reference</strong><br>
+                        <i class="uil uil-angle-right-b"></i> <strong>Flexible for sharing information</strong><br>
+                        <i class="uil uil-angle-right-b"></i> <strong>Extensive glossary of terms</strong><br>
+                        <i class="uil uil-angle-right-b"></i> <strong>Primarily unit based on taxa</strong>
+                      </span>
+                      </div>
+                    </div>
+                    <!--/column -->
+                  </div>
+                  <!--/.row -->
+                </div>
+                <!--/.card-body -->
+              </div>
+
+
+        </div>
+      </div>
+
+  </section>
+
+
+  <script>
+
+    //  - - - - - - - - -
+
+
+    const fetchData = async url => {
+      try {
+        const jsonData = await fetch(url)
+        const data = await jsonData.json()
+        return data
+      } catch (err) {
+        alert('Could not load data:')
+        return null
+      }
+    };
+
+    //  - - - - - - - - -
+
+    var url = 'https://api.inaturalist.org/v1/observations/observers?project_id=biodiversity-of-the-banc-d-arguin-national-park';
+    const mainFunct = async () => {
+    const data = await fetchData(url)
+    var mainresults = data.results;
+
+    var nUsers = 0;
+
+    var peopleIcon = document.getElementById('peopleIcon');
+
+    for (let i = 0; i < 499; i++) {
+
+      if( mainresults[i].user == undefined ) { continue; }
+      if( mainresults[i].user == null ) { continue; }
+      if( mainresults[i].user == "" ) { continue; }
+
+      if( mainresults[i].user.icon_url == undefined ) { continue; }
+      if( mainresults[i].user.icon_url == null ) { continue; }
+
+        if( mainresults[i].user.icon_url == "" ) { continue; }
+
+        var nUsers = nUsers + 1;
+        if( nUsers == 12 ) {  break; }
+
+        var name = mainresults[i].user.name;
+        var login = mainresults[i].user.login;
+        var imageuser = mainresults[i].user.icon_url;
+        var urluser = 'https://www.inaturalist.org/people/' + login;
+
+        peopleIcon.innerHTML += "<div style='float: left; margin-bottom: 10px; margin-right: 10px;' class='card-body'><a target='_blank' href='" + urluser + "'><div style='width:120px; height:120px; background-image: url( " + imageuser + "); background-size:cover; background-position:center; border-radius:50%;'></div></a></div>";
+
+
+          };
+
+      //  -----------------------------------------------------
+      //  Hide loading loadingPanel
+          document.getElementById('loadingPanel').style.visibility="hidden";
+      //  -----------------------------------------------------
+
+    };
+
+    mainFunct();
+
+  </script>
