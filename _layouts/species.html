@@ -15,7 +15,7 @@ return self.indexOf(value) === index;
 
 <!-- Load species data -->
 
-<script type="text/javascript" src="http://www.biodiversitydatascience.com/BancDArguinWeb/data/speciesListWebDB.json"></script>
+<script type="text/javascript" src="http://www.marafrica.net/data/speciesListWebDB.json"></script>
 
 <script>
   var dataSpeciesFromJson = JSON.parse(speciesListDB);
@@ -111,8 +111,8 @@ return self.indexOf(value) === index;
 
 
 
-            <link rel="stylesheet" type="text/css" href="http://www.biodiversitydatascience.com/BancDArguinWeb/assets/css/jquery.dataTables.min.css">
-            <script type="text/javascript" src="http://www.biodiversitydatascience.com/BancDArguinWeb/assets/js/jquery.dataTables.min.js"></script>
+            <link rel="stylesheet" type="text/css" href="http://www.marafrica.net/assets/css/jquery.dataTables.min.css">
+            <script type="text/javascript" src="http://www.marafrica.net/assets/js/jquery.dataTables.min.js"></script>
             <script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
 
                     <script>
@@ -162,7 +162,7 @@ return self.indexOf(value) === index;
 
              if ( string.includes("data/defaultPhotos/") ) {
 
-               return "http://www.biodiversitydatascience.com/BancDArguinWeb/" + string ;
+               return "http://www.marafrica.net/" + string ;
 
             } else {
                 return string; }
@@ -177,19 +177,19 @@ return self.indexOf(value) === index;
 
               document.write("<td>");
               if (photoSp != "NA" && photoSp != "") {
-                document.write("<a href='http://www.biodiversitydatascience.com/BancDArguinWeb/speciesPage?id=" + dataobj.id + "'>");
+                document.write("<a href='http://www.marafrica.net/speciesPage?id=" + dataobj.id + "'>");
                 document.write("<div style='margin-left: 8px; -moz-border-radius: 100px; -webkit-border-radius: 100px; border-radius: 100px; width: 50px; height: 50px; background-repeat: no-repeat; background-size: cover; background-image: url(" + photoSp + ")'></div>");
                 document.write("</a>");
               };
               if (photoSp == "NA" || photoSp == "") {
-                document.write("<a href='http://www.biodiversitydatascience.com/BancDArguinWeb/speciesPage?id=" + dataobj.id + "'>");
-                document.write("<div style='margin-left: 8px; -moz-border-radius: 100px; -webkit-border-radius: 100px; border-radius: 100px; width: 50px; height: 50px; background-repeat: no-repeat; background-size: cover; background-image: url(http://www.biodiversitydatascience.com/BancDArguinWeb/assets/img/no-pic-2.png)'></div>");
+                document.write("<a href='http://www.marafrica.net/speciesPage?id=" + dataobj.id + "'>");
+                document.write("<div style='margin-left: 8px; -moz-border-radius: 100px; -webkit-border-radius: 100px; border-radius: 100px; width: 50px; height: 50px; background-repeat: no-repeat; background-size: cover; background-image: url(http://www.marafrica.net/assets/img/no-pic-2.png)'></div>");
                 document.write("</a>");
               };
               document.write("</td>");
 
               // document.write("<td><a href='speciesPage.html?id=" + dataobj.id + "'>" + dataobj.name.split(' ')[0].charAt(0) + ". " + dataobj.name.split(' ')[1] + "</a></td>");
-              document.write("<td><a href='http://www.biodiversitydatascience.com/BancDArguinWeb/speciesPage?id=" + dataobj.id + "'>" + dataobj.name + "</a></td>");
+              document.write("<td><a href='http://www.marafrica.net/speciesPage?id=" + dataobj.id + "'>" + dataobj.name + "</a></td>");
               document.write("<td>" + dataobj.taxFamily + "</td>");
               document.write("<td>" + dataobj.taxOrder + "</td>");
               document.write("<td>" + dataobj.taxClass + "</td>");

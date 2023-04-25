@@ -21,7 +21,7 @@ return self.indexOf(value) === index;
 
 <!-- Load species data -->
 
-<script type="text/javascript" src="http://www.biodiversitydatascience.com/BancDArguinWeb/data/speciesListWebDB.json"></script>
+<script type="text/javascript" src="http://www.marafrica.net/data/speciesListWebDB.json"></script>
 
 <script>
   var dataSpeciesFromJson = JSON.parse(speciesListDB);
@@ -76,7 +76,7 @@ return self.indexOf(value) === index;
 
 <!-- Load occurrence data -->
 
-<script type="text/javascript" src="http://www.biodiversitydatascience.com/BancDArguinWeb/data/dataWeb.json"></script>
+<script type="text/javascript" src="http://www.marafrica.net/data/dataWeb.json"></script>
 <script>
   var dataFromJson = JSON.parse(data);
 </script>
@@ -159,7 +159,7 @@ if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("d
           </div>
         </div>
 
-                <form action="http://www.biodiversitydatascience.com/BancDArguinWeb/records/" method="get">
+                <form action="http://www.marafrica.net/records/" method="get">
 
         <div class="container py-14 pt-md-0 pb-md-0">
 
@@ -276,7 +276,7 @@ if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("d
 
                            document.write("<a style='float: right; width: 60px; padding-left: 30px' class='btn btn-navy btn-icon btn-icon-start rounded' ");
                            if ( countRecords.length > 0) {
-                              document.write("target='_blank' href='http://www.biodiversitydatascience.com/BancDArguinWeb/downloadRecords?yearFrom=" + yearFrom + "&yearTo=" + yearTo + "&taxon=" + taxon + "&taxonLevel=" + taxonLevel + "'" );
+                              document.write("target='_blank' href='http://www.marafrica.net/downloadRecords?yearFrom=" + yearFrom + "&yearTo=" + yearTo + "&taxon=" + taxon + "&taxonLevel=" + taxonLevel + "'" );
                            }
                            document.write("><i class='uil uil-cloud-download'></i></a>");
 
@@ -383,7 +383,7 @@ if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("d
                      function onClick(e) {
 
                       var inner_counter = 0;
-                      var fullrecord = 'http://www.biodiversitydatascience.com/BancDArguinWeb/recordInformation?id=' + e.target.myCustomID + '/';
+                      var fullrecord = 'http://www.marafrica.net/recordInformation?id=' + e.target.myCustomID + '/';
 
                       $("#loading-records").css("display", "block");
 
@@ -413,7 +413,7 @@ if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("d
                              }
 
                              innerHTML += '<div style="margin-top: 5px;"><a href="';
-                             innerHTML += 'http://www.biodiversitydatascience.com/BancDArguinWeb/recordPage?id=' + e.target.myCustomID;
+                             innerHTML += 'http://www.marafrica.net/recordPage?id=' + e.target.myCustomID;
                              innerHTML += '">More information [+]</a>';
                              innerHTML += '</div>';
 
