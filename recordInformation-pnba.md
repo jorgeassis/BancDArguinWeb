@@ -1,6 +1,6 @@
 ---
-layout: recordInformation
+layout: recordInformation-pnba
 title: "recordInformation"
 description: "recordInformation"
-permalink: /recordInformation/
+permalink: /pnba/recordInformation/
 ---
