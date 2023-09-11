@@ -167,7 +167,7 @@ if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("d
                  <div class="row text-center pt-md-4 ">
 
 
-            <div class="col-lg-3 col-xxl-3 mx-left">
+            <div class="col-lg-3 col-xxl-2 mx-left">
 
                         <div class="form-select-wrapper mb-4">
                           <select id="taxonLevelDropDown" name="taxonLevel" class="form-select" aria-label="Default select example">
@@ -212,7 +212,7 @@ if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("d
 
             </div>
 
-            <div class="col-lg-2 col-xxl-4 mx-left">
+            <div class="col-lg-2 col-xxl-3 mx-left">
 
                         <div class="form-floating">
                           <input id="textInputExample" name="taxon" type="text" class="form-control" placeholder="Search for taxon">
@@ -276,7 +276,7 @@ if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("d
 
                            document.write("<a style='float: right; width: 60px; padding-left: 30px' class='btn btn-navy btn-icon btn-icon-start rounded' ");
                            if ( countRecords.length > 0) {
-                              document.write("target='_blank' href='https://www.marafrica.net/downloadRecords?yearFrom=" + yearFrom + "&yearTo=" + yearTo + "&taxon=" + taxon + "&taxonLevel=" + taxonLevel + "'" );
+                              document.write("target='_blank' href='https://www.marafrica.net/downloadRecords-pnba?yearFrom=" + yearFrom + "&yearTo=" + yearTo + "&taxon=" + taxon + "&taxonLevel=" + taxonLevel + "'" );
                            }
                            document.write("><i class='uil uil-cloud-download'></i></a>");
 
