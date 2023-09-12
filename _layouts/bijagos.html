@@ -158,12 +158,12 @@ layout: default-bijagos
                 </div>
                 <!--/column -->
                 <div class="col-lg-5">
-                  <h3 class="display-6 mb-3 mt-lg-10">Citizen science in the Banc D'Arguin</h3> 
+                  <h3 class="display-6 mb-3 mt-lg-10">Citizen science in the Bijagós archipelago</h3> 
 
                   <span style="display: block;"><p class="lead">So far, <span class="text-aqua"><script>document.write(summaryDataFromJson[0].iNatuDataMetaVolunteers);</script></span> citizens reported <span class="text-aqua"><script>document.write(summaryDataFromJson[0].iNatuDataMetaRecords);</script></span> occurrence records of biodiversity in the Banc D'Arguin National Park.</p></span>
                   <span style="display: block;"><p class="lead">This information is openly available for everyone!</p></span>
 
-                  <span style="display: block; margin-top: 30px; margin-left: -5px"><a href="https://www.inaturalist.org/projects/biodiversity-of-the-banc-d-arguin-national-park" target="_blank" class="btn btn-aqua btn-sm rounded mx-1">Add your records</a></span>
+                  <span style="display: block; margin-top: 30px; margin-left: -5px"><a href="https://www.inaturalist.org/projects/biodiversity-of-the-bijagos-archipelago" target="_blank" class="btn btn-aqua btn-sm rounded mx-1">Add your records</a></span>
 
                 </div>
                 <!--/column -->
@@ -175,7 +175,7 @@ layout: default-bijagos
                   <div class="row gx-lg-8 gx-xl-12 gy-10">
                     <div class="col-lg-7">
                       <h3 class="display-5 mb-3">Darwin Core standard</h3>
-                      <p class="lead">The biodiversity database of the Banc D'Arguin National Park is structured under Darwin Core standards. This offers a stable, straightforward and flexible framework for sharing biodiversity data from multiple sources.</p>
+                      <p class="lead">The biodiversity database of the Bijagós archipelago is structured under Darwin Core standards. This offers a stable, straightforward and flexible framework for sharing biodiversity data from multiple sources.</p>
                       <a href="https://en.wikipedia.org/wiki/Darwin_Core" target="_blank" class="btn btn-outline-leaf btn-sm rounded">More information</a>
                       <a style="margin-left: 10px" href="https://www.marafrica.net/bijagos/downloadRecords" target="_blank" class="btn btn-outline-leaf btn-sm rounded">Download database</a>
                     </div>
@@ -223,7 +223,7 @@ layout: default-bijagos
 
     //  - - - - - - - - -
 
-    var url = 'https://api.inaturalist.org/v1/observations/observers?project_id=biodiversity-of-the-banc-d-arguin-national-park';
+    var url = 'https://api.inaturalist.org/v1/observations/observers?project_id=biodiversity-of-the-bijagos-archipelago';
     const mainFunct = async () => {
     const data = await fetchData(url)
     var mainresults = data.results;
