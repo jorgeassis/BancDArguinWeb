@@ -15,7 +15,7 @@ return self.indexOf(value) === index;
 
 <!-- Load species data -->
 
-<script type="text/javascript" src="https://www.marafrica.net/data/speciesListWebDB.json"></script>
+<script type="text/javascript" src="https://www.marafrica.net/data-pnba/speciesListWebDB.json"></script>
 
 <script>
   var dataSpeciesFromJson = JSON.parse(speciesListDB);
@@ -160,7 +160,7 @@ return self.indexOf(value) === index;
 
             function resolveDomain(string) {
 
-             if ( string.includes("data/defaultPhotos/") ) {
+             if ( string.includes("data-pnba/defaultPhotos/") ) {
 
                return "https://www.marafrica.net/" + string ;
 

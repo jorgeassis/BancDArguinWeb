@@ -1,0 +1,64 @@
+---
+layout: clean
+---
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<script>
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+var id = urlParams.get('id');
+</script>
+
+<script type="text/javascript" src="https://www.marafrica.net/data-bijagos/dataWeb.json"></script>
+<script>
+  var dataFromJson = JSON.parse(data);
+</script>
+
+<script type="text/javascript" src="https://www.marafrica.net/data-bijagos/speciesListWeb.json"></script>
+<script>
+  var dataSpeciesFromJson = JSON.parse(speciesList);
+</script>
+
+<script type="text/javascript" src="https://www.marafrica.net/data-bijagos/datasetListWeb.json"></script>
+<script>
+  var dataSetFromJson = JSON.parse(datasetList);
+</script>
+
+<script>
+
+  taxon = dataFromJson[id].taxonId;
+  taxon = dataSpeciesFromJson[taxon];
+
+  datasetId = dataFromJson[id].datasetId;
+  datasetId = dataSetFromJson[datasetId].datasetName;
+
+  if( datasetId != "MarAfrica" && datasetId != "iNaturalist" ) { datasetId = "GBIF"; };
+
+  year = dataFromJson[id].year;
+  month = dataFromJson[id].month;
+  day = dataFromJson[id].day;
+  photo = dataFromJson[id].photo;
+
+
+
+</script>
+
+<body>
+
+<div>
+
+  <script>
+  document.write("<div id='ajax_taxon'>TESTE</div>")
+  </script>
+
+  <div id="ajax_datasetId"></div>
+  <div id="ajax_year"></div>
+  <div id="ajax_month"></div>
+  <div id="ajax_day"></div>
+  <div id="ajax_photo"></div>
+</div>
+
+</body>
