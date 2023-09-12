@@ -45,12 +45,12 @@ const urlParams = new URLSearchParams(queryString);
 var id = urlParams.get('id');
 </script>
 
-<script type="text/javascript" src="https://www.marafrica.net/data/dataWeb.json"></script>
+<script type="text/javascript" src="https://www.marafrica.net/data-pnba/dataWeb.json"></script>
 <script>
   var dataFromJson = JSON.parse(data);
 </script>
 
-<script type="text/javascript" src="https://www.marafrica.net/data/speciesListWebDB.json"></script>
+<script type="text/javascript" src="https://www.marafrica.net/data-pnba/speciesListWebDB.json"></script>
 <script>
   var dataSpeciesFromJson = JSON.parse(speciesListDB);
 </script>
@@ -118,7 +118,7 @@ var id = urlParams.get('id');
 
               function resolveDomain(string) {
 
-               if ( string.includes("data/defaultPhotos/") ) {
+               if ( string.includes("data-pnba/defaultPhotos/") ) {
                  return "https://www.marafrica.net/" + string ;
               } else {
                   return string; }
