@@ -1,6 +1,6 @@
 ---
 layout: bijagos
-title: "Bijagos archipelago"
-description: "Bijagos archipelago"
+title: ''
+description: ''
 permalink: /bijagos/
 ---

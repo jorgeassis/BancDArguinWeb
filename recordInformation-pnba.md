@@ -1,6 +1,6 @@
 ---
 layout: recordInformation-pnba
-title: "recordInformation"
-description: "recordInformation"
+title: ''
+description: ''
 permalink: /pnba/recordInformation/
 ---

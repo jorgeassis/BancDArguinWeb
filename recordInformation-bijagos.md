@@ -1,6 +1,6 @@
 ---
 layout: recordInformation-bijagos
-title: "recordInformation"
-description: "recordInformation"
+title: ''
+description: ''
 permalink: /bijagos/recordInformation/
 ---

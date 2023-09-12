@@ -1,6 +1,6 @@
 ---
 layout: downloadRecords-bijagos
-title: "Download"
-description: "Download"
+title: ''
+description: ''
 permalink: /bijagos/downloadRecords/
 ---
