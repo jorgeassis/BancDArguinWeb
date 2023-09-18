@@ -46,8 +46,6 @@ var id = urlParams.get('id');
   if( datasetName != "iNaturalist" && datasetName != "GBIF" ) { datasetSource = "MarAfrica"; };
   if( datasetName == "iNaturalist" || datasetName != "GBIF" ) { datasetSource = datasetName; };
 
-  alert(datasetName);
-  alert(datasetSource);
   
   lon = dataFromJson[id].Lon;
   lat = dataFromJson[id].Lat;
