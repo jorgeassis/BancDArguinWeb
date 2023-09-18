@@ -66,7 +66,7 @@ var id = urlParams.get('id');
       <div class="row text-center">
         <div class="col-lg-10 col-xxl-8 mx-auto">
 
-          <h3 class="display-6">Biodiversity data of <mark>Bijagós archipelago.</mark><br>Information for education, conservation and management.</h3>
+          <h3 class="display-6">Biodiversity data of the <mark>Bijagós archipelago.</mark><br>Information for education, conservation and management.</h3>
           <h2 class="fs-16 text-uppercase text-muted py-2 mb-0">Biodiversity record</h2>
 
         </div>
@@ -234,8 +234,9 @@ var id = urlParams.get('id');
                 <strong>Additional information</strong>
                 <br>
                 <script>
-                  document.write("Source of record: " + datasetName);
-                  document.write("<br>" + bibliographicCitation);
+                  document.write("Source of record: " + datasetSource);
+                  
+                  if( datasetSource != "iNaturalist" && datasetSource != "GBIF" ) { document.write("<br>" + bibliographicCitation); };
 
                   if( datasetSource == "iNaturalist" ) { document.write("<div style='margin-top: 10px'><a target='_blank' href='https://www.inaturalist.org/observations/" + datasetId + "'><span class='badge bg-yellow rounded-pill'>Explore source</span></a></div>"); };
                   if( datasetSource == "GBIF" ) { document.write("<div style='margin-top: 10px'><a target='_blank' href='https://www.gbif.org/occurrence/" + datasetId + "'><span class='badge bg-yellow rounded-pill'>Explore source</span></a></div>"); };
