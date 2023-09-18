@@ -44,8 +44,8 @@ var id = urlParams.get('id');
   datasetId = dataSetFromJson[datasetId].datasetId;
 
   datasetSource = "MarAfrica";
-
-  if( datasetName == "iNaturalist" || datasetName != "GBIF" ) { datasetSource = datasetName; };
+  if( datasetName == "iNaturalist" ) { datasetSource = "iNaturalist"; };
+  if( datasetName == "GBIF" ) { datasetSource = "GBIF"; };
 
   lon = dataFromJson[id].Lon;
   lat = dataFromJson[id].Lat;
@@ -237,7 +237,7 @@ var id = urlParams.get('id');
                 <script>
                   document.write("Source of record: " + datasetSource);
                   
-                  if( datasetSource != "iNaturalist" && datasetSource != "GBIF" ) { document.write("<br>" + bibliographicCitation); };
+                  if( datasetSource != "iNaturalist" && datasetSource != "GBIF" ) { document.write("<br>Bibliographic citation: " + bibliographicCitation); };
 
                   if( datasetSource == "iNaturalist" ) { document.write("<div style='margin-top: 10px'><a target='_blank' href='https://www.inaturalist.org/observations/" + datasetId + "'><span class='badge bg-yellow rounded-pill'>Explore source</span></a></div>"); };
                   if( datasetSource == "GBIF" ) { document.write("<div style='margin-top: 10px'><a target='_blank' href='https://www.gbif.org/occurrence/" + datasetId + "'><span class='badge bg-yellow rounded-pill'>Explore source</span></a></div>"); };
