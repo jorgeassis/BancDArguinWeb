@@ -43,12 +43,10 @@ var id = urlParams.get('id');
   datasetName = dataSetFromJson[datasetId].datasetName;
   datasetId = dataSetFromJson[datasetId].datasetId;
 
-  if( datasetName != "iNaturalist" && datasetName != "GBIF" ) { datasetSource = "MarAfrica"; };
+  datasetSource = "MarAfrica";
+
   if( datasetName == "iNaturalist" || datasetName != "GBIF" ) { datasetSource = datasetName; };
 
-  alert(datasetName);
-  alert(datasetSource);
-  
   lon = dataFromJson[id].Lon;
   lat = dataFromJson[id].Lat;
   bibliographicCitation = dataFromJson[id].citation;
