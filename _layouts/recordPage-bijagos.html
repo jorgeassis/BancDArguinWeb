@@ -43,11 +43,12 @@ var id = urlParams.get('id');
   datasetName = dataSetFromJson[datasetId].datasetName;
   datasetId = dataSetFromJson[datasetId].datasetId;
 
-  if( datasetName != "MarAfrica" && datasetName != "iNaturalist" ) { datasetSource = "GBIF"; };
-  if( datasetName == "MarAfrica" || datasetName == "iNaturalist" ) { datasetSource = datasetName; };
+  if( datasetName != "iNaturalist" && datasetName != "GBIF" ) { datasetSource = "MarAfrica"; };
+  if( datasetName == "iNaturalist" || datasetName != "GBIF" ) { datasetSource = datasetName; };
 
   lon = dataFromJson[id].Lon;
   lat = dataFromJson[id].Lat;
+  bibliographicCitation = dataFromJson[id].bibliographicCitation;
 
   year = dataFromJson[id].year;
   month = dataFromJson[id].month;
@@ -234,6 +235,7 @@ var id = urlParams.get('id');
                 <br>
                 <script>
                   document.write("Source of record: " + datasetName);
+                  document.write("<br>" + bibliographicCitation);
 
                   if( datasetSource == "iNaturalist" ) { document.write("<div style='margin-top: 10px'><a target='_blank' href='https://www.inaturalist.org/observations/" + datasetId + "'><span class='badge bg-yellow rounded-pill'>Explore source</span></a></div>"); };
                   if( datasetSource == "GBIF" ) { document.write("<div style='margin-top: 10px'><a target='_blank' href='https://www.gbif.org/occurrence/" + datasetId + "'><span class='badge bg-yellow rounded-pill'>Explore source</span></a></div>"); };
