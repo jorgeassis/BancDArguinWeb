@@ -236,7 +236,7 @@ var id = urlParams.get('id');
                 <br>
                 <script>
                   document.write("Source of record: " + datasetSource);
-                  
+                  alert(bibliographicCitation);
                   if( datasetSource != "iNaturalist" && datasetSource != "GBIF" && bibliographicCitation != "undefined" ) { document.write("<br>Bibliographic citation: " + bibliographicCitation); };
 
                   if( datasetSource == "iNaturalist" ) { document.write("<div style='margin-top: 10px'><a target='_blank' href='https://www.inaturalist.org/observations/" + datasetId + "'><span class='badge bg-yellow rounded-pill'>Explore source</span></a></div>"); };
