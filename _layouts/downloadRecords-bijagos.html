@@ -202,8 +202,8 @@ for(var i = 0; i < dataFromJsonMapped.length; i++) {
         day: resolveNA(item.day),
         associatedMedia: resolveNA(item.photo),
         datasetName: resolveNA(dataDataSetFromJson[item.datasetId].datasetName),
-        references: addInformation(dataDataSetFromJson[item.datasetId].datasetId)
-    });
+        references: resolveNA(item.citation) // references: addInformation(dataDataSetFromJson[item.datasetId].datasetId)
+});
 
 };
 
