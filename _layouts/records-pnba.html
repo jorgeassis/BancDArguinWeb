@@ -85,11 +85,14 @@ return self.indexOf(value) === index;
 
 // subset occurrence data
 
+alert("Ver1");
+
 yearsListArray = [];
 for(var i = 0; i < dataFromJson.length; i++) {
   var dataobj = dataFromJson[i];
     if (dataobj.year != "NA" && dataobj.year != null ) {
-      yearsListArray.push(dataobj.year);
+      var yeari = Number(dataobj.year);
+      yearsListArray.push(yeari);
     }
 }
 yearsListArrayMin = Math.min(...yearsListArray);
