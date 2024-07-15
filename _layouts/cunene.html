@@ -1,5 +1,5 @@
 ---
-layout: default-bijagos
+layout: default-cunene
 ---
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -9,7 +9,7 @@ layout: default-bijagos
 
 <!-- Load summary data - homepage -->
 
-<script type="text/javascript" src="https://www.marafrica.net/data-bijagos/summaryData.json"></script>
+<script type="text/javascript" src="https://www.marafrica.net/data-cunene/summaryData.json"></script>
 
 <script>
   var summaryDataFromJson = JSON.parse(summaryData);
@@ -23,12 +23,12 @@ layout: default-bijagos
           <div class="row text-center">
             <div class="col-lg-10 col-xxl-8 mx-auto">
 
-              <h3 class="display-6">Biodiversity data of the <mark>Bijagós archipelago.</mark><br>Information for education, conservation and management.</h3>
+              <h3 class="display-6">Biodiversity data of the <mark>Cunene Biogeographic Transition Zone.</mark><br>Information for education, conservation and management.</h3>
               <h2 class="fs-16 text-uppercase text-muted py-2 mb-0">Darwin core open source database</h2>
 
               <div class="d-flex justify-content-center pt-md-4" data-cues="slideInDown" data-group="page-title-buttons" data-delay="300">
-                <span><a href="https://www.marafrica.net/bijagos/species" class="btn btn-aqua rounded mx-1">Explore species</a></span>
-                <span><a href="https://www.marafrica.net/bijagos/records" class="btn btn-leaf rounded mx-1">Explore records</a></span>
+                <span><a href="https://www.marafrica.net/cunene/species" class="btn btn-aqua rounded mx-1">Explore species</a></span>
+                <span><a href="https://www.marafrica.net/cunene/records" class="btn btn-leaf rounded mx-1">Explore records</a></span>
               </div>
 
             </div>
@@ -158,12 +158,12 @@ layout: default-bijagos
                 </div>
                 <!--/column -->
                 <div class="col-lg-5">
-                  <h3 class="display-6 mb-3 mt-lg-10">Citizen science in the Bijagós archipelago</h3> 
+                  <h3 class="display-6 mb-3 mt-lg-10">Citizen science in the Cunene Zone</h3> 
 
-                  <span style="display: block;"><p class="lead">So far, <span class="text-aqua"><script>document.write(summaryDataFromJson[0].iNatuDataMetaVolunteers);</script></span> citizens reported <span class="text-aqua"><script>document.write(summaryDataFromJson[0].iNatuDataMetaRecords);</script></span> occurrence records of biodiversity in the Bijagós archipelago.</p></span>
+                  <span style="display: block;"><p class="lead">So far, <span class="text-aqua"><script>document.write(summaryDataFromJson[0].iNatuDataMetaVolunteers);</script></span> citizens reported <span class="text-aqua"><script>document.write(summaryDataFromJson[0].iNatuDataMetaRecords);</script></span> occurrence records of biodiversity in the Cunene Biogeographic Transition Zone.</p></span>
                   <span style="display: block;"><p class="lead">This information is openly available for everyone!</p></span>
 
-                  <span style="display: block; margin-top: 30px; margin-left: -5px"><a href="https://www.inaturalist.org/projects/biodiversity-of-the-bijagos-archipelago" target="_blank" class="btn btn-aqua btn-sm rounded mx-1">Add your records</a></span>
+                  <span style="display: block; margin-top: 30px; margin-left: -5px"><a href="https://www.inaturalist.org/projects/biodiversity-of-the-cunene-archipelago" target="_blank" class="btn btn-aqua btn-sm rounded mx-1">Add your records</a></span>
 
                 </div>
                 <!--/column -->
@@ -175,9 +175,9 @@ layout: default-bijagos
                   <div class="row gx-lg-8 gx-xl-12 gy-10">
                     <div class="col-lg-7">
                       <h3 class="display-5 mb-3">Darwin Core standard</h3>
-                      <p class="lead">The biodiversity database of the Bijagós archipelago is structured under Darwin Core standards. This offers a stable, straightforward and flexible framework for sharing biodiversity data from multiple sources.</p>
+                      <p class="lead">The biodiversity database of the Cunene River Biogeographic Transition Zone is structured under Darwin Core standards. This offers a stable, straightforward and flexible framework for sharing biodiversity data from multiple sources.</p>
                       <a href="https://en.wikipedia.org/wiki/Darwin_Core" target="_blank" class="btn btn-outline-leaf btn-sm rounded">More information</a>
-                      <a style="margin-left: 10px" href="https://www.marafrica.net/bijagos/downloadRecords" target="_blank" class="btn btn-outline-leaf btn-sm rounded">Download database</a>
+                      <a style="margin-left: 10px" href="https://www.marafrica.net/cunene/downloadRecords" target="_blank" class="btn btn-outline-leaf btn-sm rounded">Download database</a>
                     </div>
                     <!--/column -->
                     <div class="col-lg-5">
@@ -223,7 +223,7 @@ layout: default-bijagos
 
     //  - - - - - - - - -
 
-    var url = 'https://api.inaturalist.org/v1/observations/observers?project_id=biodiversity-of-the-bijagos-archipelago';
+    var url = 'https://api.inaturalist.org/v1/observations/observers?project_id=biodiversity-of-cunene-region';
     const mainFunct = async () => {
     const data = await fetchData(url)
     var mainresults = data.results;
