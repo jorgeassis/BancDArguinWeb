@@ -1,5 +1,5 @@
 ---
-layout: default-bijagos
+layout: default-saotome
 ---
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -14,7 +14,7 @@ layout: default-bijagos
             <div class="col-lg-10 col-xxl-8 mx-auto">
 
 
-              <h3 class="display-6">Biodiversity data of the <mark>Bijagós archipelago.</mark><br>Information for education, conservation and management.</h3>
+              <h3 class="display-6">Biodiversity data of <mark>São Tomé e Principe MPAs.</mark><br>Information for education, conservation and management.</h3>
               <h2 class="fs-16 text-uppercase text-muted py-2 mb-0">Species list</h2>
 
             </div>
@@ -45,12 +45,12 @@ const urlParams = new URLSearchParams(queryString);
 var id = urlParams.get('id');
 </script>
 
-<script type="text/javascript" src="https://www.marafrica.net/data-bijagos/dataWeb.json"></script>
+<script type="text/javascript" src="https://www.marafrica.net/data-saotome/dataWeb.json"></script>
 <script>
   var dataFromJson = JSON.parse(data);
 </script>
 
-<script type="text/javascript" src="https://www.marafrica.net/data-bijagos/speciesListWebDB.json"></script>
+<script type="text/javascript" src="https://www.marafrica.net/data-saotome/speciesListWebDB.json"></script>
 <script>
   var dataSpeciesFromJson = JSON.parse(speciesListDB);
 </script>
@@ -118,7 +118,7 @@ var id = urlParams.get('id');
 
               function resolveDomain(string) {
 
-               if ( string.includes("data-bijagos/defaultPhotos/") ) {
+               if ( string.includes("data-saotome/defaultPhotos/") ) {
                  return "https://www.marafrica.net/" + string ;
               } else {
                   return string; }
@@ -179,7 +179,7 @@ var id = urlParams.get('id');
                       fullscreenControl: {
                           pseudoFullscreen: false
                       }
-                    }).setView([11.18, -16.09], 7);
+                    }).setView([1, 7], 6);
 
                     map.scrollWheelZoom.disable();
 
@@ -203,7 +203,7 @@ var id = urlParams.get('id');
                          function onClick(e) {
 
                           var inner_counter = 0;
-                          var fullrecord = 'https://www.marafrica.net/bijagos/recordInformation?id=' + e.target.myCustomID + '/';
+                          var fullrecord = 'https://www.marafrica.net/saotome/recordInformation?id=' + e.target.myCustomID + '/';
 
                           $("#loading-records").css("display", "block");
 
@@ -229,7 +229,7 @@ var id = urlParams.get('id');
                                 }
 
                                 innerHTML += '<div style="margin-top: 5px;"><a href="';
-                                innerHTML += 'https://www.marafrica.net/bijagos/recordPage?id=' + e.target.myCustomID;
+                                innerHTML += 'https://www.marafrica.net/saotome/recordPage?id=' + e.target.myCustomID;
                                 innerHTML += '">More information [+]</a>';
                                 innerHTML += '</div>';
 
@@ -261,21 +261,6 @@ var id = urlParams.get('id');
                               marker.addTo(map).on('click', onClick);
 
                           };
-
-                          var latlngs = [
-                          [ 11.677 , -16.617],
-                        [ 10.748 , -16.615,],
-                        [ 10.740, -15.463],
-                        [ 11.231, -15.463],
-                        [ 11.231, -15.531],
-                        [ 11.509, -15.531],
-                        [ 11.509, -15.420],
-                        [ 11.593, -15.466],
-                        [ 11.677, -15.446],
-                        [ 11.677, -15.787],
-                        [ 11.677 , -16.617]
-                            ];
-                          var polyline = L.polyline(latlngs, {color: "#5eb9f0", weight: 1.5, fillOpacity: 0.75}).addTo(map);
 
                           $("#loading-records").css("display", "none");
 
@@ -381,7 +366,7 @@ var id = urlParams.get('id');
                               urlImgLarge = dataobj.replace("medium", "large");
 
                               document.write("<div class='col-md-3'>");
-                              document.write("<a href='https://www.marafrica.net/bijagos/recordPage?id=" + recordsPhotosId[i] + "'>");
+                              document.write("<a href='https://www.marafrica.net/saotome/recordPage?id=" + recordsPhotosId[i] + "'>");
                               document.write("<div class='imageSpeciesPage' style='-moz-border-radius: 7px; -webkit-border-radius: 7px; border-radius: 7px; background-repeat: no-repeat; background-size: cover; background-image: url(" + dataobj + ")'></div>");
                               document.write("</a>");
                               document.write("</div>");
