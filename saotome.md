@@ -1,6 +1,6 @@
 ---
-layout: bijagos
+layout: saotome
 title: ''
 description: ''
-permalink: /bijagos/
+permalink: /saotome/
 ---

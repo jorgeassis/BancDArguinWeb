@@ -1,6 +1,6 @@
 ---
-layout: species-bijagos
+layout: species-caboverde
 title: ''
 description: ''
-permalink: /bijagos/species/
+permalink: /caboverde/species/
 ---

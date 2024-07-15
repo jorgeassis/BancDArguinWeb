@@ -1,6 +1,6 @@
 ---
-layout: records-bijagos
+layout: records-caboverde
 title: ''
 description: ''
-permalink: /bijagos/records/
+permalink: /caboverde/records/
 ---

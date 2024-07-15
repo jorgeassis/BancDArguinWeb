@@ -1,6 +1,6 @@
 ---
-layout: recordPage-bijagos
+layout: recordPage-saotome
 title: ''
 description: ''
-permalink: /bijagos/recordPage/
+permalink: /saotome/recordPage/
 ---

@@ -1,6 +1,6 @@
 ---
-layout: bijagos
+layout: caboverde
 title: ''
 description: ''
-permalink: /bijagos/
+permalink: /caboverde/
 ---

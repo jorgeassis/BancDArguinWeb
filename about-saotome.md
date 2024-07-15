@@ -1,6 +1,6 @@
 ---
-layout: about-bijagos
+layout: about-saotome
 title: ''
 description: ''
-permalink: /bijagos/about/
+permalink: /saotome/about/
 ---

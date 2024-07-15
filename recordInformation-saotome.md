@@ -1,6 +1,6 @@
 ---
-layout: recordInformation-bijagos
+layout: recordInformation-saotome
 title: ''
 description: ''
-permalink: /bijagos/recordInformation/
+permalink: /saotome/recordInformation/
 ---

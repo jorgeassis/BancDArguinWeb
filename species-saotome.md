@@ -1,6 +1,6 @@
 ---
-layout: species-bijagos
+layout: species-saotome
 title: ''
 description: ''
-permalink: /bijagos/species/
+permalink: /saotome/species/
 ---

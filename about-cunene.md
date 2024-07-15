@@ -1,6 +1,6 @@
 ---
-layout: about-bijagos
+layout: about-cunene
 title: ''
 description: ''
-permalink: /bijagos/about/
+permalink: /cunene/about/
 ---

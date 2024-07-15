@@ -1,6 +1,6 @@
 ---
-layout: speciesPage-bijagos
+layout: speciesPage-cunene
 title: ''
 description: ''
-permalink: /bijagos/speciesPage/
+permalink: /cunene/speciesPage/
 ---

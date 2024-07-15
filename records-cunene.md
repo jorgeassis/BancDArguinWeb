@@ -1,6 +1,6 @@
 ---
-layout: records-bijagos
+layout: records-cunene
 title: ''
 description: ''
-permalink: /bijagos/records/
+permalink: /cunene/records/
 ---

@@ -1,6 +1,6 @@
 ---
-layout: downloadRecords-bijagos
+layout: downloadRecords-cunene
 title: ''
 description: ''
-permalink: /bijagos/downloadRecords/
+permalink: /cunene/downloadRecords/
 ---

@@ -1,6 +1,6 @@
 ---
-layout: downloadRecords-bijagos
+layout: downloadRecords-saotome
 title: ''
 description: ''
-permalink: /bijagos/downloadRecords/
+permalink: /saotome/downloadRecords/
 ---
