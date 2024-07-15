@@ -65,7 +65,7 @@ var id = urlParams.get('id');
 
     <div class="container py-14 pt-md-12 pb-md-5">
       <div class="row text-center">
-        <div class="col-lg-10 col-xxl-8 mx-auto">
+        <div class="col-lg-10 col-xxl-10 mx-auto">
 
           <h3 class="display-6">Biodiversity data of the <mark>Cunene Biogeographic Transition Zone.</mark><br>Information for education, conservation and management.</h3>
           <h2 class="fs-16 text-uppercase text-muted py-2 mb-0">Biodiversity record</h2>
@@ -160,6 +160,8 @@ var id = urlParams.get('id');
 
                 map.scrollWheelZoom.disable();
 
+
+                
                 var originalInitTile = L.GridLayer.prototype._initTile
                 L.GridLayer.include({
                     _initTile: function (tile) {
@@ -172,10 +174,9 @@ var id = urlParams.get('id');
                     }
                 });
 
-                L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
-                  attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png?{foo}', {foo: 'bar', attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
 
-                     }).addTo(map);
+                 // L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', { attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ', }).addTo(map);
 
                       // map
 
