@@ -245,12 +245,15 @@ var id = urlParams.get('id');
 
                           // map
 
+                          map.createPane("polygonsPane");
+                          map.createPane("pointsPane");
+
                           for(var i = 0; i < recordsLon.length; i++) {
 
                             var dataobjLon = recordsLon[i];
                             var dataobjLat = recordsLat[i];
                             var dataobjRecId = recordsId[i];
-                              var marker =   L.circleMarker([dataobjLat, dataobjLon], { weight: 1.5, radius: 4.25, color: "#BA911E", fillColor:  '#fab759', fillOpacity: 0.7 });
+                              var marker =   L.circleMarker([dataobjLat, dataobjLon], { pane: "pointsPane", weight: 1.5, radius: 4.25, color: "#BA911E", fillColor:  '#fab759', fillOpacity: 0.7 });
                               marker.myCustomID = dataobjRecId.toString();
                               marker.myCustomName = dataSpeciesFromJson[dataobj.taxonId].name.toString();
                               marker.myCustomPhoto = dataobj.photo.toString();
@@ -261,6 +264,13 @@ var id = urlParams.get('id');
                               marker.addTo(map).on('click', onClick);
 
                           };
+
+                        async function addGeoJson() {
+                        const response = await fetch("https://www.marafrica.net/data-caboverde/spatial/caboverde.geojson");
+                        const data = await response.json();
+                        L.geoJson(data, {pane: "polygonsPane", color: "#88BADB", weight: 1.5, fillOpacity: 0.5}).addTo(map);
+                        };
+                        addGeoJson();
 
                           $("#loading-records").css("display", "none");
 

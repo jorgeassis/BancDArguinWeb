@@ -245,12 +245,15 @@ var id = urlParams.get('id');
 
                           // map
 
+                          map.createPane("polygonsPane");
+                          map.createPane("pointsPane");
+
                           for(var i = 0; i < recordsLon.length; i++) {
 
                             var dataobjLon = recordsLon[i];
                             var dataobjLat = recordsLat[i];
                             var dataobjRecId = recordsId[i];
-                              var marker =   L.circleMarker([dataobjLat, dataobjLon], { weight: 1.5, radius: 4.25, color: "#BA911E", fillColor:  '#fab759', fillOpacity: 0.7 });
+                              var marker =   L.circleMarker([dataobjLat, dataobjLon], { pane: "pointsPane", weight: 1.5, radius: 4.25, color: "#BA911E", fillColor:  '#fab759', fillOpacity: 0.7 });
                               marker.myCustomID = dataobjRecId.toString();
                               marker.myCustomName = dataSpeciesFromJson[dataobj.taxonId].name.toString();
                               marker.myCustomPhoto = dataobj.photo.toString();
@@ -262,25 +265,12 @@ var id = urlParams.get('id');
 
                           };
 
-                          var latlngs = [
-                            [ 19.39622 , -16.06520],
-                            [ 19.34202 , -16.08443,],
-                            [ 19.34181, -16.50764],
-                            [ 19.34264, -16.50792],
-                            [ 19.34202, -16.75154],
-                            [ 20.83447, -16.75042],
-                            [ 20.83195, -16.16218],
-                            [ 20.40434, -16.01923],
-                            [ 20.26397, -16.03343],
-                            [ 20.17034, -16.07188],
-                            [ 20.04311, -16.09857],
-                            [ 20.03197, -16.05622],
-                            [ 20.02664, -15.96342],
-                            [ 19.67385, -16.07043],
-                            [ 19.55041, -16.06068],
-                            [ 19.39622, -16.06520 ]
-                            ];
-                          var polyline = L.polyline(latlngs, {color: "#5eb9f0", weight: 1.5, fillOpacity: 0.75}).addTo(map);
+                        async function addGeoJson() {
+                        const response = await fetch("https://www.marafrica.net/data-pnba/spatial/pnba.geojson");
+                        const data = await response.json();
+                        L.geoJson(data, {pane: "polygonsPane", color: "#88BADB", weight: 1.5, fillOpacity: 0.5}).addTo(map);
+                        };
+                        addGeoJson();
 
                           $("#loading-records").css("display", "none");
 
