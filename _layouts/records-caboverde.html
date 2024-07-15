@@ -352,7 +352,7 @@ if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("d
                   fullscreenControl: {
                       pseudoFullscreen: false
                   }
-                }).setView([11.18, -16.09], 8);
+                }).setView([15.94, -24.01], 8);
 
                 map.scrollWheelZoom.disable();
 
@@ -443,22 +443,7 @@ if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("d
 
                           marker.addTo(map).on('click', onClick);
 
-                      }
-
-                      var latlngs = [
-                        [ 11.677 , -16.617],
-                        [ 10.748 , -16.615,],
-                        [ 10.740, -15.463],
-                        [ 11.231, -15.463],
-                        [ 11.231, -15.531],
-                        [ 11.509, -15.531],
-                        [ 11.509, -15.420],
-                        [ 11.593, -15.466],
-                        [ 11.677, -15.446],
-                        [ 11.677, -15.787],
-                        [ 11.677 , -16.617]
-                        ];
-                      var polyline = L.polyline(latlngs, {color: "#5eb9f0", weight: 1.5, fillOpacity: 0.75}).addTo(map);
+                      };
 
                       $("#loading-records").css("display", "none");
 

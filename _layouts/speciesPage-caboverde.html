@@ -179,7 +179,7 @@ var id = urlParams.get('id');
                       fullscreenControl: {
                           pseudoFullscreen: false
                       }
-                    }).setView([11.18, -16.09], 7);
+                    }).setView([15.94, -24.01], 7);
 
                     map.scrollWheelZoom.disable();
 
@@ -261,21 +261,6 @@ var id = urlParams.get('id');
                               marker.addTo(map).on('click', onClick);
 
                           };
-
-                          var latlngs = [
-                          [ 11.677 , -16.617],
-                        [ 10.748 , -16.615,],
-                        [ 10.740, -15.463],
-                        [ 11.231, -15.463],
-                        [ 11.231, -15.531],
-                        [ 11.509, -15.531],
-                        [ 11.509, -15.420],
-                        [ 11.593, -15.466],
-                        [ 11.677, -15.446],
-                        [ 11.677, -15.787],
-                        [ 11.677 , -16.617]
-                            ];
-                          var polyline = L.polyline(latlngs, {color: "#5eb9f0", weight: 1.5, fillOpacity: 0.75}).addTo(map);
 
                           $("#loading-records").css("display", "none");
 
