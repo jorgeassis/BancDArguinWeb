@@ -353,6 +353,9 @@ if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("d
                   }
                 }).setView([-17.25, 9.63], 6);
 
+                map.createPane("polygonsPane");
+                map.createPane("pointsPane");
+
                 map.scrollWheelZoom.disable();
 
                 var originalInitTile = L.GridLayer.prototype._initTile
@@ -432,21 +435,21 @@ if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("d
                           marker.myCustomMonth = dataobj.month.toString();
                           marker.myCustomDay = dataobj.day.toString();
 
-                          marker.addTo(map).on('click', onClick);
+                          marker.addTo(map, { pane: "pointsPane" }).on('click', onClick);
 
                       };
 
-
+                      
 
                 async function addGeoJson() {
                 const response = await fetch("https://www.marafrica.net/data-cunene/spatial/cunene.geojson");
                 const data = await response.json();
-                L.geoJson(data, {color: "#5eb9f0", weight: 1.5, fillOpacity: 0.5}).addTo(map);
+                L.geoJson(data, {pane: "polygonsPane", color: "#5eb9f0", weight: 1.5, fillOpacity: 0.5}).addTo(map);
                 };
 
                 addGeoJson();
-                
-                      $("#loading-records").css("display", "none");
+
+                $("#loading-records").css("display", "none");
 
             </script>
 
