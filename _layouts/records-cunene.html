@@ -1,0 +1,515 @@
+---
+layout: default-bijagos
+---
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<script>
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+var yearFrom = urlParams.get('yearFrom');
+var yearTo = urlParams.get('yearTo');
+var taxon = urlParams.get('taxon');
+var taxonLevel = urlParams.get('taxonLevel');
+
+const distinct = (value, index, self) => {
+return self.indexOf(value) === index;
+}
+</script>
+
+<!-- Load species data -->
+
+<script type="text/javascript" src="https://www.marafrica.net/data-bijagos/speciesListWebDB.json"></script>
+
+<script>
+  var dataSpeciesFromJson = JSON.parse(speciesListDB);
+  speciesListArray = [];
+  genusListArray = [];
+  familyListArray = [];
+  orderListArray = [];
+  classListArray = [];
+  phylumListArray = [];
+  kingdomListArray = [];
+
+  // arrays for autocomplete
+
+  for(var i = 0; i < dataSpeciesFromJson.length; i++) {
+    var dataobj = dataSpeciesFromJson[i];
+    speciesListArray.push(dataobj.name);
+    genusListArray.push(dataobj.taxGenus);
+    familyListArray.push(dataobj.taxFamily);
+    orderListArray.push(dataobj.taxOrder);
+    classListArray.push(dataobj.taxClass);
+    phylumListArray.push(dataobj.taxPhylum);
+    kingdomListArray.push(dataobj.taxKingdom);
+  }
+
+  speciesListArray = speciesListArray.filter(distinct);
+  genusListArray = genusListArray.filter(distinct);
+  familyListArray = familyListArray.filter(distinct);
+  orderListArray = orderListArray.filter(distinct);
+  classListArray = classListArray.filter(distinct);
+  phylumListArray = phylumListArray.filter(distinct);
+  kingdomListArray = kingdomListArray.filter(distinct);
+
+  // subset species data
+
+  if ( taxon == "NA" || taxon == "" || taxon == "null" ) { taxon = null; };
+  if ( taxonLevel == "NA" || taxonLevel == "" || taxonLevel == "null" || taxonLevel == null  ) { taxonLevel = "species"; };
+  if ( taxon != null && taxonLevel == null) { taxonLevel = "species"; };
+
+  taxonId = [];
+  for(var i = 0; i < dataSpeciesFromJson.length; i++) {
+      var dataobj = dataSpeciesFromJson[i];
+      if (taxon == null) { taxonId.push(dataobj.id); };
+      if (taxonLevel == "phylum" && taxon == dataobj.taxPhylum) { taxonId.push(dataobj.id); }
+      if (taxonLevel == "class" && taxon == dataobj.taxClass) { taxonId.push(dataobj.id); }
+      if (taxonLevel == "order" && taxon == dataobj.taxOrder) { taxonId.push(dataobj.id); }
+      if (taxonLevel == "family" && taxon == dataobj.taxFamily) { taxonId.push(dataobj.id); }
+      if (taxonLevel == "genus" && taxon == dataobj.taxGenus) { taxonId.push(dataobj.id); }
+      if (taxonLevel == "species" && taxon == dataobj.name) { taxonId.push(dataobj.id); }
+  }
+
+</script>
+
+<!-- Load occurrence data -->
+
+<script type="text/javascript" src="https://www.marafrica.net/data-bijagos/dataWeb.json"></script>
+<script>
+  var dataFromJson = JSON.parse(data);
+</script>
+
+<script>
+
+// subset occurrence data
+
+yearsListArray = [];
+for(var i = 0; i < dataFromJson.length; i++) {
+  var dataobj = dataFromJson[i];
+    if (dataobj.year != "NA" && dataobj.year != null ) {
+      var yeari = Number(dataobj.year);
+      yearsListArray.push(yeari);
+    }
+}
+yearsListArrayMin = Math.min(...yearsListArray);
+
+if( yearFrom == "NA" || yearFrom == null || yearFrom == "" || yearFrom == "null" ) { var yearFrom = yearsListArrayMin; }
+if( yearTo == "NA" || yearTo == null || yearTo == "" || yearTo == "null" ) { var yearTo = new Date().getFullYear(); }
+
+dataFromJsonSubsetIndex = [];
+
+for(var i = 0; i < dataFromJson.length; i++) {
+
+    var dataobj = dataFromJson[i];
+
+    if ( taxonId.includes(dataobj.taxonId) && dataobj.year >= yearFrom && dataobj.year <= yearTo ) {
+          dataFromJsonSubsetIndex.push(i);
+    }
+
+    if ( taxonId.includes(dataobj.taxonId) && ( dataobj.year == "NA" || dataobj.year == null || dataobj.year == "null"  ) ) {
+          dataFromJsonSubsetIndex.push(i);
+    }
+}
+
+// count records based on index
+
+countSpecies = [];
+countRecords = [];
+countDatasets = [];
+countYears = [];
+
+for(var i = 0; i < dataFromJsonSubsetIndex.length; i++) {
+
+    var dataobj = dataFromJson[dataFromJsonSubsetIndex[i]];
+    countSpecies.push(dataobj.taxonId);
+    countRecords.push(dataobj.recId);
+    countDatasets.push(dataobj.datasetId);
+    if (dataobj.year != "NA" || dataobj.year != null || dataobj.year != "null" ) { countYears.push(dataobj.year); }
+
+}
+
+if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("display", "block"); }
+
+</script>
+
+
+  <section class="content-wrapper">
+
+      <div class="wrapper bg-soft-primary">
+
+        <div class="container py-14 pt-md-12 pb-md-5">
+          <div class="row text-center">
+            <div class="col-lg-10 col-xxl-8 mx-auto">
+
+              <h3 class="display-6">Biodiversity data of the <mark>Bijagós archipelago.</mark><br>Information for education, conservation and management.</h3>
+              <h2 class="fs-16 text-uppercase text-muted py-2 mb-0">Records of occurrence</h2>
+
+            </div>
+          </div>
+        </div>
+
+        <div style="display: none" id="no-results-message" class="container py-14 pt-md-5 pb-md-5">
+          <div class="col-lg-12 col-xxl-12 mx-auto">
+
+            <div class="alert alert-warning alert-icon alert-dismissible fade show" role="alert">
+              <i class="uil uil-exclamation-triangle"></i> The biodiversity database contains <a href="#" class="alert-link hover">no results</a> matching your search criteria.
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          </div>
+        </div>
+
+                <form action="https://www.marafrica.net/bijagos/records/" method="get">
+
+        <div class="container py-14 pt-md-0 pb-md-0">
+
+
+                 <div class="row text-center pt-md-4 ">
+
+
+            <div class="col-lg-3 col-xxl-3 mx-left">
+
+                        <div class="form-select-wrapper mb-4">
+                          <select id="taxonLevelDropDown" name="taxonLevel" class="form-select" aria-label="Default select example">
+
+                          <script>
+                          document.write('<option value="species" ');
+                          if (taxonLevel == "NA") { document.write(" selected"); };
+                          document.write('>Taxonomic level</option>');
+                          </script>
+                          <script>
+                          document.write('<option value="species" ');
+                          if (taxonLevel == "species") { document.write(" selected"); };
+                          document.write('>Species</option>');
+                          </script>
+                          <script>
+                          document.write('<option value="genus" ');
+                          if (taxonLevel == "genus") { document.write(" selected"); };
+                          document.write('>Genus</option>');
+                          </script>
+                          <script>
+                          document.write('<option value="family" ');
+                          if (taxonLevel == "family") { document.write(" selected"); };
+                          document.write('>Family</option>');
+                          </script>
+                          <script>
+                          document.write('<option value="order" ');
+                          if (taxonLevel == "order") { document.write(" selected"); };
+                          document.write('>Order</option>');
+                          </script>
+                          <script>
+                          document.write('<option value="class" ');
+                          if (taxonLevel == "class") { document.write(" selected"); };
+                          document.write('>Class</option>');
+                          </script>
+                          <script>
+                          document.write('<option value="kingdom" ');
+                          if (taxonLevel == "kingdom") { document.write(" selected"); };
+                          document.write('>Kingdom</option>');
+                          </script>
+                          </select>
+                        </div>
+
+            </div>
+
+            <div class="col-lg-3 col-xxl-3 mx-left">
+
+                        <div class="form-floating">
+                          <input id="textInputExample" name="taxon" type="text" class="form-control" placeholder="Search for taxon">
+                          <label for="textInputExample">
+                          <script>
+                          if (taxon != "NA" && taxon != null && taxon != "null" ) { document.write(taxon); };
+                          if (taxon == "NA" || taxon == null || taxon == "null" ) { document.write("Search for taxon"); };
+                          </script>
+                          </label>
+
+                        </div>
+
+            </div>
+
+            <div class="col-lg-3 col-xxl-3 mx-left">
+
+                  <script>
+                  $(function() {
+
+                    if( yearsListArrayMin == "NA" ) { var yearFromSelect = yearFrom; }
+
+                    var yearFromSelect = yearsListArrayMin;
+                    var yearToSelect = new Date().getFullYear();
+
+                    if( yearFrom != "NA" ) { var yearFromSelectStop = yearFrom; }
+                    if( yearTo != "NA" ) { var yearToSelectStop = yearTo; }
+
+                    for (var i = yearFromSelect; i < yearToSelect ; i++) {
+                      if( i == yearFromSelectStop) {
+                         $('#yearFrom').append('<option selected value="' + i + '">' + i + '</option>');
+                      }
+                      if( i != yearFromSelectStop) {
+                         $('#yearFrom').append('<option value="' + i + '">' + i + '</option>');
+                      }
+                    }
+                    for (var i = yearToSelect; i > yearFromSelect; i--) {
+                      if( i == yearToSelectStop) {
+                         $('#yearTo').append('<option selected value="' + i + '">' + i + '</option>');
+                      }
+                      if( i != yearToSelectStop) {
+                         $('#yearTo').append('<option value="' + i + '">' + i + '</option>');
+                      }
+                    }
+                  });
+                  </script>
+
+                  <div style="width: 98px; float: left" ><select class="form-select" id="yearFrom" name="yearFrom"></select></div>
+                  <div style="width: 11px; float: left; padding-top: 10px" > - </div>
+                  <div style="width: 98px; float: left" ><select style="float: left" class="form-select" id="yearTo" name="yearTo"></select></div>
+
+            </div>
+
+            <div class="col-lg-2 col-xxl-2 mx-right">
+
+                           <button style="float: right" type="submit" class="btn btn-sky">Search</button>
+
+            </div>
+            <div class="col-lg-1 col-xxl-1 mx-right">
+
+                           <script>
+
+                           document.write("<a style='float: right; width: 60px; padding-left: 30px' class='btn btn-navy btn-icon btn-icon-start rounded' ");
+                           if ( countRecords.length > 0) {
+                              document.write("target='_blank' href='https://www.marafrica.net/bijagos//downloadRecords?yearFrom=" + yearFrom + "&yearTo=" + yearTo + "&taxon=" + taxon + "&taxonLevel=" + taxonLevel + "'" );
+                           }
+                           document.write("><i class='uil uil-cloud-download'></i></a>");
+
+                           </script>
+
+
+            </div>
+
+                          <script>
+
+                          var dropdown = document.getElementById("taxonLevelDropDown");
+                          autocompleteListArray = speciesListArray;
+
+                          taxonLevelDropDown.addEventListener("change", function(){
+                          taxonLevel = dropdown.value;
+
+                            if( taxonLevel == "species") { autocompleteListArray = speciesListArray }
+                            if( taxonLevel == "genus") { autocompleteListArray = genusListArray }
+                            if( taxonLevel == "family") { autocompleteListArray = familyListArray }
+                            if( taxonLevel == "order") { autocompleteListArray = orderListArray }
+                            if( taxonLevel == "class") { autocompleteListArray = classListArray }
+                            if( taxonLevel == "phylum") { autocompleteListArray = phylumListArray }
+                            if( taxonLevel == "kingdom") { autocompleteListArray = kingdomListArray }
+
+                                $(function() {
+                                $("#textInputExample").autocomplete({
+                                source: autocompleteListArray,
+                                select: function (event, ui) { //item selected
+                                    AutoCompleteSelectHandler(event, ui)
+                                },
+                                minLength: 2,
+                                });
+                                });
+
+                          });
+
+                          $(function() {
+                          $("#textInputExample").autocomplete({
+                          source: autocompleteListArray,
+                          select: function (event, ui) { //item selected
+                              AutoCompleteSelectHandler(event, ui)
+                          },
+                          minLength: 2,
+                          });
+                          });
+
+                          function AutoCompleteSelectHandler(event, ui)
+                          {
+                          var selectedObj = ui.item;
+                          }
+
+                          </script>
+
+          </div>
+
+        </div>
+
+          </form>
+
+
+        <div class="container py-14 pt-md-2 pb-md-6">
+
+            <div class="spinner-border" id="loading-records" style="position: absolute; z-index: 1000; top: 475px; left: 0; right: 0; margin: auto;"></div>
+
+            <div id='map' class='custom-popup rounded' style="height: 350px; z-index: 500"></div>
+
+
+            <script>
+
+                var map = L.map('map', {
+                  minZoom: 2,
+                  fullscreenControl: {
+                      pseudoFullscreen: false
+                  }
+                }).setView([11.18, -16.09], 8);
+
+                map.scrollWheelZoom.disable();
+
+                var originalInitTile = L.GridLayer.prototype._initTile
+                L.GridLayer.include({
+                		_initTile: function (tile) {
+                				originalInitTile.call(this, tile);
+
+                				var tileSize = this.getTileSize();
+
+                				tile.style.width = tileSize.x + 3 + 'px';
+                				tile.style.height = tileSize.y + 3 + 'px';
+                		}
+                });
+
+                L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+                  attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+
+                     }).addTo(map);
+
+                           //      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png?{foo}', {foo: 'bar', attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
+
+                 //     L.tileLayer( 'https://tile.gbif.org/3857/omt/{z}/{x}/{y}@2x.png?style=gbif-light', {
+                 //        attribution: '&copy; <a href="https://www.openmaptiles.org/copyright">OpenMapTiles</a>',
+               //     subdomains: ['a', 'b', 'c']
+               //          }).addTo( map )
+
+
+                     function onClick(e) {
+
+                      var inner_counter = 0;
+                      var fullrecord = 'https://www.marafrica.net/bijagos/recordInformation?id=' + e.target.myCustomID + '/';
+
+                      $("#loading-records").css("display", "block");
+
+                      $.ajax({
+                         url:fullrecord,
+                         type:'GET',
+                         success: function(data){
+
+                            spName = e.target.myCustomName;
+                             var innerHTML = "";
+                             innerHTML += '<div style="width: 200px;">';
+                             innerHTML += '<div><h6>' + spName.charAt(0) + ". " + spName.split(' ')[1] ;
+
+                             innerHTML += '</h6></div>';
+
+                            if( e.target.myCustomPhoto != "NA" && e.target.myCustomPhoto != null && e.target.myCustomPhoto != "") {
+
+                             urlImgMin = e.target.myCustomPhoto.replace("medium", "square");
+                             innerHTML += '<div style="width: 160px; height: 110px; -moz-border-radius: 7px; -webkit-border-radius: 7px; border-radius: 7px; background-repeat: no-repeat; background-size: cover; background-image: url(' + urlImgMin + ')"></div>';
+
+                           }
+
+                             if( e.target.myCustomYear != "NA" && e.target.myCustomYear != null && e.target.myCustomYear != "") {
+                               innerHTML += '<div style="margin-top: 8px;">Date of record: ';
+                               innerHTML += e.target.myCustomYear + "//" + e.target.myCustomMonth + "//" + e.target.myCustomDay;
+                               innerHTML += '<div>';
+                             }
+
+                             innerHTML += '<div style="margin-top: 5px;"><a href="';
+                             innerHTML += 'https://www.marafrica.net/bijagos/recordPage?id=' + e.target.myCustomID;
+                             innerHTML += '">More information [+]</a>';
+                             innerHTML += '</div>';
+
+                             innerHTML += '</div>';
+
+                             e.target.bindPopup(innerHTML)
+                             e.target.openPopup();
+                             $("#loading-records").css("display", "none");
+
+                         }
+                      });
+                     };
+
+                      // map
+
+                      for(var i = 0; i < dataFromJsonSubsetIndex.length; i++) {
+
+                          var dataobj = dataFromJson[dataFromJsonSubsetIndex[i]];
+                          var marker =   L.circleMarker([dataobj.Lat, dataobj.Lon], { weight: 1.5, radius: 4.25, color: "#BA911E", fillColor:  '#fab759', fillOpacity: 0.7 });
+                          marker.myCustomID = dataobj.recId.toString();
+                          marker.myCustomName = dataSpeciesFromJson[dataobj.taxonId].name.toString();
+                          marker.myCustomPhoto = dataobj.photo.toString();
+                          marker.myCustomYear = dataobj.year.toString();
+                          marker.myCustomMonth = dataobj.month.toString();
+                          marker.myCustomDay = dataobj.day.toString();
+
+                          marker.addTo(map).on('click', onClick);
+
+                      }
+
+                      var latlngs = [
+                        [ 11.677 , -16.617],
+                        [ 10.748 , -16.615,],
+                        [ 10.740, -15.463],
+                        [ 11.231, -15.463],
+                        [ 11.231, -15.531],
+                        [ 11.509, -15.531],
+                        [ 11.509, -15.420],
+                        [ 11.593, -15.466],
+                        [ 11.677, -15.446],
+                        [ 11.677, -15.787],
+                        [ 11.677 , -16.617]
+                        ];
+                      var polyline = L.polyline(latlngs, {color: "#5eb9f0", weight: 1.5, fillOpacity: 0.75}).addTo(map);
+
+                      $("#loading-records").css("display", "none");
+
+            </script>
+
+        </div>
+
+
+        <div class="container py-14 pt-md-0 pb-md-5">
+          <div class="row text-left">
+
+          <div class="col-md-3">
+            <div class="card shadow-lg" style="padding: 10px; padding-left: 20px">
+
+              <h2 class="fs-12 text-uppercase text-muted mb-1">Occurrences</h2>
+              <h3 class="counter mb-0"><script>document.write(countRecords.length + " records");</script></h3>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="card shadow-lg" style="padding: 10px; padding-left: 20px">
+
+              <h2 class="fs-12 text-uppercase text-muted mb-1">Species</h2>
+              <h3 class="counter mb-0"><script>document.write(countSpecies.filter(distinct).length);</script></h3>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="card shadow-lg" style="padding: 10px; padding-left: 20px">
+
+              <h2 class="fs-12 text-uppercase text-muted mb-1">Sources</h2>
+              <h3 class="counter mb-0"><script>document.write(countDatasets.filter(distinct).length + " datasets");</script></h3>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="card shadow-lg" style="padding: 10px; padding-left: 20px">
+
+              <h2 class="fs-12 text-uppercase text-muted mb-1">Period</h2>
+              <h3 class="counter mb-0"><script>
+                numerYears = countYears.filter(distinct).length;
+                if ( numerYears == 0) { document.write("None reported"); }
+                if ( numerYears != 0) { document.write(countYears.filter(distinct).length + " years"); }
+              </script></h3>
+            </div>
+          </div>
+              <!--/.card-body -->
+        </div>
+        </div>
+        <!--/.card -->
+
+      </div>
+
+  </section>

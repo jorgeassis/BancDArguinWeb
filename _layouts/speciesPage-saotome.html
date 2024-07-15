@@ -1,0 +1,401 @@
+---
+layout: default-bijagos
+---
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <section class="content-wrapper">
+
+      <div class="wrapper bg-soft-primary">
+
+        <div class="container py-14 pt-md-12 pb-md-5">
+          <div class="row text-center">
+            <div class="col-lg-10 col-xxl-8 mx-auto">
+
+
+              <h3 class="display-6">Biodiversity data of the <mark>Bijagós archipelago.</mark><br>Information for education, conservation and management.</h3>
+              <h2 class="fs-16 text-uppercase text-muted py-2 mb-0">Species list</h2>
+
+            </div>
+          </div>
+        </div>
+
+
+        <div class="container py-14 pt-md-1 pb-md-0">
+          <div class="row text-center">
+            <div class="col-lg-9 col-xxl-7 mx-auto">
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+  </section>
+
+
+
+
+
+
+<script>
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+var id = urlParams.get('id');
+</script>
+
+<script type="text/javascript" src="https://www.marafrica.net/data-bijagos/dataWeb.json"></script>
+<script>
+  var dataFromJson = JSON.parse(data);
+</script>
+
+<script type="text/javascript" src="https://www.marafrica.net/data-bijagos/speciesListWebDB.json"></script>
+<script>
+  var dataSpeciesFromJson = JSON.parse(speciesListDB);
+</script>
+
+<script>
+
+  taxon = dataSpeciesFromJson[id].name;
+
+  taxon_authority = dataSpeciesFromJson[id].authority;
+  taxon_status = dataSpeciesFromJson[id].status;
+  taxon_kingdom = dataSpeciesFromJson[id].taxKingdom;
+  taxon_phylum = dataSpeciesFromJson[id].taxPhylum;
+  taxon_class = dataSpeciesFromJson[id].taxClass;
+  taxon_order = dataSpeciesFromJson[id].taxOrder;
+  taxon_family = dataSpeciesFromJson[id].taxFamily;
+  taxon_genus = dataSpeciesFromJson[id].taxGenus;
+  taxon_acceptedName = dataSpeciesFromJson[id].acceptedName;
+  taxon_photo = dataSpeciesFromJson[id].photo;
+  taxon_nRecords = dataSpeciesFromJson[id].records;
+
+  recordsId = [];
+  recordsLon = [];
+  recordsLat = [];
+  recordsYear = [];
+  recordsPhotos = [];
+  recordsPhotosId = [];
+
+  for(var i = 0; i < dataFromJson.length; i++) {
+      var dataobj = dataFromJson[i];
+      if (id == dataobj.taxonId) {
+        recordsId.push(dataobj.recId);
+        recordsLon.push(dataobj.Lon);
+        recordsLat.push(dataobj.Lat);
+
+        if (dataobj.year != "" && dataobj.year != "NA") {
+          recordsYear.push(dataobj.year);
+        }
+
+        if (dataobj.photo != "" && dataobj.photo != "NA") {
+          recordsPhotos.push(dataobj.photo);
+          recordsPhotosId.push(dataobj.recId);
+        }
+
+      }
+  }
+
+  const distinct = (value, index, self) => {
+  return self.indexOf(value) === index;
+  }
+
+</script>
+
+
+
+
+
+  <section class="content-wrapper">
+
+      <div class="wrapper bg-soft-primary">
+
+        <div class="container py-14 pt-md-5 pb-md-5">
+          <div class="row text-left">
+
+            <script>
+
+              function resolveDomain(string) {
+
+               if ( string.includes("data-bijagos/defaultPhotos/") ) {
+                 return "https://www.marafrica.net/" + string ;
+              } else {
+                  return string; }
+              };
+              taxon_photo = resolveDomain(taxon_photo.replace(/\s/g, ''));
+
+              if( taxon_photo != "NA" ) {
+              document.write("<div class='col-md-5'><div id='taxon_photo' class='card shadow-lg'><figure class='rounded'><img src='" + taxon_photo + "' /></figure></div></div>")
+            };
+
+          </script>
+
+          <script> if( taxon_photo != "NA" ) { document.write("<div class='col-md-7'>") }; </script>
+          <script> if( taxon_photo == "NA" ) { document.write("<div class='col-md-12'>") }; </script>
+
+            <div class="card shadow-lg" style="padding: 0px">
+
+                <style>
+                  @media (min-width: 576px) {
+                    .mapSpeciesPage { height: 384px; margin-top: 30px }
+                  }
+                  @media (min-width: 768px) {
+                    .mapSpeciesPage { height: 202px; margin-top: 0px }
+                  }
+                  @media (min-width: 992px) {
+                    .mapSpeciesPage { height: 278px }
+                  }
+                  @media (min-width: 1200px) {
+                    .mapSpeciesPage { height: 335px; margin-top: 0px }
+                  }
+                  @media (min-width: 1400px) {
+                    .mapSpeciesPage { height: 390px; margin-top: 0px }
+                  }
+                </style>
+
+                <div class="spinner-border" id="loading-records" style="position: absolute; z-index: 1000; top: 475px; left: 0; right: 0; margin: auto;"></div>
+                <div id='map' class='custom-popup rounded mapSpeciesPage' style="z-index: 500;"></div>
+
+                <script>
+
+                  const img = new Image();
+                  img.onload = function() {
+                    var dim = document.getElementById("taxon_photo").clientHeight;
+                    document.getElementById("map").style.height = dim + "px";
+                  }
+                  img.src = taxon_photo;
+
+                  window.addEventListener('resize', function(event) {
+                    var dimDirect = document.getElementById("taxon_photo").clientHeight;
+                    document.getElementById("map").style.height = dimDirect + "px";
+                    }, true);
+                </script>
+
+                <script>
+
+                    var map = L.map('map', {
+                      minZoom: 2,
+                      fullscreenControl: {
+                          pseudoFullscreen: false
+                      }
+                    }).setView([11.18, -16.09], 7);
+
+                    map.scrollWheelZoom.disable();
+
+                    var originalInitTile = L.GridLayer.prototype._initTile
+                    L.GridLayer.include({
+                    		_initTile: function (tile) {
+                    				originalInitTile.call(this, tile);
+
+                    				var tileSize = this.getTileSize();
+
+                    				tile.style.width = tileSize.x + 3 + 'px';
+                    				tile.style.height = tileSize.y + 3 + 'px';
+                    		}
+                    });
+
+                    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+                      attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+
+                         }).addTo(map);
+
+                         function onClick(e) {
+
+                          var inner_counter = 0;
+                          var fullrecord = 'https://www.marafrica.net/bijagos/recordInformation?id=' + e.target.myCustomID + '/';
+
+                          $("#loading-records").css("display", "block");
+
+                          $.ajax({
+                             url:fullrecord,
+                             type:'GET',
+                             success: function(data){
+                               spName = e.target.myCustomName;
+                                var innerHTML = "";
+                                innerHTML += '<div style="width: 130px;">';
+
+                               if( e.target.myCustomPhoto != "NA" && e.target.myCustomPhoto != null && e.target.myCustomPhoto != "") {
+
+                                urlImgMin = e.target.myCustomPhoto.replace("medium", "square");
+                                innerHTML += '<div style="width: 160px; height: 110px; -moz-border-radius: 7px; -webkit-border-radius: 7px; border-radius: 7px; background-repeat: no-repeat; background-size: cover; background-image: url(' + urlImgMin + ')"></div>';
+
+                              }
+
+                                if( e.target.myCustomYear != "NA" && e.target.myCustomYear != null && e.target.myCustomYear != "") {
+                                  innerHTML += '<div style="margin-top: 8px;">Date of record: ';
+                                  innerHTML += e.target.myCustomYear + "//" + e.target.myCustomMonth + "//" + e.target.myCustomDay;
+                                  innerHTML += '<div>';
+                                }
+
+                                innerHTML += '<div style="margin-top: 5px;"><a href="';
+                                innerHTML += 'https://www.marafrica.net/bijagos/recordPage?id=' + e.target.myCustomID;
+                                innerHTML += '">More information [+]</a>';
+                                innerHTML += '</div>';
+
+                                innerHTML += '</div>';
+
+                                e.target.bindPopup(innerHTML)
+                                e.target.openPopup();
+                                $("#loading-records").css("display", "none");
+
+                             }
+                          });
+                         };
+
+                          // map
+
+                          for(var i = 0; i < recordsLon.length; i++) {
+
+                            var dataobjLon = recordsLon[i];
+                            var dataobjLat = recordsLat[i];
+                            var dataobjRecId = recordsId[i];
+                              var marker =   L.circleMarker([dataobjLat, dataobjLon], { weight: 1.5, radius: 4.25, color: "#BA911E", fillColor:  '#fab759', fillOpacity: 0.7 });
+                              marker.myCustomID = dataobjRecId.toString();
+                              marker.myCustomName = dataSpeciesFromJson[dataobj.taxonId].name.toString();
+                              marker.myCustomPhoto = dataobj.photo.toString();
+                              marker.myCustomYear = dataobj.year.toString();
+                              marker.myCustomMonth = dataobj.month.toString();
+                              marker.myCustomDay = dataobj.day.toString();
+
+                              marker.addTo(map).on('click', onClick);
+
+                          };
+
+                          var latlngs = [
+                          [ 11.677 , -16.617],
+                        [ 10.748 , -16.615,],
+                        [ 10.740, -15.463],
+                        [ 11.231, -15.463],
+                        [ 11.231, -15.531],
+                        [ 11.509, -15.531],
+                        [ 11.509, -15.420],
+                        [ 11.593, -15.466],
+                        [ 11.677, -15.446],
+                        [ 11.677, -15.787],
+                        [ 11.677 , -16.617]
+                            ];
+                          var polyline = L.polyline(latlngs, {color: "#5eb9f0", weight: 1.5, fillOpacity: 0.75}).addTo(map);
+
+                          $("#loading-records").css("display", "none");
+
+
+                </script>
+
+            </div>
+          </div>
+
+              <!--/.card-body -->
+            </div>
+        </div>
+            <!--/.card -->
+
+            <div class="container py-2 pt-md-1 pb-md-0">
+              <div class="row text-left">
+
+              <div class="col-md-12" style="padding-left: 30px">
+                <h5><script>document.write(taxon + " " + taxon_authority);</script></h5>
+              </div>
+
+            </div>
+          </div>
+
+            <div class="container py-14 pt-md-0 pb-md-5">
+              <div class="row text-left">
+
+              <div class="col-md-12">
+                <div class="card shadow-lg">
+
+                  <div style=" padding: 15px">
+                    <strong>Taxonomy</strong>
+                    <br>
+                    <script>
+                      document.write("<div>" + taxon_kingdom + " \\ " + taxon_class + " \\ " + taxon_order + " \\ " + taxon_family + " \\ " + taxon_genus + " \\ " + taxon + "</div>" );
+                      document.write("<div style='margin-top: 3px'>Species name status: " + taxon_status + "</div>");
+
+                      if( taxon_status != "accepted" ) {
+                        document.write("<div style='margin-top: 3px'>Accepted name: " + taxon_acceptedName + "</div>");
+                       };
+                    </script>
+
+                    <br>
+                    <strong>Database summary</strong>
+                    <br>
+                    <script>
+                      document.write("Number of records: " + taxon_nRecords);
+
+                      numberYears = recordsYear.filter(distinct).length;
+                      var minYears= Math.min(...recordsYear);
+                      var maxYears= Math.max(...recordsYear);
+                      if( minYears != maxYears) { document.write("<br>Period: " + minYears + " - " + maxYears);};
+
+                      numberPhotos = recordsPhotos.filter(distinct).length;
+                      document.write("<br>Associated media: " + numberPhotos + " [photo");
+                      if(numberPhotos != 1) { document.write("s]"); }
+                      if(numberPhotos == 1) { document.write("]"); }
+                    </script>
+
+                  </div>
+
+
+
+                </div>
+              </div>
+
+                  <!--/.card-body -->
+                </div>
+            </div>
+
+            <style>
+              @media (min-width: 576px) {
+                .imageSpeciesPage { height: 350px; margin-bottom: 40px }
+              }
+              @media (min-width: 768px) {
+                .imageSpeciesPage { height: 150px; margin-bottom: 20px }
+              }
+              @media (min-width: 992px) {
+                .imageSpeciesPage { height: 200px;margin-bottom: 30px  }
+              }
+              @media (min-width: 1200px) {
+                .imageSpeciesPage { height: 235px; margin-bottom: 30px }
+              }
+              @media (min-width: 1400px) {
+                .imageSpeciesPage { height: 290px; margin-bottom: 30px }
+              }
+            </style>
+
+              <div class="container py-14 pt-md-5 pb-md-5">
+                <div class="row text-left">
+
+                        <script>
+
+                        if( recordsPhotos.filter(distinct).length >= 1 ) {
+
+                          document.write("<div class='col-md-12' style='padding-left: 30px; margin-bottom: 5px'>");
+                          document.write("<h5>Photos from Citizen Scientists</h5>");
+                          document.write("</div>");
+
+                          for(var i = 0; i < recordsPhotos.length; i++) {
+
+                              var dataobj = recordsPhotos[i];
+                              urlImgLarge = dataobj.replace("medium", "large");
+
+                              document.write("<div class='col-md-3'>");
+                              document.write("<a href='https://www.marafrica.net/bijagos/recordPage?id=" + recordsPhotosId[i] + "'>");
+                              document.write("<div class='imageSpeciesPage' style='-moz-border-radius: 7px; -webkit-border-radius: 7px; border-radius: 7px; background-repeat: no-repeat; background-size: cover; background-image: url(" + dataobj + ")'></div>");
+                              document.write("</a>");
+                              document.write("</div>");
+
+                          }
+
+                         }
+
+                      </script>
+
+                  </div>
+              </div>
+
+
+      </div>  <!--/. is Ok, because of java -->
+
+  </section>

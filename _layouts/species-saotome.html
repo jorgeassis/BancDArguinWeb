@@ -1,0 +1,229 @@
+---
+layout: default-bijagos
+---
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+
+<script>
+const distinct = (value, index, self) => {
+return self.indexOf(value) === index;
+}
+</script>
+
+<!-- Load species data -->
+
+<script type="text/javascript" src="https://www.marafrica.net/data-bijagos/speciesListWebDB.json"></script>
+
+<script>
+  var dataSpeciesFromJson = JSON.parse(speciesListDB);
+  speciesListArray = [];
+  genusListArray = [];
+  familyListArray = [];
+  orderListArray = [];
+  classListArray = [];
+  phylumListArray = [];
+  kingdomListArray = [];
+
+  // arrays for autocomplete
+
+  for(var i = 0; i < dataSpeciesFromJson.length; i++) {
+    var dataobj = dataSpeciesFromJson[i];
+    speciesListArray.push(dataobj.name);
+    genusListArray.push(dataobj.taxGenus);
+    familyListArray.push(dataobj.taxFamily);
+    orderListArray.push(dataobj.taxOrder);
+    classListArray.push(dataobj.taxClass);
+    phylumListArray.push(dataobj.taxPhylum);
+    kingdomListArray.push(dataobj.taxKingdom);
+  }
+
+  speciesListArray = speciesListArray.filter(distinct);
+  genusListArray = genusListArray.filter(distinct);
+  familyListArray = familyListArray.filter(distinct);
+  orderListArray = orderListArray.filter(distinct);
+  classListArray = classListArray.filter(distinct);
+  phylumListArray = phylumListArray.filter(distinct);
+  kingdomListArray = kingdomListArray.filter(distinct);
+
+</script>
+
+
+  <section class="content-wrapper">
+
+      <div class="wrapper bg-soft-primary">
+
+        <div class="container py-14 pt-md-12 pb-md-5">
+          <div class="row text-center">
+            <div class="col-lg-10 col-xxl-8 mx-auto">
+
+
+              <h3 class="display-6">Biodiversity data of the <mark>Bijagós archipelago.</mark><br>Information for education, conservation and management.</h3>
+              <h2 class="fs-16 text-uppercase text-muted py-2 mb-0">Species list</h2>
+
+            </div>
+          </div>
+        </div>
+
+
+        <div class="container py-14 pt-md-5 pb-md-5">
+          <div class="row text-left">
+
+          <div class="col-md-3">
+            <div class="card shadow-lg" style="padding: 10px; padding-left: 20px">
+
+              <h2 class="fs-12 text-uppercase text-muted mb-1">Species</h2>
+              <h3 class="counter mb-0"><script>document.write(speciesListArray.filter(distinct).length + "");</script></h3>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="card shadow-lg" style="padding: 10px; padding-left: 20px">
+
+              <h2 class="fs-12 text-uppercase text-muted mb-1">Genera</h2>
+              <h3 class="counter mb-0"><script>document.write(genusListArray.filter(distinct).length);</script></h3>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="card shadow-lg" style="padding: 10px; padding-left: 20px">
+
+              <h2 class="fs-12 text-uppercase text-muted mb-1">Families</h2>
+              <h3 class="counter mb-0"><script>document.write(familyListArray.filter(distinct).length + "");</script></h3>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="card shadow-lg" style="padding: 10px; padding-left: 20px">
+
+              <h2 class="fs-12 text-uppercase text-muted mb-1">Orders</h2>
+              <h3 class="counter mb-0"><script>document.write(orderListArray.filter(distinct).length + "");</script></h3>
+            </div>
+          </div>
+            </div>
+        </div>
+
+
+        <div class="container py-14 pt-md-0 pb-md-5">
+          <div class="row text-left">
+
+
+
+            <link rel="stylesheet" type="text/css" href="https://www.marafrica.net/assets/css/jquery.dataTables.min.css">
+            <script type="text/javascript" src="https://www.marafrica.net/assets/js/jquery.dataTables.min.js"></script>
+            <script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+
+                    <script>
+
+                    $(document).ready(function() {
+                    $('#dtBasicExample').dataTable({
+                       "order": [[ 1, "asc" ]],
+                       language: {
+                               searchPlaceholder: "Search list", search: ""
+                           },
+                        columnDefs: [ { width: 75, targets: 0 } ],
+                        "bPaginate": true,
+                        "bLengthChange": false,
+                        "bFilter": true,
+                        "bInfo": true,
+                        "bAutoWidth": true });
+                        $('.dataTables_length').addClass('bs-select');
+                    });
+
+                    </script>
+
+
+          <table id="dtBasicExample" class="table table-striped" cellspacing="0">
+
+          <thead>
+            <tr>
+              <th class="th-sm">Photo
+              </th>
+              <th class="th-sm">Species
+              </th>
+              <th class="th-sm">Family
+              </th>
+              <th class="th-sm">Order
+              </th>
+              <th class="th-sm">Class
+              </th>
+              <th class="th-sm">Records
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <script>
+
+            function resolveDomain(string) {
+
+             if ( string.includes("data-bijagos/defaultPhotos/") ) {
+
+               return "https://www.marafrica.net/" + string ;
+
+            } else {
+                return string; }
+            };
+
+            for(var i = 0; i < dataSpeciesFromJson.length; i++) {
+              var dataobj = dataSpeciesFromJson[i];
+
+              document.write("<tr>");
+
+              photoSp = resolveDomain(dataobj.photo.replace(/\s/g, ''));
+
+              document.write("<td>");
+              if (photoSp != "NA" && photoSp != "") {
+                document.write("<a href='https://www.marafrica.net/bijagos/speciesPage?id=" + dataobj.id + "'>");
+                document.write("<div style='margin-left: 8px; -moz-border-radius: 100px; -webkit-border-radius: 100px; border-radius: 100px; width: 50px; height: 50px; background-repeat: no-repeat; background-size: cover; background-image: url(" + photoSp + ")'></div>");
+                document.write("</a>");
+              };
+              if (photoSp == "NA" || photoSp == "") {
+                document.write("<a href='https://www.marafrica.net/bijagos/speciesPage?id=" + dataobj.id + "'>");
+                document.write("<div style='margin-left: 8px; -moz-border-radius: 100px; -webkit-border-radius: 100px; border-radius: 100px; width: 50px; height: 50px; background-repeat: no-repeat; background-size: cover; background-image: url(https://www.marafrica.net/assets/img/no-pic-2.png)'></div>");
+                document.write("</a>");
+              };
+              document.write("</td>");
+
+              // document.write("<td><a href='speciesPage.html?id=" + dataobj.id + "'>" + dataobj.name.split(' ')[0].charAt(0) + ". " + dataobj.name.split(' ')[1] + "</a></td>");
+              document.write("<td><a href='https://www.marafrica.net/bijagos/speciesPage?id=" + dataobj.id + "'>" + dataobj.name + "</a></td>");
+              document.write("<td>" + dataobj.taxFamily + "</td>");
+              document.write("<td>" + dataobj.taxOrder + "</td>");
+              document.write("<td>" + dataobj.taxClass + "</td>");
+
+              document.write("<td>" + dataobj.records + "</td>");
+
+              document.write("</tr>");
+
+            }
+            </script>
+
+
+          </tbody>
+          <tfoot>
+            <tr>
+              <th class="th-sm"></th>
+
+              <th class="th-sm"></th>
+
+              <th class="th-sm"></th>
+
+              <th class="th-sm"></th>
+
+              <th class="th-sm"></th>
+
+              <th class="th-sm"></th>
+            </tr>
+          </tfoot>
+        </table>
+
+            </div>
+        </div>
+
+
+      </div>
+
+  </section>
