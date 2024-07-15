@@ -353,9 +353,6 @@ if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("d
                   }
                 }).setView([-17.25, 9.63], 6);
 
-                map.createPane("polygonsPane");
-                map.createPane("pointsPane");
-
                 map.scrollWheelZoom.disable();
 
                 var originalInitTile = L.GridLayer.prototype._initTile
@@ -424,27 +421,30 @@ if( countRecords.filter(distinct).length == 0) { $("#no-results-message").css("d
 
                       // map
 
-                      for(var i = 0; i < dataFromJsonSubsetIndex.length; i++) {
 
-                          var dataobj = dataFromJson[dataFromJsonSubsetIndex[i]];
-                          var marker =   L.circleMarker([dataobj.Lat, dataobj.Lon], { pane: "pointsPane", weight: 1.5, radius: 4.25, color: "#BA911E", fillColor:  '#fab759', fillOpacity: 0.7 });
-                          marker.myCustomID = dataobj.recId.toString();
-                          marker.myCustomName = dataSpeciesFromJson[dataobj.taxonId].name.toString();
-                          marker.myCustomPhoto = dataobj.photo.toString();
-                          marker.myCustomYear = dataobj.year.toString();
-                          marker.myCustomMonth = dataobj.month.toString();
-                          marker.myCustomDay = dataobj.day.toString();
+                map.createPane("polygonsPane");
+                map.createPane("pointsPane");
 
-                          marker.addTo(map).on('click', onClick);
+                for(var i = 0; i < dataFromJsonSubsetIndex.length; i++) {
 
-                      };
+                    var dataobj = dataFromJson[dataFromJsonSubsetIndex[i]];
+                    var marker =   L.circleMarker([dataobj.Lat, dataobj.Lon], { pane: "pointsPane", weight: 1.5, radius: 4.25, color: "#BA911E", fillColor:  '#fab759', fillOpacity: 0.7 });
+                    marker.myCustomID = dataobj.recId.toString();
+                    marker.myCustomName = dataSpeciesFromJson[dataobj.taxonId].name.toString();
+                    marker.myCustomPhoto = dataobj.photo.toString();
+                    marker.myCustomYear = dataobj.year.toString();
+                    marker.myCustomMonth = dataobj.month.toString();
+                    marker.myCustomDay = dataobj.day.toString();
+
+                    marker.addTo(map).on('click', onClick);
+
+                };
 
                 async function addGeoJson() {
                 const response = await fetch("https://www.marafrica.net/data-cunene/spatial/cunene.geojson");
                 const data = await response.json();
-                L.geoJson(data, {pane: "polygonsPane", color: "#5eb9f0", weight: 1.5, fillOpacity: 0.5}).addTo(map);
+                L.geoJson(data, {pane: "polygonsPane", color: "#88BADB", weight: 1.5, fillOpacity: 0.5}).addTo(map);
                 };
-
                 addGeoJson();
 
                 $("#loading-records").css("display", "none");
