@@ -50,6 +50,7 @@ var id = urlParams.get('id');
   lon = dataFromJson[id].Lon;
   lat = dataFromJson[id].Lat;
   bibliographicCitation = dataFromJson[id].citation;
+  attribution = dataSetFromJson[id].attribution;
 
   year = dataFromJson[id].year;
   month = dataFromJson[id].month;
@@ -237,9 +238,12 @@ var id = urlParams.get('id');
                 <script>
                   document.write("Source of record: " + datasetSource);
                   
-                  if( datasetSource != "iNaturalist" && datasetSource != "GBIF" ) { document.write("<br>Bibliographic citation: " + bibliographicCitation); };
+                  // if( datasetSource != "iNaturalist" && datasetSource != "GBIF" ) { 
+                  document.write("<br>Bibliographic citation: " + bibliographicCitation);
+                  //  };
 
                   if( datasetSource == "iNaturalist" ) { document.write("<div style='margin-top: 10px'><a target='_blank' href='https://www.inaturalist.org/observations/" + datasetId + "'><span class='badge bg-yellow rounded-pill'>Explore source</span></a></div>"); };
+                  if( datasetSource == "iNaturalist" ) { document.write("<div style='margin-top: 10px'><a target='_blank' href='https://www.inaturalist.org/people/" + attribution + "'><span class='badge bg-yellow rounded-pill'>attribution</span></a></div>"); };
                   if( datasetSource == "GBIF" ) { document.write("<div style='margin-top: 10px'><a target='_blank' href='https://www.gbif.org/occurrence/" + datasetId + "'><span class='badge bg-yellow rounded-pill'>Explore source</span></a></div>"); };
 
                 </script>
