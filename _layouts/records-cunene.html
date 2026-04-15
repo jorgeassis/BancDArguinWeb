@@ -125,7 +125,7 @@ for(var i = 0; i < dataFromJsonSubsetIndex.length; i++) {
     var dataobj = dataFromJson[dataFromJsonSubsetIndex[i]];
     countSpecies.push(dataobj.taxonId);
     countRecords.push(dataobj.recId);
-    countDatasets.push(dataobj.datasetId);
+    countDatasets.push(dataobj.datasetName);
     if (dataobj.year != "NA" || dataobj.year != null || dataobj.year != "null" ) { countYears.push(dataobj.year); }
 
 }
